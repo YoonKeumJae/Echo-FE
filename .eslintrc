@@ -1,0 +1,58 @@
+{
+  "root": true,
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "node": true
+  },
+  "globals": {
+    "Atomics": "readonly",
+    "SharedArrayBuffer": "readonly"
+  },
+  "parser": "@babel/eslint-parser",
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaVersion": "latest"
+  },
+  "extends": [
+    // airbnb eslint 설정
+    "airbnb-base",
+    // eslint가 제공하는 기본 설정
+    "plugin:import/recommended",
+    // 한 줄 축약형, eslint에서 prettier 관련 기능을 끄고, prettier 오류를 lint의 rule로 적용해 lint 오류로 보여줌
+    "plugin:prettier/recommended",
+    // eslint가 제공하는 react 기본 규칙
+    "plugin:react/recommended",
+    "plugin:react/jsx-runtime"
+  ],
+  "plugins": ["import", "prettier", "react-hooks"],
+  "rules": {
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }], // 파일 js, jsx 로 사용
+    "react/function-component-definition": [
+      0,
+      { "namedComponents": "arrow-function" } // arrow-function 컴포넌트 사용
+    ],
+    "react-hooks/exhaustive-deps": "warn", // 의존성 배열 규칙
+    "react-hooks/rules-of-hooks": "warn", // react hook 사용 규칙
+    "no-console": "warn", // console 경고
+    "no-alert": "off", // alert 경고
+    "react/prop-types": "off", // props-types 끄기
+    "import/no-unresolved": "off",
+    "import/no-extraneous-dependencies": "off",
+    "arrow-body-style": "off",
+    "prefer-arrow-callback": "off",
+    "prettier/prettier": "off"
+  },
+  "ignorePatterns": ["build", "node_modules"],
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "paths": ["src"],
+        "extensions": [".js", ".jsx"]
+      }
+    },
+    "react": {
+      "version": "detect"
+    }
+  }
+}
