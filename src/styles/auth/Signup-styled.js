@@ -144,8 +144,14 @@ const StyledSignUp = styled.section`
 
     .disabled {
       cursor: initial;
-      background-color: #808080;
+      background-color: #808080 !important;
       opacity: 0.5;
+    }
+
+    .signin-error {
+      margin: 8px 0;
+      text-align: center;
+      color: red;
     }
   }
 `;
