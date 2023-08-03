@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { ErrorMessage } from '@hookform/error-message';
 import { useTimer } from 'use-timer';
 
 import {
@@ -8,6 +9,7 @@ import {
   regExpNickname,
   regExpPhone,
 } from '@constants/regular-expression';
+import { signupAPI } from '@services/auth';
 import StyledSignup from '@styles/auth/Signup-styled';
 
 const Signup = () => {
@@ -17,35 +19,54 @@ const Signup = () => {
   const {
     time,
     start,
+    pause,
     reset: resetTime,
     status,
   } = useTimer({
     initialTime: 180,
     endTime: 0,
     timerType: 'DECREMENTAL',
-    onTimeUpdate: () => start(),
   });
 
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid, isSubmitted },
+    formState: { errors, isValid, isSubmitting },
     watch,
     reset: resetStatus,
-  } = useForm({ mode: 'onBlur' });
+    setError,
+  } = useForm();
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     if (status === 'STOPPED') {
       alert('인증번호 입력 시간이 만료되었습니다.');
       return;
     }
 
-    // eslint-disable-next-line no-console
-    console.log(data); // Signup API Connection
+    pause();
+    const response = await signupAPI(data);
 
-    // 회원가입 성공 => resetStatus()
-    // 회원가입 실패 => resetStatus((formValues) => ({ ... formValues }))
-    resetStatus((formValues) => ({ ...formValues }));
+    // 로그인 성공
+    if (response.status === 200) {
+      // eslint-disable-next-line no-console
+      console.log('회원가입 성공!'); // redirect 조정 필요
+      return;
+    }
+
+    // ID가 존재하지 않는 경우
+    if (!response.ok) {
+      resetStatus((formValues) => ({ ...formValues }));
+      setError(
+        'response',
+        {
+          type: 'response',
+          message: '서버와의 연결이 원활하지 않습니다.',
+        },
+        { shouldFocus: true },
+      );
+    }
+
+    // start();
   };
 
   const onSendCertificationNumber = () => {
@@ -54,6 +75,11 @@ const Signup = () => {
       setIsSendCertificationNumber(true);
       start();
     }
+  };
+
+  const restartTime = () => {
+    resetTime();
+    start();
   };
 
   return (
@@ -78,7 +104,7 @@ const Signup = () => {
             })}
           />
           <span className='input-validation'>
-            {errors && errors.id && <span>{errors.id.message}</span>}
+            <ErrorMessage errors={errors} name='id' />
           </span>
         </div>
         <div className='input-container'>
@@ -99,9 +125,7 @@ const Signup = () => {
             })}
           />
           <span className='input-validation'>
-            {errors && errors.password && (
-              <span>{errors.password.message}</span>
-            )}
+            <ErrorMessage errors={errors} name='password' />
           </span>
         </div>
         <div className='input-container'>
@@ -123,11 +147,8 @@ const Signup = () => {
               },
             })}
           />
-
           <span className='input-validation'>
-            {errors && errors.confirmPassword && (
-              <span>{errors.confirmPassword.message}</span>
-            )}
+            <ErrorMessage errors={errors} name='confirmPassword' />
           </span>
         </div>
         <div className='input-container'>
@@ -143,7 +164,7 @@ const Signup = () => {
             })}
           />
           <span className='input-validation'>
-            {errors && errors.name && <span>{errors.name.message}</span>}
+            <ErrorMessage errors={errors} name='name' />
           </span>
         </div>
         <div className='input-container'>
@@ -163,9 +184,7 @@ const Signup = () => {
             })}
           />
           <span className='input-validation'>
-            {errors && errors.nickname && (
-              <span>{errors.nickname.message}</span>
-            )}
+            <ErrorMessage errors={errors} name='nickname' />
           </span>
         </div>
         <div className='input-container'>
@@ -197,7 +216,7 @@ const Signup = () => {
             </button>
           </div>
           <span className='input-validation'>
-            {errors && errors.phone && <span>{errors.phone.message}</span>}
+            <ErrorMessage errors={errors} name='phone' />
           </span>
         </div>
         <div className='input-container'>
@@ -208,12 +227,6 @@ const Signup = () => {
               placeholder='인증번호를 입력해주세요'
               {...register('certificationNumber', {
                 required: true,
-                maxLength: {
-                  value: 6,
-                },
-                minLength: {
-                  value: 4,
-                },
               })}
               disabled={!isSendCertificationNumber}
             />
@@ -225,16 +238,11 @@ const Signup = () => {
                 :{(time % 60).toString().padStart(2, '0')}
               </span>
             )}
-            <span className='input-validation'>
-              {errors && errors.certificationNumber && (
-                <span>{errors.certificationNumber.message}</span>
-              )}
-            </span>
             {isSendCertificationNumber && (
               <button
                 className='resend-button'
                 type='button'
-                onClick={resetTime}
+                onClick={restartTime}
               >
                 재전송
               </button>
@@ -245,10 +253,13 @@ const Signup = () => {
           <input
             className={`submit-button ${!isValid && 'disabled'}`}
             type='submit'
-            value={isSubmitted ? '가입중...' : '가입하기'}
-            disabled={!isValid || isSubmitted}
+            value={isSubmitting ? '가입중...' : '가입하기'}
+            disabled={isSubmitting}
           />
           <input className='reset-button' type='reset' value='취소하기' />
+        </div>
+        <div className='signin-error'>
+          <ErrorMessage errors={errors} name='response' />
         </div>
       </form>
     </StyledSignup>
