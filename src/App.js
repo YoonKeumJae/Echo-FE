@@ -4,6 +4,7 @@ import Profile from './pages';
 const App = () => {
   return (
     <StyledApp>
+      {/* <p>Hello World</p> */}
       <Profile />
     </StyledApp>
   );
