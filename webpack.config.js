@@ -43,6 +43,8 @@ const config = {
     historyApiFallback: true,
     // gzip 압축 활성화
     compress: true,
+    host: '0.0.0.0',
+    port: 3000,
   },
   module: {
     rules: [
