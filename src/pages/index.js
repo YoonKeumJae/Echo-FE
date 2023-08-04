@@ -1,3 +1,5 @@
 import Profile from "./profile";
+import EditProfile from "./editProfile";
+import Message from "./message";
 
-export default Profile;
+export { Profile, EditProfile, Message };
