@@ -101,18 +101,21 @@ const Signup = () => {
           <label htmlFor='inputId' className='input-type'>
             아이디
           </label>
-          <input
-            id='inputId'
-            type='text'
-            placeholder='아이디 입력(6~20자)'
-            {...register('id', {
-              required: '※ 필수 항목 입니다.',
-              pattern: {
-                value: regExpID,
-                message: '※ 6~20자 내외의 아이디를 입력해주세요.',
-              },
-            })}
-          />
+          <div className='certification-box'>
+            <input
+              id='inputId'
+              type='text'
+              placeholder='아이디 입력(6~20자)'
+              {...register('id', {
+                required: '※ 필수 항목 입니다.',
+                pattern: {
+                  value: regExpID,
+                  message: '※ 6~20자 내외의 아이디를 입력해주세요.',
+                },
+              })}
+            />
+            <button>중복 확인</button>
+          </div>
           <span className='input-validation'>
             <ErrorMessage errors={errors} name='id' />
           </span>
@@ -205,7 +208,7 @@ const Signup = () => {
           <label htmlFor='inputPhone' className='input-type'>
             휴대폰
           </label>
-          <div className='phone-box'>
+          <div className='certification-box'>
             <input
               id='inputPhone'
               type='text'

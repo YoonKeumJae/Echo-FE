@@ -59,7 +59,7 @@ const StyledSignUp = styled.section`
         }
       }
 
-      .phone-box {
+      .certification-box {
         display: flex;
         align-items: center;
         gap: 8px;
