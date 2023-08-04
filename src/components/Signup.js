@@ -11,7 +11,7 @@ import {
   regExpPhone,
 } from '@constants/regular-expression';
 import usePreventLeave from '@hooks/usePreventLeave';
-import { signupAPI } from '@services/auth';
+import { authAPI } from '@services/auth';
 import StyledSignup from '@styles/auth/Signup-styled';
 
 const Signup = () => {
@@ -65,10 +65,10 @@ const Signup = () => {
     }
 
     pause();
-    const response = await signupAPI(data);
+    const response = await authAPI(data, 'signup', 'POST');
 
     // 회원가입 성공
-    if (response.status === 200) {
+    if (response.status === 201) {
       navigate('/');
       return;
     }

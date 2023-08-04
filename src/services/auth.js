@@ -1,25 +1,13 @@
-export const signupAPI = async (authData) => {
-  const response = await fetch('http://localhost:8080/signup', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(authData),
-  });
-
-  if (!response.ok) return response;
-
-  return { status: 200 };
-};
-
 /**
- * 로그인 API
- * @param {id: String, password: String} authData
- * @returns error or null
+ * 로그인, 회원가입 API
+ * @param {Object} authData 입력 데이터
+ * @param {String} url 통신 URI
+ * @param {String} method HTTP Method
+ * @returns
  */
-export const singinAPI = async (authData) => {
-  const response = await fetch('http://localhost:8080/login', {
-    method: 'POST',
+export async function authAPI(authData, url, method) {
+  const response = await fetch(`http://localhost:8080/${url}`, {
+    method,
     headers: {
       'Content-Type': 'application/json',
     },
@@ -27,4 +15,4 @@ export const singinAPI = async (authData) => {
   });
 
   return response;
-};
+}

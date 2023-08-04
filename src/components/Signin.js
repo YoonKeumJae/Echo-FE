@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { ErrorMessage } from '@hookform/error-message';
 
-import { singinAPI } from '@services/auth';
+import { authAPI } from '@services/auth';
 import StyledSignin from '@styles/auth/Signin-styled';
 import SigninNavigation from './SigninNavigation';
 
@@ -19,7 +19,7 @@ const Signin = () => {
   const onSubmit = async (data) => {
     if (isSubmitting) return;
 
-    const response = await singinAPI(data);
+    const response = await authAPI(data, 'login', 'POST');
     const resData = await response.json();
 
     // 로그인 성공
