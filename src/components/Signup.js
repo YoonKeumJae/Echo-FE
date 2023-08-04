@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
 import { useTimer } from 'use-timer';
@@ -37,6 +38,8 @@ const Signup = () => {
     setError,
   } = useForm();
 
+  const navigate = useNavigate();
+
   const onSubmit = async (data) => {
     if (status === 'STOPPED') {
       alert('인증번호 입력 시간이 만료되었습니다.');
@@ -46,14 +49,13 @@ const Signup = () => {
     pause();
     const response = await signupAPI(data);
 
-    // 로그인 성공
+    // 회원가입 성공
     if (response.status === 200) {
-      // eslint-disable-next-line no-console
-      console.log('회원가입 성공!'); // redirect 조정 필요
+      navigate('/');
       return;
     }
 
-    // ID가 존재하지 않는 경우
+    // error 발생
     if (!response.ok) {
       resetStatus((formValues) => ({ ...formValues }));
       setError(

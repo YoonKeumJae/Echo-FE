@@ -1,9 +1,12 @@
+import { useEffect, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import { ErrorMessage } from '@hookform/error-message';
 
 import kakao from '@assets/kakao.png';
 import { singinAPI } from '@services/auth';
 import StyledSignin from '@styles/auth/Signin-styled';
+import { getAuthToken } from '@utils/auth';
 
 const Signin = () => {
   const {
@@ -13,6 +16,12 @@ const Signin = () => {
     reset: resetStatus,
     setError,
   } = useForm();
+  const token = useMemo(() => getAuthToken(), []);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (token) navigate('/');
+  }, [navigate, token]);
 
   const onSubmit = async (data) => {
     if (isSubmitting) return;
@@ -21,8 +30,7 @@ const Signin = () => {
 
     // 로그인 성공
     if (response.status === 200) {
-      // eslint-disable-next-line no-console
-      console.log('로그인 성공!'); // redirect 조정 필요
+      navigate('/');
       return;
     }
 
@@ -115,7 +123,7 @@ const Signin = () => {
         </div>
         <div className='social-login'>
           <button type='button'>
-            <img src={kakao} width={320} />
+            <img src={kakao} width={320} alt='kakao login' />
           </button>
         </div>
         <p className='footer'>
