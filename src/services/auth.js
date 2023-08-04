@@ -26,17 +26,5 @@ export const singinAPI = async (authData) => {
     body: JSON.stringify(authData),
   });
 
-  if (!response.ok) {
-    return response;
-  }
-
-  const resData = await response.json();
-  const { token } = resData;
-
-  localStorage.setItem('token', token);
-  const expiration = new Date();
-  expiration.setHours(expiration.getHours() + 1);
-  localStorage.setItem('expiration', expiration.toISOString());
-
-  return { status: 200 };
+  return response;
 };
