@@ -1,12 +1,10 @@
-import { useEffect, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { ErrorMessage } from '@hookform/error-message';
 
-import kakao from '@assets/kakao.png';
 import { singinAPI } from '@services/auth';
 import StyledSignin from '@styles/auth/Signin-styled';
-import { getAuthToken } from '@utils/auth';
+import SigninNavigation from './SigninNavigation';
 
 const Signin = () => {
   const {
@@ -16,20 +14,23 @@ const Signin = () => {
     reset: resetStatus,
     setError,
   } = useForm();
-  const token = useMemo(() => getAuthToken(), []);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (token) navigate('/');
-  }, [navigate, token]);
 
   const onSubmit = async (data) => {
     if (isSubmitting) return;
 
     const response = await singinAPI(data);
+    const resData = await response.json();
 
     // 로그인 성공
     if (response.status === 200) {
+      const { token } = resData;
+
+      localStorage.setItem('token', token);
+      const expiration = new Date();
+      expiration.setHours(expiration.getHours() + 1);
+      localStorage.setItem('expiration', expiration.toISOString());
+
       navigate('/');
       return;
     }
@@ -41,7 +42,7 @@ const Signin = () => {
         'id',
         {
           type: response.statusText,
-          message: '존재하지 않는 아이디 입니다.',
+          message: resData.message,
         },
         { shouldFocus: true },
       );
@@ -54,7 +55,7 @@ const Signin = () => {
         'password',
         {
           type: response.statusText,
-          message: '비밀번호가 일치하지 않습니다.',
+          message: resData.message,
         },
         { shouldFocus: true },
       );
@@ -64,43 +65,43 @@ const Signin = () => {
     if (response.status === 500) {
       setError('password', {
         type: response.statusText,
-        message: '서버와의 연결이 원활하지 않습니다.',
+        message: resData.message,
       });
     }
   };
 
   return (
     <StyledSignin>
-      <form className='signin-form' onSubmit={handleSubmit(onSubmit)}>
-        <h2 className='logo'>Logo</h2>
-        <p className='description'>서비스에 로그인하기</p>
-        <div className='input-container'>
-          <label htmlFor='inputId' className='input-type'>
-            아이디
-          </label>
-          <input
-            id='inputId'
-            type='text'
-            placeholder='아이디 입력'
-            {...register('id', {
-              required: '아이디를 입력해주세요.',
-            })}
-          />
-        </div>
-        <div className='input-container'>
-          <label htmlFor='inputPassword' className='input-type'>
-            비밀번호
-          </label>
-          <input
-            id='inputPassword'
-            type='password'
-            placeholder='비밀번호 입력'
-            {...register('password', {
-              required: '비밀번호를 입력해주세요.',
-            })}
-          />
-        </div>
-        <div className='button-container'>
+      <div className='signin-section'>
+        <form className='signin-form' onSubmit={handleSubmit(onSubmit)}>
+          <h2 className='logo'>Logo</h2>
+          <p className='description'>Echo 로그인</p>
+          <div className='input-container'>
+            <label htmlFor='inputId' className='input-type'>
+              아이디
+            </label>
+            <input
+              id='inputId'
+              type='text'
+              placeholder='아이디 입력'
+              {...register('id', {
+                required: '아이디를 입력해주세요.',
+              })}
+            />
+          </div>
+          <div className='input-container'>
+            <label htmlFor='inputPassword' className='input-type'>
+              비밀번호
+            </label>
+            <input
+              id='inputPassword'
+              type='password'
+              placeholder='비밀번호 입력'
+              {...register('password', {
+                required: '비밀번호를 입력해주세요.',
+              })}
+            />
+          </div>
           <button
             className='submit-button'
             type='submit'
@@ -108,29 +109,18 @@ const Signin = () => {
           >
             로그인
           </button>
-          <p className='link-text'>회원가입</p>
-        </div>
-        <div className='error-container'>
-          <span>
-            <ErrorMessage errors={errors} name='id' />
-            {!errors.id && errors.password && (
-              <ErrorMessage errors={errors} name='password' />
-            )}
-          </span>
-        </div>
-        <div className='divider'>
-          <p>또는</p>
-        </div>
-        <div className='social-login'>
-          <button type='button'>
-            <img src={kakao} width={320} alt='kakao login' />
-          </button>
-        </div>
-        <p className='footer'>
-          가입하신 계정을 잊으셨나요?
-          <span className='link-text'>계정찾기</span>
-        </p>
-      </form>
+          <div className='error-container'>
+            <span>
+              <ErrorMessage errors={errors} name='id' />
+              {!errors.id && errors.password && (
+                <ErrorMessage errors={errors} name='password' />
+              )}
+            </span>
+          </div>
+        </form>
+
+        <SigninNavigation />
+      </div>
     </StyledSignin>
   );
 };
