@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
 import { useTimer } from 'use-timer';
@@ -9,10 +10,13 @@ import {
   regExpNickname,
   regExpPhone,
 } from '@constants/regular-expression';
-import { signupAPI } from '@services/auth';
+import usePreventLeave from '@hooks/usePreventLeave';
+import { authAPI } from '@services/auth';
 import StyledSignup from '@styles/auth/Signup-styled';
 
 const Signup = () => {
+  const [enablePrevent, disablePrevent] = usePreventLeave();
+
   const [isSendCertificationNumber, setIsSendCertificationNumber] =
     useState(false);
 
@@ -31,11 +35,28 @@ const Signup = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid, isSubmitting },
+    formState: { errors, isDirty, isSubmitting },
     watch,
-    reset: resetStatus,
     setError,
-  } = useForm();
+  } = useForm({
+    mode: 'onBlur',
+    defaultValues: {
+      id: '',
+      password: '',
+      confirmPassword: '',
+      name: '',
+      nickname: '',
+      phone: '',
+      certificationNumber: '',
+    },
+  });
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isDirty) enablePrevent();
+    else disablePrevent();
+  }, [enablePrevent, disablePrevent, isDirty]);
 
   const onSubmit = async (data) => {
     if (status === 'STOPPED') {
@@ -44,37 +65,26 @@ const Signup = () => {
     }
 
     pause();
-    const response = await signupAPI(data);
+    const response = await authAPI(data, 'signup', 'POST');
 
-    // 로그인 성공
-    if (response.status === 200) {
-      // eslint-disable-next-line no-console
-      console.log('회원가입 성공!'); // redirect 조정 필요
+    // 회원가입 성공
+    if (response.status === 201) {
+      navigate('/');
       return;
     }
 
-    // ID가 존재하지 않는 경우
-    if (!response.ok) {
-      resetStatus((formValues) => ({ ...formValues }));
-      setError(
-        'response',
-        {
-          type: 'response',
-          message: '서버와의 연결이 원활하지 않습니다.',
-        },
-        { shouldFocus: true },
-      );
-    }
-
-    // start();
+    start();
   };
 
   const onSendCertificationNumber = () => {
-    if (!errors.phone) {
-      alert('인증번호를 전송하였습니다.');
-      setIsSendCertificationNumber(true);
-      start();
+    if (errors.phone) {
+      setError('phone', { message: '※ 휴대폰 번호를 정확하게 입력해주세요.' });
+      return;
     }
+
+    alert('인증번호를 전송하였습니다.');
+    setIsSendCertificationNumber(true);
+    start();
   };
 
   const restartTime = () => {
@@ -86,23 +96,26 @@ const Signup = () => {
     <StyledSignup>
       <form className='signup-form' onSubmit={handleSubmit(onSubmit)}>
         <h2 className='logo'>Logo</h2>
-        <p className='description'>서비스에 회원가입하기</p>
+        <p className='description'>Echo 회원가입</p>
         <div className='input-container'>
           <label htmlFor='inputId' className='input-type'>
             아이디
           </label>
-          <input
-            id='inputId'
-            type='text'
-            placeholder='아이디 입력(6~20자)'
-            {...register('id', {
-              required: '※ 필수 항목 입니다.',
-              pattern: {
-                value: regExpID,
-                message: '※ 6~20자 내외의 아이디를 입력해주세요.',
-              },
-            })}
-          />
+          <div className='certification-box'>
+            <input
+              id='inputId'
+              type='text'
+              placeholder='아이디 입력(6~20자)'
+              {...register('id', {
+                required: '※ 필수 항목 입니다.',
+                pattern: {
+                  value: regExpID,
+                  message: '※ 6~20자 내외의 아이디를 입력해주세요.',
+                },
+              })}
+            />
+            <button>중복 확인</button>
+          </div>
           <span className='input-validation'>
             <ErrorMessage errors={errors} name='id' />
           </span>
@@ -161,6 +174,10 @@ const Signup = () => {
             placeholder='이름을 입력해주세요.'
             {...register('name', {
               required: '※ 필수 항목 입니다.',
+              pattern: {
+                value: /^[가-힣]+$/,
+                message: '※ 1글자 이상의 한글 이름을 입력해주세요.',
+              },
             })}
           />
           <span className='input-validation'>
@@ -191,7 +208,7 @@ const Signup = () => {
           <label htmlFor='inputPhone' className='input-type'>
             휴대폰
           </label>
-          <div className='phone-box'>
+          <div className='certification-box'>
             <input
               id='inputPhone'
               type='text'
@@ -251,7 +268,7 @@ const Signup = () => {
         </div>
         <div className='button-container'>
           <input
-            className={`submit-button ${!isValid && 'disabled'}`}
+            className={`submit-button ${isSubmitting && 'disabled'}`}
             type='submit'
             value={isSubmitting ? '가입중...' : '가입하기'}
             disabled={isSubmitting}
