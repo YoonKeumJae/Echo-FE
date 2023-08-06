@@ -72,6 +72,56 @@ const StyledSignin = styled.section`
         color: red;
       }
     }
+
+    .divider {
+      display: flex;
+      flex-basis: 100%;
+      align-items: center;
+      color: #000000;
+      font-size: 12px;
+      margin: 24px 0px;
+
+      &::before,
+      &::after {
+        content: '';
+        flex-grow: 1;
+        background: #b9b9b9;
+        height: 1px;
+        font-size: 0px;
+        line-height: 0px;
+      }
+
+      p {
+        margin: 0 8px;
+      }
+    }
+
+    .social-login {
+      display: flex;
+
+      button {
+        flex: 1;
+      }
+    }
+
+    .navigation {
+      font-size: 12px;
+      margin-top: 8px;
+      text-align: right;
+    }
+
+    .link-text {
+      font-size: 12px;
+      margin-left: 8px;
+      text-align: right;
+      color: #243dc5;
+      font-weight: 600;
+      cursor: pointer;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
   }
 `;
 

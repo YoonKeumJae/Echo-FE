@@ -95,13 +95,17 @@ const StyledSignUp = styled.section`
         }
 
         span {
+          position: absolute;
+          right: 8px;
           color: #243dc5;
 
           font-size: 14px;
         }
 
-        .identify-button {
+        .resend-button {
+          position: absolute;
           font-size: 12px;
+          color: #243dc5;
 
           right: 0;
           bottom: -18px;
