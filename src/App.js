@@ -3,9 +3,9 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import RootLayout from '@pages/RootLayout';
 import ErrorPage from '@pages/Error';
 
-import HomeLayout from '@pages/HomeLayout';
+import HomeRootLayout from '@pages/HomeRootLayout';
 import HomePage from '@pages/Home';
-import ProfilePage from '@pages/Profile';
+import PostDetailPage from '@pages/PostDetail';
 import NotificationPage from '@pages/Notification';
 import NotePage from '@pages/Note';
 
@@ -25,7 +25,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <HomeLayout />,
+        element: <HomeRootLayout />,
         loader: checkTokenLoader,
         children: [
           {
@@ -33,8 +33,12 @@ const router = createBrowserRouter([
             element: <HomePage />,
           },
           {
+            path: '/post/:postId',
+            element: <PostDetailPage />,
+          },
+          {
             path: 'profile',
-            element: <ProfilePage />,
+            element: <div>Profile</div>,
           },
           {
             path: 'notification',

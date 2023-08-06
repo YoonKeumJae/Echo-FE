@@ -2,11 +2,11 @@ import { Outlet } from 'react-router-dom';
 
 import MainNavigation from '@components/home/MainNavigation';
 import AsideFriend from '@components/home/AsideFriend';
-import StyledHome from '@styles/home/Home-styled';
+import StyledHomeLayout from '@styles/home/HomeLayout-styled';
 
-const HomeLayout = () => {
+const HomeRootLayout = () => {
   return (
-    <StyledHome>
+    <StyledHomeLayout>
       <MainNavigation />
 
       <section>
@@ -15,8 +15,8 @@ const HomeLayout = () => {
 
       {/* Aside */}
       <AsideFriend />
-    </StyledHome>
+    </StyledHomeLayout>
   );
 };
 
-export default HomeLayout;
+export default HomeRootLayout;
