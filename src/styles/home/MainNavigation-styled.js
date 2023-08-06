@@ -1,7 +1,11 @@
 import { styled } from 'styled-components';
 
 const StyledMainNavigation = styled.nav`
+  position: sticky;
+  top: 0;
+
   width: 320px;
+  height: fit-content;
 
   display: flex;
   flex-direction: column;

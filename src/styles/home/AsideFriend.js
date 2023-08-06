@@ -1,7 +1,11 @@
 import { styled } from 'styled-components';
 
 const StyledAsideFriend = styled.aside`
+  position: sticky;
+  top: 0;
+
   width: 216px;
+  height: fit-content;
   padding: 8px 16px 0;
 
   .search-query {
