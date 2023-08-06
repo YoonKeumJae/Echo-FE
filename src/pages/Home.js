@@ -1,7 +1,11 @@
+import { Link } from 'react-router-dom';
+
 import profileIcon from '@assets/default/profileIcon.png';
 import optionIcon from '@assets/post/optionIcon.png';
 import messageIcon from '@assets/post/messageIcon.png';
 import shareIcon from '@assets/post/shareIcon.png';
+import StyledHome from '@styles/home/Home-styled';
+import StyledPost from '@styles/home/Post-styled';
 
 const DUMMY_POSTS = [
   {
@@ -58,21 +62,19 @@ const DUMMY_POSTS = [
 
 const HomePage = () => {
   return (
-    <div>
-      <div className='top'>
-        <h3 className='title'>홈</h3>
-        <div className='write'>
-          <div className='input-container'>
-            <img src={profileIcon} alt='user profile' />
-            <button type='text' placeholder='게시 할 내용을 입력하세요.'>
-              게시 할 내용을 입력하세요.
-            </button>
-          </div>
+    <StyledHome>
+      <h3 className='title'>홈</h3>
+      <div className='write'>
+        <div className='input-container'>
+          <img src={profileIcon} alt='user profile' />
+          <button type='text' placeholder='게시 할 내용을 입력하세요.'>
+            게시 할 내용을 입력하세요.
+          </button>
         </div>
       </div>
       <div className='post-list'>
         {DUMMY_POSTS.map((post) => (
-          <div key={post.id} className='post'>
+          <StyledPost key={post.id}>
             <div className='user'>
               <img src={profileIcon} alt={`${post.username} profile icon`} />
               <div className='post-info'>
@@ -83,7 +85,9 @@ const HomePage = () => {
                 <img src={optionIcon} alt='option icon' />
               </button>
             </div>
-            <div className='content'>{post.content}</div>
+            <Link to={`/post/${post.id}`}>
+              <div className='content'>{post.content}</div>
+            </Link>
             <div className='aside'>
               <div className='item'>
                 <button>
@@ -117,10 +121,10 @@ const HomePage = () => {
                 <span>공유</span>
               </div>
             </div>
-          </div>
+          </StyledPost>
         ))}
       </div>
-    </div>
+    </StyledHome>
   );
 };
 
