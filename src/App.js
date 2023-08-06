@@ -2,7 +2,13 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import RootLayout from '@pages/RootLayout';
 import ErrorPage from '@pages/Error';
+
+import HomeLayout from '@pages/HomeLayout';
 import HomePage from '@pages/Home';
+import ProfilePage from '@pages/Profile';
+import NotificationPage from '@pages/Notification';
+import NotePage from '@pages/Note';
+
 import AuthenticationPage from '@pages/Authentication';
 import { loader as logoutLoader } from '@pages/Logout';
 
@@ -18,9 +24,27 @@ const router = createBrowserRouter([
     loader: tokenLoader,
     children: [
       {
-        index: true,
-        element: <HomePage />,
+        path: '/',
+        element: <HomeLayout />,
         loader: checkTokenLoader,
+        children: [
+          {
+            index: true,
+            element: <HomePage />,
+          },
+          {
+            path: 'profile',
+            element: <ProfilePage />,
+          },
+          {
+            path: 'notification',
+            element: <NotificationPage />,
+          },
+          {
+            path: 'note',
+            element: <NotePage />,
+          },
+        ],
       },
       {
         path: 'auth',
