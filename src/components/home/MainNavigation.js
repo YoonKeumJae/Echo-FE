@@ -1,9 +1,9 @@
 import { NavLink } from 'react-router-dom';
 
-import profileIcon from '@assets/profileIcon.png';
-import homeIcon from '@assets/homeIcon.png';
-import notificationIcon from '@assets/notificationIcon.png';
-import noteIcon from '@assets/noteIcon.png';
+import profileIcon from '@assets/default/profileIcon.png';
+import homeIcon from '@assets/navigation/homeIcon.png';
+import notificationIcon from '@assets/navigation/notificationIcon.png';
+import noteIcon from '@assets/navigation/noteIcon.png';
 import StyledMainNavigation from '@styles/home/MainNavigation-styled';
 
 const MainNavigation = () => {

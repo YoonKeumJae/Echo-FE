@@ -1,7 +1,7 @@
-import profileIcon from '@assets/profileIcon.png';
-import optionIcon from '@assets/optionIcon.png';
-import messageIcon from '@assets/messageIcon.png';
-import shareIcon from '@assets/shareIcon.png';
+import profileIcon from '@assets/default/profileIcon.png';
+import optionIcon from '@assets/post/optionIcon.png';
+import messageIcon from '@assets/post/messageIcon.png';
+import shareIcon from '@assets/post/shareIcon.png';
 
 const DUMMY_POSTS = [
   {

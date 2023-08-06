@@ -1,5 +1,5 @@
-import searchIcon from '@assets/searchIcon.png';
-import profileIcon from '@assets/profileIcon.png';
+import profileIcon from '@assets/default/profileIcon.png';
+import searchIcon from '@assets/navigation/searchIcon.png';
 import StyledAsideFriend from '@styles/home/AsideFriend';
 
 const DUMMY_FRIENDS = [
