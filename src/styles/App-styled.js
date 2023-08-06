@@ -3,6 +3,7 @@ import styled from 'styled-components';
 const StyledApp = styled.div`
   margin: 0 auto;
   width: 1280px;
+  height: 100vh;
   font-size: 14px;
 
   h1,

@@ -2,10 +2,10 @@ import { styled } from 'styled-components';
 
 const StyledHomeLayout = styled.div`
   display: flex;
+  height: 100%;
 
   section {
     width: 624px;
-    height: 100%;
 
     padding: 8px;
     background: #fcfcfc;
