@@ -223,49 +223,48 @@ const Signup = () => {
               })}
               disabled={isSendCertificationNumber}
             />
-            <button
-              type='button'
-              className={`${isSendCertificationNumber && 'disabled'}`}
-              onClick={onSendCertificationNumber}
-              disabled={isSendCertificationNumber}
-            >
-              인증하기
-            </button>
+            {!isSendCertificationNumber && (
+              <button
+                type='button'
+                onClick={onSendCertificationNumber}
+                disabled={isSendCertificationNumber}
+              >
+                전송
+              </button>
+            )}
+            {isSendCertificationNumber && (
+              <button type='button' onClick={restartTime}>
+                재전송
+              </button>
+            )}
           </div>
           <span className='input-validation'>
             <ErrorMessage errors={errors} name='phone' />
           </span>
         </div>
-        <div className='input-container'>
-          <div className='certification-box'>
-            <input
-              id='inputCertificationNumber'
-              type='text'
-              placeholder='인증번호를 입력해주세요'
-              {...register('certificationNumber', {
-                required: true,
-              })}
-              disabled={!isSendCertificationNumber}
-            />
-            {isSendCertificationNumber && (
+        {isSendCertificationNumber && (
+          <div className='input-container'>
+            <div className='certification-box'>
+              <input
+                id='inputCertificationNumber'
+                type='text'
+                placeholder='인증번호를 입력해주세요'
+                {...register('certificationNumber', {
+                  required: true,
+                })}
+              />
               <span>
                 {Math.floor(time / 60)
                   .toString()
                   .padStart(2, '0')}
                 :{(time % 60).toString().padStart(2, '0')}
               </span>
-            )}
-            {isSendCertificationNumber && (
-              <button
-                className='resend-button'
-                type='button'
-                onClick={restartTime}
-              >
-                재전송
+              <button className='identify-button' type='button'>
+                확인
               </button>
-            )}
+            </div>
           </div>
-        </div>
+        )}
         <div className='button-container'>
           <input
             className={`submit-button ${isSubmitting && 'disabled'}`}
