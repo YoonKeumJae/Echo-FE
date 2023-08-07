@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 
 import kakao from '@assets/social/kakao.png';
-import StyledSigninNavigation from '@styles/auth/SigninNavigation-styled';
+import StyledSigninNavigation from '@styles/auth/Signin/SigninNavigation-styled';
 
 const SigninNavigation = () => {
   return (
