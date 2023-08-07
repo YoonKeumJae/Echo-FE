@@ -60,12 +60,19 @@ const StyledSignUp = styled.section`
       }
 
       .certification-box {
+        position: relative;
         display: flex;
         align-items: center;
         gap: 8px;
 
         input {
           flex: 1;
+        }
+
+        span {
+          color: #243dc5;
+
+          font-size: 14px;
         }
 
         button {
@@ -82,30 +89,9 @@ const StyledSignUp = styled.section`
             background: #808080;
           }
         }
-      }
 
-      .certification-box {
-        position: relative;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-
-        input {
-          flex: 1;
-        }
-
-        span {
-          position: absolute;
-          right: 8px;
-          color: #243dc5;
-
-          font-size: 14px;
-        }
-
-        .resend-button {
-          position: absolute;
+        .identify-button {
           font-size: 12px;
-          color: #243dc5;
 
           right: 0;
           bottom: -18px;

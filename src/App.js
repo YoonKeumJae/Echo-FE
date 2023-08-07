@@ -2,7 +2,12 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import RootLayout from '@pages/RootLayout';
 import ErrorPage from '@pages/Error';
+
+import HomeRootLayout from '@pages/HomeRootLayout';
 import HomePage from '@pages/Home';
+import PostDetailPage from '@pages/PostDetail';
+import NotificationPage from '@pages/Notification';
+
 import AuthenticationPage from '@pages/Authentication';
 import { loader as logoutLoader } from '@pages/Logout';
 
@@ -18,9 +23,27 @@ const router = createBrowserRouter([
     loader: tokenLoader,
     children: [
       {
-        index: true,
-        element: <HomePage />,
+        path: '/',
+        element: <HomeRootLayout />,
         loader: checkTokenLoader,
+        children: [
+          {
+            index: true,
+            element: <HomePage />,
+          },
+          {
+            path: '/post/:postId',
+            element: <PostDetailPage />,
+          },
+          {
+            path: 'profile',
+            element: <div>Profile</div>,
+          },
+          {
+            path: 'notification',
+            element: <NotificationPage />,
+          },
+        ],
       },
       {
         path: 'auth',
