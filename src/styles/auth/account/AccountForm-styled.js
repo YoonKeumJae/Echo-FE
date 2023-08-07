@@ -8,6 +8,7 @@ const StyledSection = styled.section`
   height: 100vh;
 
   .account-section {
+    width: 320px;
     border: 1px solid #cdcdcd;
     padding: 32px 108px;
 

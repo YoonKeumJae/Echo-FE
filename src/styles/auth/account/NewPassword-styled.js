@@ -4,7 +4,6 @@ const StyledDiv = styled.div`
   display: flex;
   flex-direction: column;
   margin: 64px 0 32px;
-  width: 360px;
 
   .find-id {
     display: flex;
