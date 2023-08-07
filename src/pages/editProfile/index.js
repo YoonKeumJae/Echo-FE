@@ -1,3 +1,3 @@
-import EditProfile from './editProfile';
+import EditProfile from './EditProfile';
 
 export default EditProfile;
