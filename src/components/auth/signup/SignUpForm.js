@@ -30,13 +30,13 @@ const SignUpForm = () => {
   } = useForm({
     mode: 'onBlur',
     defaultValues: {
-      id: 'test11112',
-      password: 'test1541!',
-      confirmPassword: 'test1541!',
-      name: '테스트',
-      nickname: 'test',
-      phone: '01088652981',
-      certificationNumber: '123456',
+      id: '',
+      password: '',
+      confirmPassword: '',
+      name: '',
+      nickname: '',
+      phone: '',
+      certificationNumber: '',
     },
   });
   const {
