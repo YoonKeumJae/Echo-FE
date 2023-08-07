@@ -14,24 +14,10 @@ import usePreventLeave from '@hooks/usePreventLeave';
 import { authAPI } from '@services/auth';
 import StyledSignup from '@styles/auth/Signup/Signup-styled';
 
-const Signup = () => {
+const SignUpForm = () => {
   const [enablePrevent, disablePrevent] = usePreventLeave();
-
   const [isSendCertificationNumber, setIsSendCertificationNumber] =
     useState(false);
-
-  const {
-    time,
-    start,
-    pause,
-    reset: resetTime,
-    status,
-  } = useTimer({
-    initialTime: 180,
-    endTime: 0,
-    timerType: 'DECREMENTAL',
-  });
-
   const {
     register,
     handleSubmit,
@@ -49,6 +35,17 @@ const Signup = () => {
       phone: '',
       certificationNumber: '',
     },
+  });
+  const {
+    time,
+    start,
+    pause,
+    reset: resetTime,
+    status,
+  } = useTimer({
+    initialTime: 180,
+    endTime: 0,
+    timerType: 'DECREMENTAL',
   });
 
   const navigate = useNavigate();
@@ -282,4 +279,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default SignUpForm;

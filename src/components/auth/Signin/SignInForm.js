@@ -6,7 +6,7 @@ import { authAPI } from '@services/auth';
 import StyledSignin from '@styles/auth/Signin/Signin-styled';
 import SigninNavigation from './SigninNavigation';
 
-const Signin = () => {
+const SignInForm = () => {
   const {
     register,
     handleSubmit,
@@ -125,4 +125,4 @@ const Signin = () => {
   );
 };
 
-export default Signin;
+export default SignInForm;

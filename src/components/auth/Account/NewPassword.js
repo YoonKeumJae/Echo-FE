@@ -30,7 +30,7 @@ const NewPassword = () => {
     // eslint-disable-next-line no-console
     console.log(data);
 
-    navigate('/auth?mode=signin');
+    navigate('/auth/signin');
   };
 
   return (

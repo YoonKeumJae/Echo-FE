@@ -7,14 +7,14 @@ import FindID from './FindID';
 import SearchPWD from './SearchPWD';
 import NewPassword from './NewPassword';
 
-const Signin = () => {
+const AccountForm = () => {
   const [isFindID, setIsFindID] = useState(false);
   const [isNewPassword, setIsNewPassword] = useState(false);
   const [searchParams] = useSearchParams();
-  const type = searchParams.get('type');
+  const mode = searchParams.get('mode');
 
-  const selectedID = type === 'id';
-  const selectedPassword = type === 'password';
+  const selectedID = mode === 'id';
+  const selectedPassword = mode === 'password';
 
   const completedFindID = () => setIsFindID(true);
   const completedNewPassword = () => setIsNewPassword(true);
@@ -32,13 +32,13 @@ const Signin = () => {
         {!isFindID && !isNewPassword && (
           <div className='account-mode'>
             <NavLink
-              to='?mode=account&type=id'
+              to='?mode=id'
               className={selectedID ? 'selected' : undefined}
             >
               아이디 찾기
             </NavLink>
             <NavLink
-              to='?mode=account&type=password'
+              to='?mode=password'
               className={selectedPassword ? 'selected' : undefined}
             >
               비밀번호 찾기
@@ -57,4 +57,4 @@ const Signin = () => {
   );
 };
 
-export default Signin;
+export default AccountForm;

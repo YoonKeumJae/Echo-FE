@@ -5,7 +5,7 @@ import StyledFindID from '@styles/auth/account/FindID-styled';
 const FindID = () => {
   const navigate = useNavigate();
 
-  const onClickLogin = () => navigate('/auth?mode=signin');
+  const onClickLogin = () => navigate('/auth/signin');
 
   return (
     <StyledFindID>

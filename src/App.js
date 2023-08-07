@@ -8,8 +8,11 @@ import HomePage from '@pages/Home';
 import PostDetailPage from '@pages/PostDetail';
 import NotificationPage from '@pages/Notification';
 
-import AuthenticationPage from '@pages/Authentication';
+import AuthenticationPage from '@pages/auth/Authentication';
 import { loader as logoutLoader } from '@pages/Logout';
+import SignInPage from '@pages/auth/Signin';
+import SignUpPage from '@pages/auth/Signup';
+import AccountPage from '@pages/auth/Account';
 
 import StyledApp from '@styles/App-styled';
 import { tokenLoader, checkTokenLoader, checkIsTokenLoader } from '@utils/auth';
@@ -48,7 +51,15 @@ const router = createBrowserRouter([
       {
         path: 'auth',
         element: <AuthenticationPage />,
-        loader: checkIsTokenLoader,
+        children: [
+          {
+            path: 'signin',
+            element: <SignInPage />,
+            loader: checkIsTokenLoader,
+          },
+          { path: 'signup', element: <SignUpPage /> },
+          { path: 'account', element: <AccountPage /> },
+        ],
       },
       {
         path: 'logout',

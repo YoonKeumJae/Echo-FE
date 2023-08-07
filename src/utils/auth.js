@@ -35,19 +35,17 @@ export function checkTokenLoader() {
   const token = getAuthToken();
 
   if (!token) {
-    return redirect('/auth?mode=signin');
+    return redirect('/auth/signin');
   }
 
   return null;
 }
 
-export function checkIsTokenLoader({ request }) {
-  const { searchParams } = new URL(request.url);
-  const mode = searchParams.get('mode');
+export function checkIsTokenLoader() {
   const token = getAuthToken();
 
   // 토큰이 존재할 경우 Error
-  if (token && mode === 'signin') {
+  if (token) {
     throw json({ message: '잘못된 접근입니다.' }, { status: 403 });
   }
 
