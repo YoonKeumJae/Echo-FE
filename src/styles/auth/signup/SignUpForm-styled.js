@@ -44,6 +44,11 @@ const StyledSection = styled.section`
         color: red;
       }
 
+      .success {
+        font-weight: 600;
+        color: #4bb543;
+      }
+
       input {
         height: 28px;
         padding-inline-start: 8px;

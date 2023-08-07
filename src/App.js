@@ -11,7 +11,7 @@ import NotificationPage from '@pages/Notification';
 import AuthenticationPage from '@pages/auth/Authentication';
 import { loader as logoutLoader } from '@pages/Logout';
 import SignInPage, { action as signInAction } from '@pages/auth/SignIn';
-import SignUpPage from '@pages/auth/Signup';
+import SignUpPage, { action as signUpAction } from '@pages/auth/SignUp';
 import AccountPage from '@pages/auth/Account';
 
 import StyledApp from '@styles/App-styled';
@@ -58,7 +58,7 @@ const router = createBrowserRouter([
             loader: checkIsTokenLoader,
             action: signInAction,
           },
-          { path: 'signup', element: <SignUpPage /> },
+          { path: 'signup', element: <SignUpPage />, action: signUpAction },
           { path: 'account', element: <AccountPage /> },
         ],
       },
