@@ -12,7 +12,7 @@ import {
 } from '@constants/regular-expression';
 import usePreventLeave from '@hooks/usePreventLeave';
 import { authAPI } from '@services/auth';
-import StyledSignup from '@styles/auth/Signup-styled';
+import StyledSignup from '@styles/auth/Signup/Signup-styled';
 
 const Signup = () => {
   const [enablePrevent, disablePrevent] = usePreventLeave();

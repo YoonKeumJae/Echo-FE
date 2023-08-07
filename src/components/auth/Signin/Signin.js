@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { ErrorMessage } from '@hookform/error-message';
 
 import { authAPI } from '@services/auth';
-import StyledSignin from '@styles/auth/Signin-styled';
+import StyledSignin from '@styles/auth/Signin/Signin-styled';
 import SigninNavigation from './SigninNavigation';
 
 const Signin = () => {
