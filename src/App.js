@@ -7,7 +7,6 @@ import HomeRootLayout from '@pages/HomeRootLayout';
 import HomePage from '@pages/Home';
 import PostDetailPage from '@pages/PostDetail';
 import NotificationPage from '@pages/Notification';
-import NotePage from '@pages/Note';
 
 import AuthenticationPage from '@pages/Authentication';
 import { loader as logoutLoader } from '@pages/Logout';
@@ -43,10 +42,6 @@ const router = createBrowserRouter([
           {
             path: 'notification',
             element: <NotificationPage />,
-          },
-          {
-            path: 'note',
-            element: <NotePage />,
           },
         ],
       },
