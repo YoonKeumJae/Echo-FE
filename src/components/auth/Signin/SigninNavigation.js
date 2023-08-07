@@ -1,13 +1,13 @@
 import { Link } from 'react-router-dom';
 
 import kakao from '@assets/social/kakao.png';
-import StyledSigninNavigation from '@styles/auth/SigninNavigation-styled';
+import StyledSigninNavigation from '@styles/auth/Signin/SigninNavigation-styled';
 
 const SigninNavigation = () => {
   return (
     <StyledSigninNavigation>
       <p className='navigation'>
-        <Link to='?mode=account' className='link-text account'>
+        <Link to='?mode=account&type=id' className='link-text account'>
           아이디/비밀번호 찾기
         </Link>
       </p>
