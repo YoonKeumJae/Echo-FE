@@ -1,17 +1,19 @@
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 
-const SearchID = ({ onSuccess }) => {
+const SearchIDForm = () => {
   const {
     register,
     handleSubmit,
     formState: { isSubmitting },
   } = useForm({ mode: 'onBlur' });
+  const navigate = useNavigate('/');
 
   const onSubmit = (data) => {
     // eslint-disable-next-line no-console
     console.log(data);
 
-    onSuccess();
+    navigate('?mode=findID');
   };
 
   return (
@@ -49,4 +51,4 @@ const SearchID = ({ onSuccess }) => {
   );
 };
 
-export default SearchID;
+export default SearchIDForm;

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useActionData, useSubmit } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
 import { useTimer } from 'use-timer';
@@ -11,26 +11,14 @@ import {
   regExpPhone,
 } from '@constants/regular-expression';
 import usePreventLeave from '@hooks/usePreventLeave';
-import { authAPI } from '@services/auth';
-import StyledSignup from '@styles/auth/Signup/Signup-styled';
+import StyledSection from '@styles/auth/signup/SignUpForm-styled';
 
-const Signup = () => {
+const SignUpForm = () => {
   const [enablePrevent, disablePrevent] = usePreventLeave();
-
+  const [isCheckID, setIsCheckID] = useState(false);
   const [isSendCertificationNumber, setIsSendCertificationNumber] =
     useState(false);
-
-  const {
-    time,
-    start,
-    pause,
-    reset: resetTime,
-    status,
-  } = useTimer({
-    initialTime: 180,
-    endTime: 0,
-    timerType: 'DECREMENTAL',
-  });
+  const [isVerifyNumber, setIsVerifyNumber] = useState(false);
 
   const {
     register,
@@ -38,6 +26,7 @@ const Signup = () => {
     formState: { errors, isDirty, isSubmitting },
     watch,
     setError,
+    setFocus,
   } = useForm({
     mode: 'onBlur',
     defaultValues: {
@@ -50,30 +39,39 @@ const Signup = () => {
       certificationNumber: '',
     },
   });
+  const {
+    time,
+    start,
+    pause,
+    reset: resetTime,
+    status,
+  } = useTimer({
+    initialTime: 180,
+    endTime: 0,
+    timerType: 'DECREMENTAL',
+  });
+  const submit = useSubmit();
+  const data = useActionData();
 
-  const navigate = useNavigate();
+  useEffect(() => {
+    if (!data) return;
+
+    setError(
+      'nickname',
+      { message: '이미 존재하는 닉네임입니다.' },
+      { shouldFocus: true },
+    );
+  }, [setError, data]);
 
   useEffect(() => {
     if (isDirty) enablePrevent();
     else disablePrevent();
   }, [enablePrevent, disablePrevent, isDirty]);
 
-  const onSubmit = async (data) => {
-    if (status === 'STOPPED') {
-      alert('인증번호 입력 시간이 만료되었습니다.');
-      return;
-    }
+  const onCheckID = () => {
+    // 중복체크 로직
 
-    pause();
-    const response = await authAPI(data, 'signup', 'POST');
-
-    // 회원가입 성공
-    if (response.status === 201) {
-      navigate('/');
-      return;
-    }
-
-    start();
+    setIsCheckID(true); // 중복체크 성공시
   };
 
   const onSendCertificationNumber = () => {
@@ -87,15 +85,49 @@ const Signup = () => {
     start();
   };
 
+  const onVerityNumber = () => {
+    if (status === 'STOPPED') {
+      alert('인증번호 입력 시간이 만료되었습니다.');
+      setFocus('certificationNumber');
+      return;
+    }
+
+    // 휴대폰 인증 로직
+
+    // 휴대폰 인증 완료시
+    pause();
+    setIsVerifyNumber(true);
+  };
+
   const restartTime = () => {
     resetTime();
     start();
   };
 
+  const onSubmit = (authForm) => {
+    if (!isCheckID) {
+      alert('아이디 중복 확인을 해주세요.');
+      setFocus('id');
+      return;
+    }
+
+    if (!isVerifyNumber) {
+      alert('휴대폰 인증을 해주세요.');
+      setFocus('phone');
+      return;
+    }
+
+    pause();
+    submit(authForm, { method: 'post' });
+    start();
+  };
+
   return (
-    <StyledSignup>
+    <StyledSection>
       <form className='signup-form' onSubmit={handleSubmit(onSubmit)}>
-        <h2 className='logo'>Logo</h2>
+        <Link to='/'>
+          <h2 className='logo'>Logo</h2>
+        </Link>
         <p className='description'>Echo 회원가입</p>
         <div className='input-container'>
           <label htmlFor='inputId' className='input-type'>
@@ -114,10 +146,13 @@ const Signup = () => {
                 },
               })}
             />
-            <button>중복 확인</button>
+            <button type='button' onClick={onCheckID}>
+              중복 확인
+            </button>
           </div>
-          <span className='input-validation'>
+          <span className={`input-validation ${isCheckID && 'success'}`}>
             <ErrorMessage errors={errors} name='id' />
+            {isCheckID && '사용하실 수 있는 아이디입니다.'}
           </span>
         </div>
         <div className='input-container'>
@@ -248,10 +283,12 @@ const Signup = () => {
               <input
                 id='inputCertificationNumber'
                 type='text'
+                className={isVerifyNumber ? 'disabled' : undefined}
                 placeholder='인증번호를 입력해주세요'
                 {...register('certificationNumber', {
                   required: true,
                 })}
+                disabled={isVerifyNumber}
               />
               <span>
                 {Math.floor(time / 60)
@@ -259,7 +296,12 @@ const Signup = () => {
                   .padStart(2, '0')}
                 :{(time % 60).toString().padStart(2, '0')}
               </span>
-              <button className='identify-button' type='button'>
+              <button
+                className={`identify-button ${isVerifyNumber && 'disabled'}`}
+                type='button'
+                onClick={onVerityNumber}
+                disabled={isVerifyNumber}
+              >
                 확인
               </button>
             </div>
@@ -277,9 +319,14 @@ const Signup = () => {
         <div className='signin-error'>
           <ErrorMessage errors={errors} name='response' />
         </div>
+        <p className='navigation'>
+          <Link to='/auth/signin' className='navigation-account'>
+            계정이 이미 있으신가요?
+          </Link>
+        </p>
       </form>
-    </StyledSignup>
+    </StyledSection>
   );
 };
 
-export default Signup;
+export default SignUpForm;

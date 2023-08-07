@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import { useTimer } from 'use-timer';
 
-const SearchPWD = ({ onSuccess }) => {
+const SearchPWDForm = () => {
   const [isSendCertificationNumber, setIsSendCertificationNumber] =
     useState(false);
 
@@ -23,11 +24,13 @@ const SearchPWD = ({ onSuccess }) => {
     timerType: 'DECREMENTAL',
   });
 
+  const navigate = useNavigate();
+
   const onSubmit = (data) => {
     // eslint-disable-next-line no-console
     console.log(data);
 
-    onSuccess();
+    navigate('?mode=findPWD');
   };
 
   const onSendCertificationNumber = () => {
@@ -65,17 +68,6 @@ const SearchPWD = ({ onSuccess }) => {
               message: '아이디를 입력해주세요.',
             },
           })}
-        />
-      </div>
-      <div className='input-container'>
-        <label htmlFor='inputName' className='input-type'>
-          사용자 이름
-        </label>
-        <input
-          id='inputName'
-          type='text'
-          placeholder='이름을 입력해주세요.'
-          {...register('name', { required: true })}
         />
       </div>
       <div className='input-container'>
@@ -139,4 +131,4 @@ const SearchPWD = ({ onSuccess }) => {
   );
 };
 
-export default SearchPWD;
+export default SearchPWDForm;
