@@ -60,12 +60,19 @@ const StyledSignUp = styled.section`
       }
 
       .certification-box {
+        position: relative;
         display: flex;
         align-items: center;
         gap: 8px;
 
         input {
           flex: 1;
+        }
+
+        span {
+          color: #243dc5;
+
+          font-size: 14px;
         }
 
         button {
@@ -81,23 +88,6 @@ const StyledSignUp = styled.section`
           &:hover {
             background: #808080;
           }
-        }
-      }
-
-      .certification-box {
-        position: relative;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-
-        input {
-          flex: 1;
-        }
-
-        span {
-          color: #243dc5;
-
-          font-size: 14px;
         }
 
         .identify-button {

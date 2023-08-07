@@ -7,7 +7,7 @@ const SigninNavigation = () => {
   return (
     <StyledSigninNavigation>
       <p className='navigation'>
-        <Link to='?mode=account' className='link-text account'>
+        <Link to='?mode=account&type=id' className='link-text account'>
           아이디/비밀번호 찾기
         </Link>
       </p>
