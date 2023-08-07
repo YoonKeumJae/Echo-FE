@@ -12,16 +12,6 @@ export default SignInPage;
 export async function action({ request }) {
   const data = await request.formData();
 
-  // 아이디가 입력되지 않았을 때
-  if (!data.get('id')) {
-    return { message: '아이디를 입력해주세요.', errorCode: 401 };
-  }
-
-  // 비밀번호가 입력되지 않았을 때
-  if (!data.get('password')) {
-    return { message: '비밀번호를 입력해주세요.', errorCode: 422 };
-  }
-
   const authData = {
     id: data.get('id'),
     password: data.get('password'),
