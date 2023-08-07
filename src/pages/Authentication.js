@@ -1,8 +1,8 @@
 import { useSearchParams } from 'react-router-dom';
 
-import Signin from '@components/auth/Signin/Signin';
-import Signup from '@components/auth/Signup/Signup';
-import Account from '@components/auth/Account/Account';
+import Signin from '@components/auth/signin/Signin';
+import Signup from '@components/auth/signup/Signup';
+import Account from '@components/auth/account/Account';
 
 const AuthenticationPage = () => {
   const [searchParams] = useSearchParams();
