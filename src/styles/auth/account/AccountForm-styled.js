@@ -1,6 +1,6 @@
 import { styled } from 'styled-components';
 
-const StyledAccount = styled.section`
+const StyledSection = styled.section`
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -160,4 +160,4 @@ const StyledAccount = styled.section`
   }
 `;
 
-export default StyledAccount;
+export default StyledSection;

@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom';
 
 import kakao from '@assets/social/kakao.png';
-import StyledSigninNavigation from '@styles/auth/Signin/SigninNavigation-styled';
+import StyledDiv from '@styles/auth/signin/SignInNavigation-styled';
 
-const SigninNavigation = () => {
+const SignInNavigation = () => {
   return (
-    <StyledSigninNavigation>
+    <StyledDiv>
       <p className='navigation'>
         <Link to='/auth/account?mode=id' className='link-text account'>
           아이디/비밀번호 찾기
@@ -27,8 +27,8 @@ const SigninNavigation = () => {
           회원가입
         </Link>
       </p>
-    </StyledSigninNavigation>
+    </StyledDiv>
   );
 };
 
-export default SigninNavigation;
+export default SignInNavigation;

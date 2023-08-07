@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 
-import StyledFindID from '@styles/auth/account/FindID-styled';
+import StyledDiv from '@styles/auth/account/FindID-styled';
 
 const FindID = () => {
   const navigate = useNavigate();
@@ -8,7 +8,7 @@ const FindID = () => {
   const onClickLogin = () => navigate('/auth/signin');
 
   return (
-    <StyledFindID>
+    <StyledDiv>
       <div className='find-id'>
         <p>아이디</p>
         <p className='find'>jay0214</p>
@@ -22,7 +22,7 @@ const FindID = () => {
           로그인
         </button>
       </div>
-    </StyledFindID>
+    </StyledDiv>
   );
 };
 

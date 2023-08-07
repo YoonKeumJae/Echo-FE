@@ -1,6 +1,6 @@
 import { styled } from 'styled-components';
 
-const StyledFindID = styled.div`
+const StyledDiv = styled.div`
   display: flex;
   flex-direction: column;
   margin: 64px 0 32px;
@@ -38,4 +38,4 @@ const StyledFindID = styled.div`
   }
 `;
 
-export default StyledFindID;
+export default StyledDiv;

@@ -5,7 +5,7 @@ import { ErrorMessage } from '@hookform/error-message';
 
 import { regExpPassword } from '@constants/regular-expression';
 import usePreventLeave from '@hooks/usePreventLeave';
-import StyledNewPassword from '@styles/auth/account/NewPassword-styled';
+import StyledDiv from '@styles/auth/account/NewPassword-styled';
 
 const NewPassword = () => {
   const [enablePrevent, disablePrevent] = usePreventLeave();
@@ -34,7 +34,7 @@ const NewPassword = () => {
   };
 
   return (
-    <StyledNewPassword>
+    <StyledDiv>
       <div className='find-id'>
         <p>아이디</p>
         <p className='find'>jay0214</p>
@@ -91,7 +91,7 @@ const NewPassword = () => {
           </button>
         </div>
       </form>
-    </StyledNewPassword>
+    </StyledDiv>
   );
 };
 

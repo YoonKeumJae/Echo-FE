@@ -12,7 +12,7 @@ import {
 } from '@constants/regular-expression';
 import usePreventLeave from '@hooks/usePreventLeave';
 import { authAPI } from '@services/auth';
-import StyledSignup from '@styles/auth/Signup/Signup-styled';
+import StyledSection from '@styles/auth/signup/SignUpForm-styled';
 
 const SignUpForm = () => {
   const [enablePrevent, disablePrevent] = usePreventLeave();
@@ -90,7 +90,7 @@ const SignUpForm = () => {
   };
 
   return (
-    <StyledSignup>
+    <StyledSection>
       <form className='signup-form' onSubmit={handleSubmit(onSubmit)}>
         <Link to='/'>
           <h2 className='logo'>Logo</h2>
@@ -282,7 +282,7 @@ const SignUpForm = () => {
           </Link>
         </p>
       </form>
-    </StyledSignup>
+    </StyledSection>
   );
 };
 

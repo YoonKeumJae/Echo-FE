@@ -1,6 +1,6 @@
 import { styled } from 'styled-components';
 
-const StyledSignUp = styled.section`
+const StyledSection = styled.section`
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -157,4 +157,4 @@ const StyledSignUp = styled.section`
   }
 `;
 
-export default StyledSignUp;
+export default StyledSection;

@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { ErrorMessage } from '@hookform/error-message';
 
 import { authAPI } from '@services/auth';
-import StyledSignin from '@styles/auth/Signin/Signin-styled';
-import SigninNavigation from './SigninNavigation';
+import StyledSection from '@styles/auth/signin/SignInForm-styled';
+import SignInNavigation from './SignInNavigation';
 
 const SignInForm = () => {
   const {
@@ -71,7 +71,7 @@ const SignInForm = () => {
   };
 
   return (
-    <StyledSignin>
+    <StyledSection>
       <div className='signin-section'>
         <form className='signin-form' onSubmit={handleSubmit(onSubmit)}>
           <h2 className='logo'>Logo</h2>
@@ -119,9 +119,9 @@ const SignInForm = () => {
           </div>
         </form>
 
-        <SigninNavigation />
+        <SignInNavigation />
       </div>
-    </StyledSignin>
+    </StyledSection>
   );
 };
 

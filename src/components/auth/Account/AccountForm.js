@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, NavLink, useSearchParams } from 'react-router-dom';
 
-import StyledAccount from '@styles/auth/account/Account-styled';
+import StyledSection from '@styles/auth/account/AccountForm-styled';
 import SearchID from './SearchID';
 import FindID from './FindID';
 import SearchPWD from './SearchPWD';
@@ -20,7 +20,7 @@ const AccountForm = () => {
   const completedNewPassword = () => setIsNewPassword(true);
 
   return (
-    <StyledAccount>
+    <StyledSection>
       <div className='account-section'>
         <Link to='/'>
           <h2 className='logo'>Logo</h2>
@@ -61,7 +61,7 @@ const AccountForm = () => {
           </Link>
         </p>
       </div>
-    </StyledAccount>
+    </StyledSection>
   );
 };
 
