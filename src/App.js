@@ -10,7 +10,7 @@ import NotificationPage from '@pages/Notification';
 
 import AuthenticationPage from '@pages/auth/Authentication';
 import { loader as logoutLoader } from '@pages/Logout';
-import SignInPage from '@pages/auth/Signin';
+import SignInPage, { action as signInAction } from '@pages/auth/SignIn';
 import SignUpPage from '@pages/auth/Signup';
 import AccountPage from '@pages/auth/Account';
 
@@ -56,6 +56,7 @@ const router = createBrowserRouter([
             path: 'signin',
             element: <SignInPage />,
             loader: checkIsTokenLoader,
+            action: signInAction,
           },
           { path: 'signup', element: <SignUpPage /> },
           { path: 'account', element: <AccountPage /> },

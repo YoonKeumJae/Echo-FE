@@ -1,79 +1,35 @@
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
-import { ErrorMessage } from '@hookform/error-message';
+import { Form, useActionData, useNavigation } from 'react-router-dom';
 
-import { authAPI } from '@services/auth';
 import StyledSection from '@styles/auth/signin/SignInForm-styled';
 import SignInNavigation from './SignInNavigation';
 
 const SignInForm = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-    reset: resetStatus,
-    setError,
-  } = useForm();
-  const navigate = useNavigate();
+  const { register, reset, setFocus } = useForm();
+  const data = useActionData();
+  const navigation = useNavigation();
+  const isSubmitting = navigation.state === 'submitting';
 
-  const onSubmit = async (data) => {
-    if (isSubmitting) return;
+  useEffect(() => {
+    if (!data) return;
 
-    const response = await authAPI(data, 'login', 'POST');
-    const resData = await response.json();
+    const { errorCode } = data;
 
-    // 로그인 성공
-    if (response.status === 200) {
-      const { token } = resData;
-
-      localStorage.setItem('token', token);
-      const expiration = new Date();
-      expiration.setHours(expiration.getHours() + 1);
-      localStorage.setItem('expiration', expiration.toISOString());
-
-      navigate('/');
-      return;
+    if (errorCode === 401) {
+      setFocus('id');
+      reset(() => ({ id: '', password: '' }));
     }
-
-    // ID가 존재하지 않는 경우
-    if (response.status === 401) {
-      resetStatus(() => ({ id: '', password: '' }));
-      setError(
-        'id',
-        {
-          type: response.statusText,
-          message: resData.message,
-        },
-        { shouldFocus: true },
-      );
+    if (errorCode === 422) {
+      setFocus('password');
+      reset((formValues) => ({ ...formValues, password: '' }));
     }
-
-    // 패스워드가 일치하지 않을 경우
-    if (response.status === 422) {
-      resetStatus((formValues) => ({ ...formValues, password: '' }));
-      setError(
-        'password',
-        {
-          type: response.statusText,
-          message: resData.message,
-        },
-        { shouldFocus: true },
-      );
-    }
-
-    // 내부 서버 오류
-    if (response.status === 500) {
-      setError('password', {
-        type: response.statusText,
-        message: resData.message,
-      });
-    }
-  };
+  }, [reset, setFocus, data]);
 
   return (
     <StyledSection>
       <div className='signin-section'>
-        <form className='signin-form' onSubmit={handleSubmit(onSubmit)}>
+        <Form method='post' className='signin-form'>
           <h2 className='logo'>Logo</h2>
           <p className='description'>Echo 로그인</p>
           <div className='input-container'>
@@ -84,9 +40,8 @@ const SignInForm = () => {
               id='inputId'
               type='text'
               placeholder='아이디 입력'
-              {...register('id', {
-                required: '아이디를 입력해주세요.',
-              })}
+              {...register('id')}
+              required
             />
           </div>
           <div className='input-container'>
@@ -97,9 +52,8 @@ const SignInForm = () => {
               id='inputPassword'
               type='password'
               placeholder='비밀번호 입력'
-              {...register('password', {
-                required: '비밀번호를 입력해주세요.',
-              })}
+              {...register('password')}
+              required
             />
           </div>
           <button
@@ -110,14 +64,9 @@ const SignInForm = () => {
             로그인
           </button>
           <div className='error-container'>
-            <span>
-              <ErrorMessage errors={errors} name='id' />
-              {!errors.id && errors.password && (
-                <ErrorMessage errors={errors} name='password' />
-              )}
-            </span>
+            <span>{data && data.message}</span>
           </div>
-        </form>
+        </Form>
 
         <SignInNavigation />
       </div>
