@@ -13,6 +13,8 @@ import { loader as logoutLoader } from '@pages/Logout';
 import SignInPage, { action as signInAction } from '@pages/auth/SignIn';
 import SignUpPage, { action as signUpAction } from '@pages/auth/SignUp';
 import AccountPage from '@pages/auth/Account';
+import SearchIDPage from '@pages/auth/SearchID';
+import SearchPWDPage from '@pages/auth/SearchPWD';
 
 import StyledApp from '@styles/App-styled';
 import { tokenLoader, checkTokenLoader, checkIsTokenLoader } from '@utils/auth';
@@ -58,8 +60,25 @@ const router = createBrowserRouter([
             loader: checkIsTokenLoader,
             action: signInAction,
           },
-          { path: 'signup', element: <SignUpPage />, action: signUpAction },
-          { path: 'account', element: <AccountPage /> },
+          {
+            path: 'signup',
+            element: <SignUpPage />,
+            action: signUpAction,
+          },
+          {
+            path: 'account',
+            element: <AccountPage />,
+            children: [
+              {
+                path: 'id',
+                element: <SearchIDPage />,
+              },
+              {
+                path: 'password',
+                element: <SearchPWDPage />,
+              },
+            ],
+          },
         ],
       },
       {

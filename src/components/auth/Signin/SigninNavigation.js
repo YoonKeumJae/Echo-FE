@@ -7,7 +7,7 @@ const SignInNavigation = () => {
   return (
     <StyledDiv>
       <p className='navigation'>
-        <Link to='/auth/account?mode=id' className='link-text account'>
+        <Link to='/auth/account/id?mode=search' className='link-text account'>
           아이디/비밀번호 찾기
         </Link>
       </p>
