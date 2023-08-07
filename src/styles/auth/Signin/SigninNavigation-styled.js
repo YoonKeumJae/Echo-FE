@@ -1,6 +1,6 @@
 import { styled } from 'styled-components';
 
-const StyledSigninNavigation = styled.div`
+const StyledDiv = styled.div`
   .navigation {
     font-size: 12px;
     margin-top: 8px;
@@ -56,4 +56,4 @@ const StyledSigninNavigation = styled.div`
   }
 `;
 
-export default StyledSigninNavigation;
+export default StyledDiv;

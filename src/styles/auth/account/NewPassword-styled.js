@@ -1,10 +1,9 @@
 import { styled } from 'styled-components';
 
-const StyledNewPassword = styled.div`
+const StyledDiv = styled.div`
   display: flex;
   flex-direction: column;
   margin: 64px 0 32px;
-  width: 360px;
 
   .find-id {
     display: flex;
@@ -78,4 +77,4 @@ const StyledNewPassword = styled.div`
   }
 `;
 
-export default StyledNewPassword;
+export default StyledDiv;

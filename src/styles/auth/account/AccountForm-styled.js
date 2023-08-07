@@ -1,6 +1,6 @@
 import { styled } from 'styled-components';
 
-const StyledAccount = styled.section`
+const StyledSection = styled.section`
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -8,6 +8,7 @@ const StyledAccount = styled.section`
   height: 100vh;
 
   .account-section {
+    width: 320px;
     border: 1px solid #cdcdcd;
     padding: 32px 108px;
 
@@ -142,7 +143,22 @@ const StyledAccount = styled.section`
       background-color: #808080 !important;
       opacity: 0.5;
     }
+
+    .navigation {
+      margin: 8px 0;
+      text-align: center;
+
+      .navigation-signup {
+        font-size: 12px;
+        color: #243dc5;
+        font-weight: 600;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
   }
 `;
 
-export default StyledAccount;
+export default StyledSection;
