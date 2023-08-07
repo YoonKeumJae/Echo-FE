@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { NavLink, useSearchParams } from 'react-router-dom';
+import { Link, NavLink, useSearchParams } from 'react-router-dom';
 
 import StyledAccount from '@styles/auth/account/Account-styled';
 import SearchID from './SearchID';
@@ -22,7 +22,9 @@ const AccountForm = () => {
   return (
     <StyledAccount>
       <div className='account-section'>
-        <h2 className='logo'>Logo</h2>
+        <Link to='/'>
+          <h2 className='logo'>Logo</h2>
+        </Link>
         <p className='description'>
           {!isFindID && !isNewPassword && '아이디/비밀번호 찾기'}
           {isFindID && '아이디 찾기가 완료되었습니다.'}
@@ -52,6 +54,12 @@ const AccountForm = () => {
           <SearchPWD onSuccess={completedNewPassword} />
         )}
         {selectedPassword && isNewPassword && <NewPassword />}
+
+        <p className='navigation'>
+          <Link to='/auth/signup' className='navigation-signup'>
+            계정이 없으신가요?
+          </Link>
+        </p>
       </div>
     </StyledAccount>
   );

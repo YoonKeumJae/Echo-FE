@@ -142,6 +142,21 @@ const StyledAccount = styled.section`
       background-color: #808080 !important;
       opacity: 0.5;
     }
+
+    .navigation {
+      margin: 8px 0;
+      text-align: center;
+
+      .navigation-signup {
+        font-size: 12px;
+        color: #243dc5;
+        font-weight: 600;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
   }
 `;
 

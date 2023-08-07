@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
 import { useTimer } from 'use-timer';
@@ -92,7 +92,9 @@ const SignUpForm = () => {
   return (
     <StyledSignup>
       <form className='signup-form' onSubmit={handleSubmit(onSubmit)}>
-        <h2 className='logo'>Logo</h2>
+        <Link to='/'>
+          <h2 className='logo'>Logo</h2>
+        </Link>
         <p className='description'>Echo 회원가입</p>
         <div className='input-container'>
           <label htmlFor='inputId' className='input-type'>
@@ -274,6 +276,11 @@ const SignUpForm = () => {
         <div className='signin-error'>
           <ErrorMessage errors={errors} name='response' />
         </div>
+        <p className='navigation'>
+          <Link to='/auth/signin' className='navigation-account'>
+            계정이 이미 있으신가요?
+          </Link>
+        </p>
       </form>
     </StyledSignup>
   );

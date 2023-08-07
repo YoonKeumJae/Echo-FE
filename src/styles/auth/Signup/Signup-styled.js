@@ -139,6 +139,21 @@ const StyledSignUp = styled.section`
       text-align: center;
       color: red;
     }
+
+    .navigation {
+      margin: 8px 0;
+      text-align: center;
+
+      .navigation-account {
+        font-size: 12px;
+        color: #243dc5;
+        font-weight: 600;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
   }
 `;
 
