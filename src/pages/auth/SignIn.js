@@ -1,7 +1,7 @@
 import { json, redirect } from 'react-router-dom';
 
 import SignInForm from '@components/auth/signin/SignInForm';
-import { authAPI } from '@services/auth';
+import { signInAPI } from '@services/auth';
 
 const SignInPage = () => {
   return <SignInForm />;
@@ -17,7 +17,7 @@ export async function action({ request }) {
     password: data.get('password'),
   };
 
-  const response = await authAPI(authData, 'login', 'POST');
+  const response = await signInAPI(authData);
   const resData = await response.json();
 
   // ID가 존재하지 않는 경우
