@@ -37,8 +37,7 @@ export async function action({ request }) {
 
   // 계정찾기 성공
   return {
-    name: authData.name,
-    id: 'testID',
-    date: '2023.02.14',
+    id: resData.id,
+    date: resData.date,
   };
 }
