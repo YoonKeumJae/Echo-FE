@@ -15,6 +15,7 @@ import StyledSection from '@styles/auth/signup/SignUpForm-styled';
 
 const SignUpForm = () => {
   const [enablePrevent, disablePrevent] = usePreventLeave();
+  const [checkedID, setCheckedID] = useState('');
   const [isCheckID, setIsCheckID] = useState(false);
   const [isSendCertificationNumber, setIsSendCertificationNumber] =
     useState(false);
@@ -27,6 +28,7 @@ const SignUpForm = () => {
     watch,
     setError,
     setFocus,
+    getValues,
   } = useForm({
     mode: 'onBlur',
     defaultValues: {
@@ -68,10 +70,26 @@ const SignUpForm = () => {
     else disablePrevent();
   }, [enablePrevent, disablePrevent, isDirty]);
 
+  useEffect(() => {
+    if (!isCheckID) return;
+
+    const subscription = watch((value) => {
+      if (value.id !== checkedID) {
+        setIsCheckID(false);
+        // eslint-disable-next-line no-console
+        console.log('인증됐는데 바꿈');
+      }
+    });
+    return () => subscription.unsubscribe();
+  }, [watch, isCheckID, checkedID]);
+
   const onCheckID = () => {
     // 중복체크 로직
 
+    const inputID = getValues('id');
+
     setIsCheckID(true); // 중복체크 성공시
+    setCheckedID(inputID);
   };
 
   const onSendCertificationNumber = () => {
