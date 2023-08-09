@@ -13,7 +13,7 @@ import { loader as logoutLoader } from '@pages/auth/Logout';
 import SignInPage, { action as signInAction } from '@pages/auth/SignIn';
 import SignUpPage, { action as signUpAction } from '@pages/auth/SignUp';
 import AccountPage from '@pages/auth/Account';
-import SearchIDPage from '@pages/auth/SearchID';
+import SearchIDPage, { action as searchIDAction } from '@pages/auth/SearchID';
 import SearchPWDPage from '@pages/auth/SearchPWD';
 
 import StyledApp from '@styles/App-styled';
@@ -72,6 +72,7 @@ const router = createBrowserRouter([
               {
                 path: 'id',
                 element: <SearchIDPage />,
+                action: searchIDAction,
               },
               {
                 path: 'password',

@@ -20,7 +20,7 @@ export async function authAPI(authData, url, method) {
 
 /**
  * 로그인 API
- * @param {Object} authData
+ * @param {Object} authData 아이디, 비밀번호
  * @returns 응답 객체
  */
 export async function signInAPI(authData) {
@@ -31,11 +31,22 @@ export async function signInAPI(authData) {
 
 /**
  * 회원가입 API
- * @param {Object} authData
+ * @param {Object} authData 아이디, 비밀번호, 이름, 닉네임, 휴대폰번호
  * @returns 응답 객체
  */
 export async function signUpAPI(authData) {
   const response = await authAPI(authData, 'signup', 'POST');
+
+  return response;
+}
+
+/**
+ * 아이디 찾기 API
+ * @param {Object} authData 이름, 휴대폰번호
+ * @returns 응답 객체
+ */
+export async function searchIDAPI(authData) {
+  const response = await authAPI(authData, 'searchID', 'POST');
 
   return response;
 }
