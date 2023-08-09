@@ -1,13 +1,13 @@
 import { Link } from 'react-router-dom';
 
 import kakao from '@assets/social/kakao.png';
-import StyledSigninNavigation from '@styles/auth/Signin/SigninNavigation-styled';
+import StyledDiv from '@styles/auth/signin/SignInNavigation-styled';
 
-const SigninNavigation = () => {
+const SignInNavigation = () => {
   return (
-    <StyledSigninNavigation>
+    <StyledDiv>
       <p className='navigation'>
-        <Link to='?mode=account&type=id' className='link-text account'>
+        <Link to='/auth/account/id' className='link-text account'>
           아이디/비밀번호 찾기
         </Link>
       </p>
@@ -15,7 +15,7 @@ const SigninNavigation = () => {
         <p>또는</p>
       </div>
       <div className='social-login'>
-        <Link to='?mode=social&type=kakao'>
+        <Link to='/auth/social?type=kakao'>
           <button type='button'>
             <img src={kakao} width={320} alt='kakao login' />
           </button>
@@ -23,12 +23,12 @@ const SigninNavigation = () => {
       </div>
       <p className='navigation'>
         계정이 없으신가요?
-        <Link to='?mode=signup' className='link-text'>
+        <Link to='/auth/signup' relative='path' className='link-text'>
           회원가입
         </Link>
       </p>
-    </StyledSigninNavigation>
+    </StyledDiv>
   );
 };
 
-export default SigninNavigation;
+export default SignInNavigation;

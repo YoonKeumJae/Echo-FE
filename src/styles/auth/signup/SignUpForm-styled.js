@@ -1,6 +1,6 @@
 import { styled } from 'styled-components';
 
-const StyledSignUp = styled.section`
+const StyledSection = styled.section`
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -42,6 +42,11 @@ const StyledSignUp = styled.section`
         margin-left: 4px;
         font-size: 12px;
         color: red;
+      }
+
+      .success {
+        font-weight: 600;
+        color: #4bb543;
       }
 
       input {
@@ -124,7 +129,7 @@ const StyledSignUp = styled.section`
       }
 
       .reset-button {
-        background: #e6b800;
+        background: #00000066;
       }
     }
 
@@ -139,7 +144,22 @@ const StyledSignUp = styled.section`
       text-align: center;
       color: red;
     }
+
+    .navigation {
+      margin: 8px 0;
+      text-align: center;
+
+      .navigation-account {
+        font-size: 12px;
+        color: #243dc5;
+        font-weight: 600;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
   }
 `;
 
-export default StyledSignUp;
+export default StyledSection;

@@ -1,28 +1,27 @@
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-import StyledFindID from '@styles/auth/account/FindID-styled';
+import StyledDiv from '@styles/auth/account/FindID-styled';
 
-const FindID = () => {
-  const navigate = useNavigate();
-
-  const onClickLogin = () => navigate('/auth?mode=signin');
+const FindID = ({ data }) => {
+  const { id, date } = data;
 
   return (
-    <StyledFindID>
-      <div className='find-id'>
-        <p>아이디</p>
-        <p className='find'>jay0214</p>
-      </div>
-      <div className='find-date'>
-        <p>가입일</p>
-        <p className='find'>2023.02.14</p>
-      </div>
-      <div className='button-container'>
-        <button className='login-button' onClick={onClickLogin}>
-          로그인
+    <>
+      <p className='description'>아이디 찾기가 완료되었습니다.</p>
+      <StyledDiv>
+        <div className='find-id'>
+          <p>아이디</p>
+          <p className='find'>{id}</p>
+        </div>
+        <div className='find-date'>
+          <p>가입일</p>
+          <p className='find'>{date}</p>
+        </div>
+        <button className='login-button'>
+          <Link to='/'>로그인</Link>
         </button>
-      </div>
-    </StyledFindID>
+      </StyledDiv>
+    </>
   );
 };
 
