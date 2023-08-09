@@ -22,18 +22,18 @@ const StyledDiv = styled.div`
     }
   }
 
-  .button-container {
+  .login-button {
     margin-top: 64px;
 
-    .login-button {
-      background: #243dc5;
-      flex: 1;
-      border-radius: 5px;
-      height: 32px;
-      font-weight: 600;
-      color: white;
+    background: #243dc5;
+    border-radius: 5px;
+    height: 32px;
+    font-weight: 600;
 
-      cursor: pointer;
+    cursor: pointer;
+
+    & a {
+      color: white;
     }
   }
 `;
