@@ -1,13 +1,13 @@
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { useSubmit } from 'react-router-dom';
 import { ErrorMessage } from '@hookform/error-message';
 
 import { regExpPassword } from '@constants/regular-expression';
 import usePreventLeave from '@hooks/usePreventLeave';
 import StyledForm from '@styles/auth/account/NewPassword-styled';
 
-const NewPassword = () => {
+const NewPassword = ({ userID }) => {
   const [enablePrevent, disablePrevent] = usePreventLeave();
 
   const {
@@ -16,19 +16,14 @@ const NewPassword = () => {
     formState: { errors, isSubmitting, isDirty },
     watch,
   } = useForm({ mode: 'onBlur' });
-  const navigate = useNavigate();
+  const submit = useSubmit();
 
   useEffect(() => {
     if (isDirty) enablePrevent();
     else disablePrevent();
   }, [enablePrevent, disablePrevent, isDirty]);
 
-  const onSubmit = (data) => {
-    // eslint-disable-next-line no-console
-    console.log(data);
-
-    navigate('/auth/signin');
-  };
+  const onSubmit = (data) => submit(data, { method: 'PUT' });
 
   return (
     <>
@@ -36,6 +31,7 @@ const NewPassword = () => {
 
       <StyledForm onSubmit={handleSubmit(onSubmit)}>
         <div className='input-container'>
+          <input type='hidden' value={userID} {...register('id')} />
           <label htmlFor='newPassword'>새 비밀번호</label>
           <input
             id='newPassword'

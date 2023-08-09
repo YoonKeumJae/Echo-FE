@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useSubmit } from 'react-router-dom';
 import { useTimer } from 'use-timer';
 
 const SearchPWDForm = () => {
@@ -23,15 +23,9 @@ const SearchPWDForm = () => {
     endTime: 0,
     timerType: 'DECREMENTAL',
   });
+  const submit = useSubmit();
 
-  const navigate = useNavigate();
-
-  const onSubmit = (data) => {
-    // eslint-disable-next-line no-console
-    console.log(data);
-
-    navigate('?mode=findPWD');
-  };
+  const onSubmit = (data) => submit(data, { method: 'POST' });
 
   const onSendCertificationNumber = () => {
     const data = getValues('phone'); // "test-input"

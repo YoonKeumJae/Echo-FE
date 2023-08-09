@@ -50,3 +50,14 @@ export async function searchIDAPI(authData) {
 
   return response;
 }
+
+/**
+ * 비밀번호 변경 API
+ * @param {Object} authData 아이디, 비밀번호
+ * @returns 응답 객체
+ */
+export async function changePasswordAPI(authData) {
+  const response = await authAPI(authData, 'changePassword', 'PUT');
+
+  return response;
+}

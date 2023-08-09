@@ -14,7 +14,9 @@ import SignInPage, { action as signInAction } from '@pages/auth/SignIn';
 import SignUpPage, { action as signUpAction } from '@pages/auth/SignUp';
 import AccountPage from '@pages/auth/Account';
 import SearchIDPage, { action as searchIDAction } from '@pages/auth/SearchID';
-import SearchPWDPage from '@pages/auth/SearchPWD';
+import SearchPWDPage, {
+  action as searchPWDAction,
+} from '@pages/auth/SearchPWD';
 
 import StyledApp from '@styles/App-styled';
 import { tokenLoader, checkTokenLoader, checkIsTokenLoader } from '@utils/auth';
@@ -77,6 +79,7 @@ const router = createBrowserRouter([
               {
                 path: 'password',
                 element: <SearchPWDPage />,
+                action: searchPWDAction,
               },
             ],
           },
