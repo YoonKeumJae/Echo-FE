@@ -129,7 +129,7 @@ const StyledSection = styled.section`
       }
 
       .reset-button {
-        background: #e6b800;
+        background: #00000066;
       }
     }
 
