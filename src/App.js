@@ -4,17 +4,19 @@ import RootLayout from '@pages/RootLayout';
 import ErrorPage from '@pages/Error';
 
 import HomeRootLayout from '@pages/HomeRootLayout';
-import HomePage from '@pages/Home';
-import PostDetailPage from '@pages/PostDetail';
-import NotificationPage from '@pages/Notification';
+import HomePage from '@pages/home/Home';
+import PostDetailPage from '@pages/home/PostDetail';
+import NotificationPage from '@pages/home/Notification';
 
 import AuthenticationPage from '@pages/auth/Authentication';
-import { loader as logoutLoader } from '@pages/Logout';
+import { loader as logoutLoader } from '@pages/auth/Logout';
 import SignInPage, { action as signInAction } from '@pages/auth/SignIn';
 import SignUpPage, { action as signUpAction } from '@pages/auth/SignUp';
 import AccountPage from '@pages/auth/Account';
-import SearchIDPage from '@pages/auth/SearchID';
-import SearchPWDPage from '@pages/auth/SearchPWD';
+import SearchIDPage, { action as searchIDAction } from '@pages/auth/SearchID';
+import SearchPWDPage, {
+  action as searchPWDAction,
+} from '@pages/auth/SearchPWD';
 
 import StyledApp from '@styles/App-styled';
 import { tokenLoader, checkTokenLoader, checkIsTokenLoader } from '@utils/auth';
@@ -37,7 +39,7 @@ const router = createBrowserRouter([
             element: <HomePage />,
           },
           {
-            path: '/post/:postId',
+            path: ':postId',
             element: <PostDetailPage />,
           },
           {
@@ -72,10 +74,12 @@ const router = createBrowserRouter([
               {
                 path: 'id',
                 element: <SearchIDPage />,
+                action: searchIDAction,
               },
               {
                 path: 'password',
                 element: <SearchPWDPage />,
+                action: searchPWDAction,
               },
             ],
           },

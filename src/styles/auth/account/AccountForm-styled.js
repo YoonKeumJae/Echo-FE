@@ -8,7 +8,7 @@ const StyledSection = styled.section`
   height: 100vh;
 
   .account-section {
-    width: 320px;
+    width: 360px;
     border: 1px solid #cdcdcd;
     padding: 32px 108px;
 
@@ -28,7 +28,8 @@ const StyledSection = styled.section`
     .account-mode {
       display: flex;
 
-      a {
+      a,
+      p {
         flex: 1;
         font-size: 18px;
 
@@ -46,7 +47,6 @@ const StyledSection = styled.section`
 
     .account-form {
       padding: 24px 0 16px;
-      width: 320px;
 
       .input-container {
         position: relative;

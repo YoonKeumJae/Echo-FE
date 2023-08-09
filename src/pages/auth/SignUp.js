@@ -1,7 +1,7 @@
 import { json, redirect } from 'react-router-dom';
 
 import SignUpForm from '@components/auth/signup/SignUpForm';
-import { authAPI } from '@services/auth';
+import { signUpAPI } from '@services/auth';
 
 const SignUpPage = () => {
   return <SignUpForm />;
@@ -13,14 +13,14 @@ export async function action({ request }) {
   const data = await request.formData();
 
   const authData = {
-    id: data.get('id'),
+    email: data.get('id'),
     password: data.get('password'),
     name: data.get('name'),
     nickname: data.get('nickname'),
     phone: data.get('phone'),
   };
 
-  const response = await authAPI(authData, 'signup', 'POST');
+  const response = await signUpAPI(authData);
   const resData = await response.json();
 
   // 닉네임이 중복인 경우
