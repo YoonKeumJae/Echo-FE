@@ -3,3 +3,12 @@ export async function getUser() {
 
   return response;
 }
+
+export async function updateUser(data) {
+  const response = await fetch('http://localhost:8080/user/update', {
+    method: 'PUT',
+    body: JSON.stringify(data),
+  });
+
+  return response;
+}
