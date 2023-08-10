@@ -28,13 +28,6 @@ const StyledHome = styled.div`
       }
     }
   }
-
-  .post-list {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin: 16px 0;
-  }
 `;
 
 export default StyledHome;

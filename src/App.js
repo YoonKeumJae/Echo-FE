@@ -4,9 +4,16 @@ import RootLayout from '@pages/RootLayout';
 import ErrorPage from '@pages/Error';
 
 import HomeRootLayout from '@pages/HomeRootLayout';
-import HomePage from '@pages/home/Home';
-import PostDetailPage from '@pages/home/PostDetail';
+import HomePage, { loader as postsLoader } from '@pages/home/Home';
+import PostDetailPage, {
+  loader as postDetailLoader,
+} from '@pages/home/PostDetail';
+import ProfilePage, { loader as profileLoader } from '@pages/home/Profile';
+import EditProfilePage, {
+  action as editProfileAction,
+} from '@pages/home/EditProfile';
 import NotificationPage from '@pages/home/Notification';
+import NotePage from '@pages/home/Note';
 
 import AuthenticationPage from '@pages/auth/Authentication';
 import { loader as logoutLoader } from '@pages/auth/Logout';
@@ -37,18 +44,37 @@ const router = createBrowserRouter([
           {
             index: true,
             element: <HomePage />,
+            loader: postsLoader,
           },
           {
             path: ':postId',
+            id: 'post-detail',
             element: <PostDetailPage />,
+            loader: postDetailLoader,
           },
           {
             path: 'profile',
-            element: <div>Profile</div>,
+            id: 'profile-detail',
+            loader: profileLoader,
+            children: [
+              {
+                index: true,
+                element: <ProfilePage />,
+              },
+              {
+                path: 'edit',
+                element: <EditProfilePage />,
+                action: editProfileAction,
+              },
+            ],
           },
           {
             path: 'notification',
             element: <NotificationPage />,
+          },
+          {
+            path: 'note',
+            element: <NotePage />,
           },
         ],
       },

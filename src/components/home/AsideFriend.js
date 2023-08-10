@@ -4,37 +4,37 @@ import StyledAsideFriend from '@styles/home/AsideFriend';
 
 const DUMMY_FRIENDS = [
   {
-    id: '',
+    id: 1,
     profile: '',
     name: '이동혁',
   },
   {
-    id: '',
+    id: 2,
     profile: '',
     name: '이제노',
   },
   {
-    id: '',
+    id: 3,
     profile: '',
     name: '김정우',
   },
   {
-    id: '',
+    id: 4,
     profile: '',
     name: '김도영',
   },
   {
-    id: '',
+    id: 5,
     profile: '',
     name: '황인준',
   },
   {
-    id: '',
+    id: 6,
     profile: '',
     name: '박지성',
   },
   {
-    id: '',
+    id: 7,
     profile: '',
     name: '나재민',
   },
