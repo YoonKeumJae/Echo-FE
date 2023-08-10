@@ -13,10 +13,10 @@ export async function action({ request }) {
   const data = await request.formData();
 
   const authData = {
-    email: data.get('id'),
-    password: data.get('password'),
-    name: data.get('name'),
+    id: data.get('id'),
     nickname: data.get('nickname'),
+    password: data.get('password'),
+    username: data.get('name'),
     phone: data.get('phone'),
   };
 
