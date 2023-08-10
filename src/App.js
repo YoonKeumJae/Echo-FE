@@ -9,6 +9,9 @@ import PostDetailPage, {
   loader as postDetailLoader,
 } from '@pages/home/PostDetail';
 import ProfilePage, { loader as profileLoader } from '@pages/home/Profile';
+import EditProfilePage, {
+  action as editProfileAction,
+} from '@pages/home/EditProfile';
 import NotificationPage from '@pages/home/Notification';
 import NotePage from '@pages/home/Note';
 
@@ -51,8 +54,19 @@ const router = createBrowserRouter([
           },
           {
             path: 'profile',
-            element: <ProfilePage />,
+            id: 'profile-detail',
             loader: profileLoader,
+            children: [
+              {
+                index: true,
+                element: <ProfilePage />,
+              },
+              {
+                path: 'edit',
+                element: <EditProfilePage />,
+                action: editProfileAction,
+              },
+            ],
           },
           {
             path: 'notification',
