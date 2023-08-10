@@ -20,7 +20,7 @@ const RootLayout = () => {
     const tokenDuration = getTokenDuration();
 
     setTimeout(() => {
-      navigate('/logout');
+      navigate('/auth/logout');
     }, tokenDuration);
   }, [navigate, token]);
 
