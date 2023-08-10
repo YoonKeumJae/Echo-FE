@@ -1,17 +1,17 @@
-import StyledProfile from '@styles/pages/profile/Profile-styled';
+import { Form, Link } from 'react-router-dom';
 
-const Profile = () => {
+import StyledDiv from '@styles/home/EditProfile-styled';
+
+const EditProfile = () => {
   return (
-    <StyledProfile>
-      <div className='wrapper'>
-        {/* 뒤로가기 기호와 프로필이라는 글자가 있는 헤더 */}
-        <div className='header'>
-          {/* 뒤로가기 SVG 이미지 */}
+    <StyledDiv>
+      <div className='header'>
+        <Link to='/'>
           <svg
             className='header__back'
             xmlns='http://www.w3.org/2000/svg'
-            width='55'
-            height='55'
+            width='28'
+            height='28'
             viewBox='0 0 55 55'
             fill='none'
           >
@@ -24,38 +24,43 @@ const Profile = () => {
               fill='black'
             />
           </svg>
-          {/* 프로필 글자 */}
-          <span className='header__title'>프로필</span>
-        </div>
-        {/* 프로필 사진과 이름, 소개글이 있는 섹션 */}
+        </Link>
+        <span className='header__title'>프로필 편집</span>
+      </div>
+
+      {/* 정보를 입력받는 폼 */}
+      <Form method='PUT'>
         <div className='profile'>
-          {/* 배경 사진 */}
           <div className='profile__background'>
-            <img></img>
+            <img
+              src='https://www.simplilearn.com/ice9/free_resources_article_thumb/what_is_image_Processing.jpg'
+              alt={`s background image`}
+            />
           </div>
-          {/* 프로필 사진 */}
           <div className='profile__image'>
-            <img></img>
+            <img
+              src='https://www.simplilearn.com/ice9/free_resources_article_thumb/what_is_image_Processing.jpg'
+              alt={`s profile image`}
+            />
           </div>
-          {/* 프로필 정보: 이름과 소개글 */}
-          {/* <div className='profile__info'> */}
-          {/* 프로필 편집 버튼 */}
-          <button type='button' className='profile__edit'>
+        </div>
+
+        <div className='inputFormBox'>
+          <div className='input-container'>
+            <label htmlFor='name'>이름</label>
+            <input id='name' type='text' placeholder='이름' />
+          </div>
+          <div className='input-container'>
+            <label htmlFor='bio'>소개</label>
+            <textarea id='bio' type='text' placeholder='소개 내용' />
+          </div>
+          <button type='submit' className='submitBtn'>
             프로필 편집
           </button>
-          {/* 사용자 이름 */}
-          <span className='profile__name'>사용자의 이름</span>
-          {/* 사용자 소개글 */}
-          <span className='profile__bio'>사용자의 소개글</span>
-          {/* </div> */}
         </div>
-        {/* 사용자가 쓴 글들이 보이는 섹션 */}
-        <div className='posts'>
-          {/* 사용자가 쓴 글을 보여주는, 공통된 컴포넌트를 불러와서 여기 쓰면 될 듯 함.  */}
-        </div>
-      </div>
-    </StyledProfile>
+      </Form>
+    </StyledDiv>
   );
 };
 
-export default Profile;
+export default EditProfile;
