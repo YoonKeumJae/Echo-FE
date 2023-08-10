@@ -1,4 +1,4 @@
-import { Await, defer, json, useLoaderData } from 'react-router-dom';
+import { Await, defer, json, useRouteLoaderData } from 'react-router-dom';
 
 import { Suspense } from 'react';
 
@@ -8,7 +8,7 @@ import PostList from '@components/home/PostList';
 import { getPosts } from '@services/post';
 
 const ProfilePage = () => {
-  const { posts } = useLoaderData();
+  const { posts } = useRouteLoaderData('profile-detail');
 
   const DUMMY_USER = {
     background_img: '',
