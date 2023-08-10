@@ -1,16 +1,25 @@
-import { Suspense } from 'react';
 import { Await, defer, json, useLoaderData } from 'react-router-dom';
 
-import Home from '@components/home/Home';
+import { Suspense } from 'react';
+
+import UserProfile from '@components/home/UserProfile';
 import PostList from '@components/home/PostList';
+// import { getUser } from '@services/user';
 import { getPosts } from '@services/post';
 
-const HomePage = () => {
+const ProfilePage = () => {
   const { posts } = useLoaderData();
+
+  const DUMMY_USER = {
+    background_img: '',
+    profile_img: '',
+    username: 'Test',
+    bio: 'Test님의 한줄 요약',
+  };
 
   return (
     <>
-      <Home />
+      <UserProfile user={DUMMY_USER} />
       <Suspense fallback={<p style={{ textAlign: 'center' }}>Loading...</p>}>
         <Await resolve={posts}>
           {(loadedPosts) => <PostList posts={loadedPosts} />}
@@ -20,13 +29,27 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default ProfilePage;
+
+// export async function loadUser() {
+//   const response = await getUser();
+
+//   if (!response.ok) {
+//     return json(
+//       { message: 'Could not found user.' },
+//       { status: response.status },
+//     );
+//   }
+
+//   const resData = await response.json();
+//   return resData.user;
+// }
 
 export async function loadPosts() {
   const response = await getPosts();
 
   if (!response.ok) {
-    throw json(
+    return json(
       { message: 'Could not found posts.' },
       { status: response.status },
     );
@@ -38,6 +61,7 @@ export async function loadPosts() {
 
 export function loader() {
   return defer({
+    // user: loadUser(),
     posts: loadPosts(),
   });
 }
