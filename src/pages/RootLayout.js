@@ -13,7 +13,7 @@ const RootLayout = () => {
     }
 
     if (token === 'EXPIRED') {
-      navigate('/logout');
+      navigate('/auth/logout');
       return;
     }
 
