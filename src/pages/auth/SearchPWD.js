@@ -16,7 +16,7 @@ export default SearchPWDPage;
 
 async function checkID(data) {
   const authData = {
-    email: data.get('id'),
+    id: data.get('id'),
     phone: data.get('phone'),
   };
 
@@ -39,7 +39,7 @@ async function checkID(data) {
 
 async function changePassword(data) {
   const authData = {
-    email: data.get('id'),
+    id: data.get('id'),
     password: data.get('newPassword'),
   };
 

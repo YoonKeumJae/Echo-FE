@@ -57,6 +57,10 @@ const router = createBrowserRouter([
         element: <AuthenticationPage />,
         children: [
           {
+            path: 'logout',
+            loader: logoutLoader,
+          },
+          {
             path: 'signin',
             element: <SignInPage />,
             loader: checkIsTokenLoader,
@@ -84,10 +88,6 @@ const router = createBrowserRouter([
             ],
           },
         ],
-      },
-      {
-        path: 'logout',
-        loader: logoutLoader,
       },
     ],
   },
