@@ -31,7 +31,6 @@ const StyledDiv = styled.div`
     display: flex;
     flex-direction: column;
 
-    border-right: 1px solid #d8d8d8;
     background: #fff;
     box-shadow: 0px 4px 5px 0px rgba(180, 180, 180, 0.1);
   }
