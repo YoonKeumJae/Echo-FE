@@ -1,4 +1,4 @@
-import NoteItemLi from '@styles/pages/message/NoteItem-styled';
+import NoteItemLi from '@styles/home/NoteItem-styled';
 
 const NoteItem = () => {
   return (

@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-import StyledDiv from '@styles/pages/message/NoteList-styled';
+import StyledDiv from '@styles/home/NoteList-styled';
 import NoteItem from './NoteItem';
 
 const NoteList = () => {
