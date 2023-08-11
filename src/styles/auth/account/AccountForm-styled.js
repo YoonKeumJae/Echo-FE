@@ -59,6 +59,12 @@ const StyledSection = styled.section`
           font-weight: 600;
         }
 
+        .input-validation {
+          margin-left: 4px;
+          font-size: 12px;
+          color: red;
+        }
+
         input {
           height: 28px;
           padding-inline-start: 8px;

@@ -1,4 +1,4 @@
-import { json, useActionData } from 'react-router-dom';
+import { json, useActionData, useNavigation } from 'react-router-dom';
 
 import FindID from '@components/auth/account/FindID';
 import SearchIDForm from '@components/auth/account/SearchIDForm';
@@ -6,10 +6,12 @@ import { searchIDAPI } from '@services/auth';
 
 const SearchIDPage = () => {
   const data = useActionData();
+  const navigation = useNavigation();
+  const isSubmitting = navigation.state === 'isSubmitting';
 
   if (data && data.id) return <FindID data={data} />;
 
-  return <SearchIDForm error={data} />;
+  return <SearchIDForm error={data} isSubmitting={isSubmitting} />;
 };
 
 export default SearchIDPage;

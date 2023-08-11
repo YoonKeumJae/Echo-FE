@@ -1,3 +1,5 @@
+import { json } from 'react-router-dom';
+
 /**
  * API 요청 Interface
  * @param {String} url 통신 URI
@@ -6,19 +8,22 @@
  * @returns 응답 객체
  */
 export async function postAPI(url, method, data) {
-  const response = await fetch(
-    `https://blog-miniproject-6fc40-default-rtdb.firebaseio.com/${url}`,
-    {
-      method,
-      headers: {
-        'Content-Type': 'application/json',
+  try {
+    const response = await fetch(
+      `https://blog-miniproject-6fc40-default-rtdb.firebaseio.com/${url}`,
+      {
+        method,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
       },
-      body: JSON.stringify(data),
-    },
-    // eslint-disable-next-line no-console
-  ).catch((error) => console.log(error.message));
+    );
 
-  return response;
+    return response;
+  } catch (error) {
+    throw json({ message: error.message }, { status: error.status });
+  }
 }
 
 /**
