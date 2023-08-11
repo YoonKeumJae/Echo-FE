@@ -1,3 +1,5 @@
+import { json } from 'react-router-dom';
+
 /**
  * API 요청 Interface
  * @param {Object} authData 입력 데이터
@@ -6,16 +8,20 @@
  * @returns 응답 객체
  */
 export async function authAPI(authData, url, method) {
-  const response = await fetch(`http://localhost:8080/${url}`, {
-    method,
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(authData),
-    // eslint-disable-next-line no-console
-  }).catch((error) => console.log(error.message));
+  try {
+    const response = await fetch(`http://localhost:8080/${url}`, {
+      method,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(authData),
+      // eslint-disable-next-line no-console
+    });
 
-  return response;
+    return response;
+  } catch (error) {
+    throw json({ message: error.message }, { status: error.status });
+  }
 }
 
 /**
