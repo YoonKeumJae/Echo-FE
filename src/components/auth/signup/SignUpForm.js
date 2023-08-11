@@ -1,8 +1,7 @@
-import { useEffect, useState } from 'react';
-import { Link, useActionData, useSubmit } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Link, useSubmit } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
-import { useTimer } from 'use-timer';
 
 import {
   regExpID,
@@ -12,18 +11,15 @@ import {
   regExpPhone,
 } from '@constants/regular-expression';
 import useCheckID from '@hooks/useCheckID';
+import useCheckPhone from '@hooks/useCheckPhone';
 import usePreventLeave from '@hooks/usePreventLeave';
 import StyledSection from '@styles/auth/signup/SignUpForm-styled';
 
-const SignUpForm = () => {
-  const [isSendCertificationNumber, setIsSendCertificationNumber] =
-    useState(false);
-  const [isVerifyNumber, setIsVerifyNumber] = useState(false);
-
+const SignUpForm = ({ error, isSubmitting }) => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isDirty, isSubmitting },
+    formState: { errors, isDirty },
     setError,
     setFocus,
     getValues,
@@ -39,19 +35,6 @@ const SignUpForm = () => {
       certificationNumber: '',
     },
   });
-  const {
-    time,
-    start,
-    pause,
-    reset: resetTime,
-    status,
-  } = useTimer({
-    initialTime: 180,
-    endTime: 0,
-    timerType: 'DECREMENTAL',
-  });
-  const submit = useSubmit();
-  const data = useActionData();
 
   // 아이디 중복체크 훅
   const {
@@ -62,49 +45,20 @@ const SignUpForm = () => {
     message: checkIDMessage,
   } = useCheckID();
 
+  const { timer, isSend, sendCount, isVerify, onSendCode, onVerifyCode } =
+    useCheckPhone();
+
+  const submit = useSubmit();
+
   // 페이지를 벗어날 시 Prompt 창 띄우기
   usePreventLeave(isDirty);
 
   // 닉네임 중복 에러
   useEffect(() => {
-    if (!data) return;
+    if (!error) return;
 
-    setError(
-      'nickname',
-      { message: '이미 존재하는 닉네임입니다.' },
-      { shouldFocus: true },
-    );
-  }, [setError, data]);
-
-  const onSendCertificationNumber = () => {
-    if (errors.phone) {
-      setError('phone', { message: '※ 휴대폰 번호를 정확하게 입력해주세요.' });
-      return;
-    }
-
-    alert('인증번호를 전송하였습니다.');
-    setIsSendCertificationNumber(true);
-    start();
-  };
-
-  const onVerityNumber = () => {
-    if (status === 'STOPPED') {
-      alert('인증번호 입력 시간이 만료되었습니다.');
-      setFocus('certificationNumber');
-      return;
-    }
-
-    // 휴대폰 인증 로직
-
-    // 휴대폰 인증 완료시
-    pause();
-    setIsVerifyNumber(true);
-  };
-
-  const restartTime = () => {
-    resetTime();
-    start();
-  };
+    setError('nickname', { message: error.message }, { shouldFocus: true });
+  }, [setError, error]);
 
   const onSubmit = (authForm) => {
     if (!isUniqueID) {
@@ -113,15 +67,13 @@ const SignUpForm = () => {
       return;
     }
 
-    if (!isVerifyNumber) {
+    if (!isVerify) {
       alert('휴대폰 인증을 해주세요.');
       setFocus('phone');
       return;
     }
 
-    pause();
     submit(authForm, { method: 'post' });
-    start();
   };
 
   return (
@@ -251,7 +203,7 @@ const SignUpForm = () => {
             <input
               id='inputPhone'
               type='text'
-              className={`${isSendCertificationNumber && 'disabled'}`}
+              className={`${isSend && 'disabled'}`}
               placeholder='※ 휴대폰 번호를 입력해주세요.'
               {...register('phone', {
                 required: '※ 필수 항목 입니다.',
@@ -260,51 +212,43 @@ const SignUpForm = () => {
                   message: '※ 휴대폰 번호를 정확하게 입력해주세요.',
                 },
               })}
-              disabled={isSendCertificationNumber}
+              disabled={isSend}
             />
-            {!isSendCertificationNumber && (
-              <button
-                type='button'
-                onClick={onSendCertificationNumber}
-                disabled={isSendCertificationNumber}
-              >
-                전송
-              </button>
-            )}
-            {isSendCertificationNumber && (
-              <button type='button' onClick={restartTime}>
-                재전송
-              </button>
-            )}
+            <button
+              type='button'
+              onClick={onSendCode}
+              className={isVerify ? 'disabled' : undefined}
+              disabled={
+                errors.phone || getValues('phone').length === 0 || isVerify
+              }
+            >
+              {!isSend ? '전송' : '재전송'}
+              {!isVerify && isSend && `(${sendCount}/3)`}
+            </button>
           </div>
           <span className='input-validation'>
             <ErrorMessage errors={errors} name='phone' />
           </span>
         </div>
-        {isSendCertificationNumber && (
+        {isSend && (
           <div className='input-container'>
             <div className='certification-box'>
               <input
                 id='inputCertificationNumber'
                 type='text'
-                className={isVerifyNumber ? 'disabled' : undefined}
+                className={isVerify ? 'disabled' : undefined}
                 placeholder='인증번호를 입력해주세요'
                 {...register('certificationNumber', {
                   required: true,
                 })}
-                disabled={isVerifyNumber}
+                disabled={isVerify}
               />
-              <span>
-                {Math.floor(time / 60)
-                  .toString()
-                  .padStart(2, '0')}
-                :{(time % 60).toString().padStart(2, '0')}
-              </span>
+              {!isVerify && <span>{timer}</span>}
               <button
-                className={`identify-button ${isVerifyNumber && 'disabled'}`}
+                className={`identify-button ${isVerify && 'disabled'}`}
                 type='button'
-                onClick={onVerityNumber}
-                disabled={isVerifyNumber}
+                onClick={onVerifyCode}
+                disabled={isVerify}
               >
                 확인
               </button>
@@ -313,15 +257,12 @@ const SignUpForm = () => {
         )}
         <div className='button-container'>
           <input
-            className={`submit-button ${isSubmitting && 'disabled'}`}
+            className='submit-button'
             type='submit'
             value={isSubmitting ? '가입중...' : '가입하기'}
             disabled={isSubmitting}
           />
           <input className='reset-button' type='reset' value='취소하기' />
-        </div>
-        <div className='signin-error'>
-          <ErrorMessage errors={errors} name='response' />
         </div>
         <p className='navigation'>
           <Link to='/auth/signin' className='navigation-account'>

@@ -1,10 +1,14 @@
-import { json, redirect } from 'react-router-dom';
+import { json, redirect, useActionData, useNavigation } from 'react-router-dom';
 
 import SignUpForm from '@components/auth/signup/SignUpForm';
 import { signUpAPI } from '@services/auth';
 
 const SignUpPage = () => {
-  return <SignUpForm />;
+  const error = useActionData();
+  const navigation = useNavigation();
+  const isSubmitting = navigation.state === 'submitting';
+
+  return <SignUpForm error={error} isSubmitting={isSubmitting} />;
 };
 
 export default SignUpPage;
