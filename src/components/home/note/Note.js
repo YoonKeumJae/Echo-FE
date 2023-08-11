@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
 
-import StyledDiv from '@styles/home/NoteList-styled';
+import StyledDiv from '@styles/home/note/Note-styled';
 import NoteItem from './NoteItem';
 
-const NoteList = () => {
+const Note = () => {
   return (
     <StyledDiv>
       <div className='header'>
@@ -38,4 +38,4 @@ const NoteList = () => {
   );
 };
 
-export default NoteList;
+export default Note;

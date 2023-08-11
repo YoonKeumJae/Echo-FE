@@ -1,7 +1,7 @@
-import NoteList from '@components/home/NoteList';
+import Note from '@components/home/note/Note';
 
 const NotePage = () => {
-  return <NoteList />;
+  return <Note />;
 };
 
 export default NotePage;
