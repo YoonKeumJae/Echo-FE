@@ -80,64 +80,66 @@ const StyledPost = styled.div`
     }
   }
 
-  .comment-list {
-    margin-top: 16px;
-    padding: 8px 0;
+  .comment-container {
+    .comment-list {
+      margin-top: 16px;
+      padding: 8px 0;
 
-    border-top: 1px solid #d9d9d9;
+      border-top: 1px solid #d9d9d9;
 
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
 
-    .comment {
-      border-bottom: 1px solid #d9d9d9;
+      .comment {
+        border-bottom: 1px solid #d9d9d9;
 
-      .aside {
-        justify-content: start;
-        gap: 8px;
-        padding: 0 40px 8px;
+        .aside {
+          justify-content: start;
+          gap: 8px;
+          padding: 0 40px 8px;
 
-        img {
-          width: 24px;
+          img {
+            width: 24px;
+          }
         }
       }
     }
-  }
 
-  .comment-form {
-    position: relative;
-    display: flex;
-    align-items: center;
-    padding: 8px 0 32px;
+    .comment-form {
+      position: relative;
+      display: flex;
+      align-items: center;
+      padding: 8px 0 32px;
 
-    img {
-      width: 32px;
-    }
-
-    input {
-      flex: 1;
-      border: none;
-      background: transparent;
-      padding-inline-start: 8px;
-
-      &:focus {
-        outline: none;
+      img {
+        width: 32px;
       }
-    }
 
-    button {
-      position: absolute;
-      bottom: 0;
-      right: 0;
+      input {
+        flex: 1;
+        border: none;
+        background: transparent;
+        padding-inline-start: 8px;
 
-      background: #243dc5;
-      color: white;
+        &:focus {
+          outline: none;
+        }
+      }
 
-      border-radius: 15px;
+      button {
+        position: absolute;
+        bottom: 0;
+        right: 0;
 
-      width: 96px;
-      height: 24px;
+        background: #243dc5;
+        color: white;
+
+        border-radius: 15px;
+
+        width: 96px;
+        height: 24px;
+      }
     }
   }
 `;
