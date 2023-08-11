@@ -9,7 +9,7 @@ const useCheckPhone = () => {
     reset: resetTime,
     status,
   } = useTimer({
-    initialTime: 5,
+    initialTime: 180,
     endTime: 0,
     timerType: 'DECREMENTAL',
   });
