@@ -13,14 +13,14 @@ const RootLayout = () => {
     }
 
     if (token === 'EXPIRED') {
-      navigate('/auth/logout');
+      navigate('/logout');
       return;
     }
 
     const tokenDuration = getTokenDuration();
 
     setTimeout(() => {
-      navigate('/auth/logout');
+      navigate('/logout');
     }, tokenDuration);
   }, [navigate, token]);
 
