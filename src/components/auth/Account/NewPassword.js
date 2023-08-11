@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useSubmit } from 'react-router-dom';
 import { ErrorMessage } from '@hookform/error-message';
@@ -8,8 +7,6 @@ import usePreventLeave from '@hooks/usePreventLeave';
 import StyledForm from '@styles/auth/account/NewPassword-styled';
 
 const NewPassword = ({ userID }) => {
-  const [enablePrevent, disablePrevent] = usePreventLeave();
-
   const {
     register,
     handleSubmit,
@@ -18,10 +15,7 @@ const NewPassword = ({ userID }) => {
   } = useForm({ mode: 'onBlur' });
   const submit = useSubmit();
 
-  useEffect(() => {
-    if (isDirty) enablePrevent();
-    else disablePrevent();
-  }, [enablePrevent, disablePrevent, isDirty]);
+  usePreventLeave(isDirty);
 
   const onSubmit = (data) => submit(data, { method: 'PUT' });
 
