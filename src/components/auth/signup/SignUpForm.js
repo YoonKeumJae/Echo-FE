@@ -14,7 +14,6 @@ import usePreventLeave from '@hooks/usePreventLeave';
 import StyledSection from '@styles/auth/signup/SignUpForm-styled';
 
 const SignUpForm = () => {
-  const [enablePrevent, disablePrevent] = usePreventLeave();
   const [checkedID, setCheckedID] = useState('');
   const [isCheckID, setIsCheckID] = useState(false);
   const [isSendCertificationNumber, setIsSendCertificationNumber] =
@@ -55,6 +54,8 @@ const SignUpForm = () => {
   const submit = useSubmit();
   const data = useActionData();
 
+  usePreventLeave(isDirty);
+
   useEffect(() => {
     if (!data) return;
 
@@ -64,11 +65,6 @@ const SignUpForm = () => {
       { shouldFocus: true },
     );
   }, [setError, data]);
-
-  useEffect(() => {
-    if (isDirty) enablePrevent();
-    else disablePrevent();
-  }, [enablePrevent, disablePrevent, isDirty]);
 
   useEffect(() => {
     if (!isCheckID) return;
