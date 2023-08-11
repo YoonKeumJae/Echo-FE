@@ -19,10 +19,12 @@ import AuthenticationPage from '@pages/auth/Authentication';
 import SignInPage, { action as signInAction } from '@pages/auth/SignIn';
 import SignUpPage, { action as signUpAction } from '@pages/auth/SignUp';
 import AccountPage from '@pages/auth/Account';
-import SearchIDPage, { action as searchIDAction } from '@pages/auth/SearchID';
+import SearchIDPage, {
+  action as searchIDAction,
+} from '@pages/auth/account/SearchID';
 import SearchPWDPage, {
   action as searchPWDAction,
-} from '@pages/auth/SearchPWD';
+} from '@pages/auth/account/SearchPWD';
 
 import { loader as logoutLoader } from '@pages/Logout';
 

@@ -1,4 +1,4 @@
-import { json, redirect, useActionData } from 'react-router-dom';
+import { json, redirect, useActionData, useNavigation } from 'react-router-dom';
 
 import NewPassword from '@components/auth/account/NewPassword';
 import SearchPWDForm from '@components/auth/account/SearchPWDForm';
@@ -6,10 +6,13 @@ import { searchIDAPI, changePasswordAPI } from '@services/auth';
 
 const SearchPWDPage = () => {
   const data = useActionData();
+  const navigation = useNavigation();
+  const isSubmitting = navigation.state === 'submitting';
 
-  if (data && data.id) return <NewPassword userID={data.id} />;
+  if (data && data.id)
+    return <NewPassword userID={data.id} isSubmitting={isSubmitting} />;
 
-  return <SearchPWDForm />;
+  return <SearchPWDForm isSubmitting={isSubmitting} />;
 };
 
 export default SearchPWDPage;
