@@ -8,10 +8,12 @@ import HomePage, { loader as postsLoader } from '@pages/home/Home';
 import PostDetailPage, {
   loader as postDetailLoader,
 } from '@pages/home/PostDetail';
-import ProfilePage, { loader as profileLoader } from '@pages/home/Profile';
+import ProfilePage, {
+  loader as profileLoader,
+} from '@pages/home/profile/Profile';
 import EditProfilePage, {
   action as editProfileAction,
-} from '@pages/home/EditProfile';
+} from '@pages/home/profile/EditProfile';
 import NotificationPage from '@pages/home/Notification';
 import NotePage from '@pages/home/Note';
 

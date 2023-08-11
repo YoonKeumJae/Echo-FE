@@ -2,7 +2,7 @@ import { Await, defer, json, useRouteLoaderData } from 'react-router-dom';
 
 import { Suspense } from 'react';
 
-import UserProfile from '@components/home/UserProfile';
+import Profile from '@components/home/profile/Profile';
 import PostList from '@components/home/post/PostList';
 // import { getUser } from '@services/user';
 import { getPosts } from '@services/post';
@@ -19,7 +19,7 @@ const ProfilePage = () => {
 
   return (
     <>
-      <UserProfile user={DUMMY_USER} />
+      <Profile user={DUMMY_USER} />
       <Suspense fallback={<p style={{ textAlign: 'center' }}>Loading...</p>}>
         <Await resolve={posts}>
           {(loadedPosts) => <PostList posts={loadedPosts} />}
