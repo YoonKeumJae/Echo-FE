@@ -46,7 +46,10 @@ export function checkIsTokenLoader() {
 
   // 토큰이 존재할 경우 Error
   if (token) {
-    throw json({ message: '잘못된 접근입니다.' }, { status: 403 });
+    throw json(
+      { message: '요청한 페이지를 찾을 수 없습니다.' },
+      { status: 404 },
+    );
   }
 
   return null;
