@@ -1,4 +1,5 @@
 import MessageLi from './MessageLi';
+import MessageDetail from './MessageDetail';
 import StyledMessage from '../../styles/pages/message/Message-styled';
 
 const Message = () => {
@@ -32,7 +33,7 @@ const Message = () => {
           <MessageLi />
           <MessageLi />
         </div>
-        <div className='messageDetail'>.</div>
+        <MessageDetail />
       </div>
     </StyledMessage>
   );

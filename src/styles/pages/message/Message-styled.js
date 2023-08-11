@@ -3,13 +3,13 @@ import styled from 'styled-components';
 const StyledMessage = styled.div`
   .wrapper {
     width: 100%;
-    height: 100%;
+    height: 100vh;
     display: flex;
     flex-direction: row;
   }
   .messageList {
     width: 50%;
-    height: 100vh;
+    height: 100%;
     border-right: 1px solid #d8d8d8;
     border-left: 1px solid #d8d8d8;
     background: #fff;
@@ -20,7 +20,7 @@ const StyledMessage = styled.div`
     height: 102px;
     display: flex;
     position: relative;
-    border-bottom: 1px solid #D9D9D9;
+    border-bottom: 1px solid #d9d9d9;
   }
   .header__back {
     cursor: pointer;
@@ -39,10 +39,8 @@ const StyledMessage = styled.div`
     top: 30px;
     left: 103px;
   }
-
-  .messageDetail {
+  MessageDetail{
     width: 50%;
-    height: 100%;
   }
 `;
 
