@@ -3,7 +3,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import RootLayout from '@pages/RootLayout';
 import ErrorPage from '@pages/Error';
 
-import HomeRootLayout from '@pages/HomeRootLayout';
+import HomeRootLayout from '@pages/home/HomeRootLayout';
 import HomePage, { loader as postsLoader } from '@pages/home/Home';
 import PostDetailPage, {
   loader as postDetailLoader,
@@ -16,7 +16,6 @@ import NotificationPage from '@pages/home/Notification';
 import NotePage from '@pages/home/Note';
 
 import AuthenticationPage from '@pages/auth/Authentication';
-import { loader as logoutLoader } from '@pages/auth/Logout';
 import SignInPage, { action as signInAction } from '@pages/auth/SignIn';
 import SignUpPage, { action as signUpAction } from '@pages/auth/SignUp';
 import AccountPage from '@pages/auth/Account';
@@ -24,6 +23,8 @@ import SearchIDPage, { action as searchIDAction } from '@pages/auth/SearchID';
 import SearchPWDPage, {
   action as searchPWDAction,
 } from '@pages/auth/SearchPWD';
+
+import { loader as logoutLoader } from '@pages/Logout';
 
 import StyledApp from '@styles/App-styled';
 import { tokenLoader, checkTokenLoader, checkIsTokenLoader } from '@utils/auth';
