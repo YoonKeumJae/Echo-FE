@@ -7,15 +7,15 @@ import { useTimer } from 'use-timer';
 import {
   regExpID,
   regExpPassword,
+  regExpName,
   regExpNickname,
   regExpPhone,
 } from '@constants/regular-expression';
+import useCheckID from '@hooks/useCheckID';
 import usePreventLeave from '@hooks/usePreventLeave';
 import StyledSection from '@styles/auth/signup/SignUpForm-styled';
 
 const SignUpForm = () => {
-  const [checkedID, setCheckedID] = useState('');
-  const [isCheckID, setIsCheckID] = useState(false);
   const [isSendCertificationNumber, setIsSendCertificationNumber] =
     useState(false);
   const [isVerifyNumber, setIsVerifyNumber] = useState(false);
@@ -24,7 +24,6 @@ const SignUpForm = () => {
     register,
     handleSubmit,
     formState: { errors, isDirty, isSubmitting },
-    watch,
     setError,
     setFocus,
     getValues,
@@ -54,8 +53,19 @@ const SignUpForm = () => {
   const submit = useSubmit();
   const data = useActionData();
 
+  // 아이디 중복체크 훅
+  const {
+    enteredID,
+    isUniqueID,
+    onChangeID,
+    checkDuplicate,
+    message: checkIDMessage,
+  } = useCheckID();
+
+  // 페이지를 벗어날 시 Prompt 창 띄우기
   usePreventLeave(isDirty);
 
+  // 닉네임 중복 에러
   useEffect(() => {
     if (!data) return;
 
@@ -65,28 +75,6 @@ const SignUpForm = () => {
       { shouldFocus: true },
     );
   }, [setError, data]);
-
-  useEffect(() => {
-    if (!isCheckID) return;
-
-    const subscription = watch((value) => {
-      if (value.id !== checkedID) {
-        setIsCheckID(false);
-        // eslint-disable-next-line no-console
-        console.log('인증됐는데 바꿈');
-      }
-    });
-    return () => subscription.unsubscribe();
-  }, [watch, isCheckID, checkedID]);
-
-  const onCheckID = () => {
-    // 중복체크 로직
-
-    const inputID = getValues('id');
-
-    setIsCheckID(true); // 중복체크 성공시
-    setCheckedID(inputID);
-  };
 
   const onSendCertificationNumber = () => {
     if (errors.phone) {
@@ -119,7 +107,7 @@ const SignUpForm = () => {
   };
 
   const onSubmit = (authForm) => {
-    if (!isCheckID) {
+    if (!isUniqueID) {
       alert('아이디 중복 확인을 해주세요.');
       setFocus('id');
       return;
@@ -158,16 +146,18 @@ const SignUpForm = () => {
                   value: regExpID,
                   message: '※ 6~20자 내외의 아이디를 입력해주세요.',
                 },
+                value: enteredID,
+                onChange: onChangeID,
               })}
             />
-            <button type='button' onClick={onCheckID}>
+            <button type='button' onClick={checkDuplicate}>
               중복 확인
             </button>
           </div>
-          <span className={`input-validation ${isCheckID && 'success'}`}>
-            <ErrorMessage errors={errors} name='id' />
-            {isCheckID && '사용하실 수 있는 아이디입니다.'}
-          </span>
+          <p className={`input-validation ${isUniqueID && 'success'}`}>
+            {!checkIDMessage && <ErrorMessage errors={errors} name='id' />}
+            {checkIDMessage && <span>{checkIDMessage}</span>}
+          </p>
         </div>
         <div className='input-container'>
           <label htmlFor='inputPassword' className='input-type'>
@@ -201,7 +191,7 @@ const SignUpForm = () => {
             {...register('confirmPassword', {
               required: '※ 필수 항목 입니다.',
               validate: (val) => {
-                if (watch('password') !== val) {
+                if (getValues('password') !== val) {
                   return '※ 비밀번호가 일치하지 않습니다.';
                 }
 
@@ -224,7 +214,7 @@ const SignUpForm = () => {
             {...register('name', {
               required: '※ 필수 항목 입니다.',
               pattern: {
-                value: /^[가-힣]+$/,
+                value: regExpName,
                 message: '※ 1글자 이상의 한글 이름을 입력해주세요.',
               },
             })}
@@ -264,7 +254,7 @@ const SignUpForm = () => {
               className={`${isSendCertificationNumber && 'disabled'}`}
               placeholder='※ 휴대폰 번호를 입력해주세요.'
               {...register('phone', {
-                required: true,
+                required: '※ 필수 항목 입니다.',
                 pattern: {
                   value: regExpPhone,
                   message: '※ 휴대폰 번호를 정확하게 입력해주세요.',
