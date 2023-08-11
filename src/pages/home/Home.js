@@ -2,7 +2,7 @@ import { Suspense } from 'react';
 import { Await, defer, json, useLoaderData } from 'react-router-dom';
 
 import Home from '@components/home/Home';
-import PostList from '@components/home/PostList';
+import PostList from '@components/home/post/PostList';
 import { getPosts } from '@services/post';
 
 const HomePage = () => {
@@ -11,7 +11,11 @@ const HomePage = () => {
   return (
     <>
       <Home />
-      <Suspense fallback={<p style={{ textAlign: 'center' }}>Loading...</p>}>
+      <Suspense
+        fallback={
+          <h2 style={{ textAlign: 'center', padding: '32px 0' }}>Loading...</h2>
+        }
+      >
         <Await resolve={posts}>
           {(loadedPosts) => <PostList posts={loadedPosts} />}
         </Await>

@@ -3,7 +3,7 @@ import { Await, defer, json, useRouteLoaderData } from 'react-router-dom';
 import { Suspense } from 'react';
 
 import UserProfile from '@components/home/UserProfile';
-import PostList from '@components/home/PostList';
+import PostList from '@components/home/post/PostList';
 // import { getUser } from '@services/user';
 import { getPosts } from '@services/post';
 
