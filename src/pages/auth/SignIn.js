@@ -1,10 +1,14 @@
-import { json, redirect } from 'react-router-dom';
+import { json, redirect, useActionData, useNavigation } from 'react-router-dom';
 
 import SignInForm from '@components/auth/signin/SignInForm';
 import { signInAPI } from '@services/auth';
 
 const SignInPage = () => {
-  return <SignInForm />;
+  const error = useActionData();
+  const navigation = useNavigation();
+  const isSubmitting = navigation.state === 'submitting';
+
+  return <SignInForm error={error} isSubmitting={isSubmitting} />;
 };
 
 export default SignInPage;
@@ -22,7 +26,7 @@ export async function action({ request }) {
 
   // ID가 존재하지 않는 경우
   if (response.status === 422 || response.status === 401) {
-    return { message: resData.message, errorCode: response.status };
+    return { message: resData.message, code: response.status };
   }
 
   // 내부 서버 오류

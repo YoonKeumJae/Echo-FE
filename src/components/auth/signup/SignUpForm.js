@@ -1,31 +1,25 @@
-import { useEffect, useState } from 'react';
-import { Link, useActionData, useSubmit } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Link, useSubmit } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
-import { useTimer } from 'use-timer';
 
 import {
   regExpID,
   regExpPassword,
+  regExpName,
   regExpNickname,
   regExpPhone,
 } from '@constants/regular-expression';
+import useCheckID from '@hooks/useCheckID';
+import useCheckPhone from '@hooks/useCheckPhone';
 import usePreventLeave from '@hooks/usePreventLeave';
 import StyledSection from '@styles/auth/signup/SignUpForm-styled';
 
-const SignUpForm = () => {
-  const [enablePrevent, disablePrevent] = usePreventLeave();
-  const [checkedID, setCheckedID] = useState('');
-  const [isCheckID, setIsCheckID] = useState(false);
-  const [isSendCertificationNumber, setIsSendCertificationNumber] =
-    useState(false);
-  const [isVerifyNumber, setIsVerifyNumber] = useState(false);
-
+const SignUpForm = ({ error, isSubmitting }) => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isDirty, isSubmitting },
-    watch,
+    formState: { errors, isDirty },
     setError,
     setFocus,
     getValues,
@@ -41,103 +35,45 @@ const SignUpForm = () => {
       certificationNumber: '',
     },
   });
+
+  // 아이디 중복체크 훅
   const {
-    time,
-    start,
-    pause,
-    reset: resetTime,
-    status,
-  } = useTimer({
-    initialTime: 180,
-    endTime: 0,
-    timerType: 'DECREMENTAL',
-  });
+    enteredID,
+    isUniqueID,
+    onChangeID,
+    checkDuplicate,
+    message: checkIDMessage,
+  } = useCheckID();
+
+  const { timer, isSend, sendCount, isVerify, onSendCode, onVerifyCode } =
+    useCheckPhone();
+
   const submit = useSubmit();
-  const data = useActionData();
 
+  // 페이지를 벗어날 시 Prompt 창 띄우기
+  usePreventLeave(isDirty);
+
+  // 닉네임 중복 에러
   useEffect(() => {
-    if (!data) return;
+    if (!error) return;
 
-    setError(
-      'nickname',
-      { message: '이미 존재하는 닉네임입니다.' },
-      { shouldFocus: true },
-    );
-  }, [setError, data]);
-
-  useEffect(() => {
-    if (isDirty) enablePrevent();
-    else disablePrevent();
-  }, [enablePrevent, disablePrevent, isDirty]);
-
-  useEffect(() => {
-    if (!isCheckID) return;
-
-    const subscription = watch((value) => {
-      if (value.id !== checkedID) {
-        setIsCheckID(false);
-        // eslint-disable-next-line no-console
-        console.log('인증됐는데 바꿈');
-      }
-    });
-    return () => subscription.unsubscribe();
-  }, [watch, isCheckID, checkedID]);
-
-  const onCheckID = () => {
-    // 중복체크 로직
-
-    const inputID = getValues('id');
-
-    setIsCheckID(true); // 중복체크 성공시
-    setCheckedID(inputID);
-  };
-
-  const onSendCertificationNumber = () => {
-    if (errors.phone) {
-      setError('phone', { message: '※ 휴대폰 번호를 정확하게 입력해주세요.' });
-      return;
-    }
-
-    alert('인증번호를 전송하였습니다.');
-    setIsSendCertificationNumber(true);
-    start();
-  };
-
-  const onVerityNumber = () => {
-    if (status === 'STOPPED') {
-      alert('인증번호 입력 시간이 만료되었습니다.');
-      setFocus('certificationNumber');
-      return;
-    }
-
-    // 휴대폰 인증 로직
-
-    // 휴대폰 인증 완료시
-    pause();
-    setIsVerifyNumber(true);
-  };
-
-  const restartTime = () => {
-    resetTime();
-    start();
-  };
+    setError('nickname', { message: error.message }, { shouldFocus: true });
+  }, [setError, error]);
 
   const onSubmit = (authForm) => {
-    if (!isCheckID) {
+    if (!isUniqueID) {
       alert('아이디 중복 확인을 해주세요.');
       setFocus('id');
       return;
     }
 
-    if (!isVerifyNumber) {
+    if (!isVerify) {
       alert('휴대폰 인증을 해주세요.');
       setFocus('phone');
       return;
     }
 
-    pause();
     submit(authForm, { method: 'post' });
-    start();
   };
 
   return (
@@ -162,16 +98,18 @@ const SignUpForm = () => {
                   value: regExpID,
                   message: '※ 6~20자 내외의 아이디를 입력해주세요.',
                 },
+                value: enteredID,
+                onChange: onChangeID,
               })}
             />
-            <button type='button' onClick={onCheckID}>
+            <button type='button' onClick={checkDuplicate}>
               중복 확인
             </button>
           </div>
-          <span className={`input-validation ${isCheckID && 'success'}`}>
-            <ErrorMessage errors={errors} name='id' />
-            {isCheckID && '사용하실 수 있는 아이디입니다.'}
-          </span>
+          <p className={`input-validation ${isUniqueID && 'success'}`}>
+            {!checkIDMessage && <ErrorMessage errors={errors} name='id' />}
+            {checkIDMessage && <span>{checkIDMessage}</span>}
+          </p>
         </div>
         <div className='input-container'>
           <label htmlFor='inputPassword' className='input-type'>
@@ -205,7 +143,7 @@ const SignUpForm = () => {
             {...register('confirmPassword', {
               required: '※ 필수 항목 입니다.',
               validate: (val) => {
-                if (watch('password') !== val) {
+                if (getValues('password') !== val) {
                   return '※ 비밀번호가 일치하지 않습니다.';
                 }
 
@@ -228,7 +166,7 @@ const SignUpForm = () => {
             {...register('name', {
               required: '※ 필수 항목 입니다.',
               pattern: {
-                value: /^[가-힣]+$/,
+                value: regExpName,
                 message: '※ 1글자 이상의 한글 이름을 입력해주세요.',
               },
             })}
@@ -265,60 +203,52 @@ const SignUpForm = () => {
             <input
               id='inputPhone'
               type='text'
-              className={`${isSendCertificationNumber && 'disabled'}`}
+              className={`${isSend && 'disabled'}`}
               placeholder='※ 휴대폰 번호를 입력해주세요.'
               {...register('phone', {
-                required: true,
+                required: '※ 필수 항목 입니다.',
                 pattern: {
                   value: regExpPhone,
                   message: '※ 휴대폰 번호를 정확하게 입력해주세요.',
                 },
               })}
-              disabled={isSendCertificationNumber}
+              disabled={isSend}
             />
-            {!isSendCertificationNumber && (
-              <button
-                type='button'
-                onClick={onSendCertificationNumber}
-                disabled={isSendCertificationNumber}
-              >
-                전송
-              </button>
-            )}
-            {isSendCertificationNumber && (
-              <button type='button' onClick={restartTime}>
-                재전송
-              </button>
-            )}
+            <button
+              type='button'
+              onClick={onSendCode}
+              className={isVerify ? 'disabled' : undefined}
+              disabled={
+                errors.phone || getValues('phone').length === 0 || isVerify
+              }
+            >
+              {!isSend ? '전송' : '재전송'}
+              {!isVerify && isSend && `(${sendCount}/3)`}
+            </button>
           </div>
           <span className='input-validation'>
             <ErrorMessage errors={errors} name='phone' />
           </span>
         </div>
-        {isSendCertificationNumber && (
+        {isSend && (
           <div className='input-container'>
             <div className='certification-box'>
               <input
                 id='inputCertificationNumber'
                 type='text'
-                className={isVerifyNumber ? 'disabled' : undefined}
+                className={isVerify ? 'disabled' : undefined}
                 placeholder='인증번호를 입력해주세요'
                 {...register('certificationNumber', {
                   required: true,
                 })}
-                disabled={isVerifyNumber}
+                disabled={isVerify}
               />
-              <span>
-                {Math.floor(time / 60)
-                  .toString()
-                  .padStart(2, '0')}
-                :{(time % 60).toString().padStart(2, '0')}
-              </span>
+              {!isVerify && <span>{timer}</span>}
               <button
-                className={`identify-button ${isVerifyNumber && 'disabled'}`}
+                className={`identify-button ${isVerify && 'disabled'}`}
                 type='button'
-                onClick={onVerityNumber}
-                disabled={isVerifyNumber}
+                onClick={onVerifyCode}
+                disabled={isVerify}
               >
                 확인
               </button>
@@ -327,15 +257,12 @@ const SignUpForm = () => {
         )}
         <div className='button-container'>
           <input
-            className={`submit-button ${isSubmitting && 'disabled'}`}
+            className='submit-button'
             type='submit'
             value={isSubmitting ? '가입중...' : '가입하기'}
             disabled={isSubmitting}
           />
           <input className='reset-button' type='reset' value='취소하기' />
-        </div>
-        <div className='signin-error'>
-          <ErrorMessage errors={errors} name='response' />
         </div>
         <p className='navigation'>
           <Link to='/auth/signin' className='navigation-account'>

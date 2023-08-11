@@ -135,7 +135,7 @@ const StyledSection = styled.section`
 
     .disabled {
       cursor: initial;
-      background-color: #808080 !important;
+      background-color: #00000066 !important;
       opacity: 0.5;
     }
 
