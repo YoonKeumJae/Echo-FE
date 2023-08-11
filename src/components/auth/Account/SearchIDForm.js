@@ -1,13 +1,9 @@
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { Link, NavLink, useSubmit } from 'react-router-dom';
+import { Link, useSubmit } from 'react-router-dom';
 
-const SearchIDForm = ({ error }) => {
-  const {
-    register,
-    handleSubmit,
-    formState: { isSubmitting },
-  } = useForm({ mode: 'onBlur' });
+const SearchIDForm = ({ error, isSubmitting }) => {
+  const { register, handleSubmit } = useForm({ mode: 'onBlur' });
   const submit = useSubmit();
 
   useEffect(() => {
@@ -22,7 +18,7 @@ const SearchIDForm = ({ error }) => {
 
       <div className='account-mode'>
         <p className='selected'>아이디 찾기</p>
-        <NavLink to='/auth/account/password'>비밀번호 찾기</NavLink>
+        <Link to='/auth/account/password'>비밀번호 찾기</Link>
       </div>
       <form className='account-form' onSubmit={handleSubmit(onSubmit)}>
         <div className='input-container'>

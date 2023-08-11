@@ -6,11 +6,11 @@ import { regExpPassword } from '@constants/regular-expression';
 import usePreventLeave from '@hooks/usePreventLeave';
 import StyledForm from '@styles/auth/account/NewPassword-styled';
 
-const NewPassword = ({ userID }) => {
+const NewPassword = ({ userID, isSubmitting }) => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting, isDirty },
+    formState: { errors, isDirty },
     watch,
   } = useForm({ mode: 'onBlur' });
   const submit = useSubmit();
