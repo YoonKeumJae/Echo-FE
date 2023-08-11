@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { useActionData, useNavigation, useSubmit } from 'react-router-dom';
+import { useSubmit } from 'react-router-dom';
 import { ErrorMessage } from '@hookform/error-message';
 
 import StyledSection from '@styles/auth/signin/SignInForm-styled';
 import SignInNavigation from './SignInNavigation';
 
-const SignInForm = () => {
+const SignInForm = ({ error, isSubmitting }) => {
   const {
     register,
     reset,
@@ -14,31 +14,27 @@ const SignInForm = () => {
     setFocus,
     formState: { errors },
     clearErrors,
+    setError,
   } = useForm();
-  const data = useActionData();
-  const navigation = useNavigation();
   const submit = useSubmit();
-  const isSubmitting = navigation.state === 'submitting';
 
   useEffect(() => {
-    if (!data) return;
+    if (!error) return;
 
-    const { errorCode } = data;
-
-    clearErrors();
-    if (errorCode === 401) {
+    // 에러가 있는 경우
+    if (error.code === 401) {
       setFocus('id');
-      reset(() => ({ id: '', password: '' }));
+      reset({ id: '', password: '' });
+      setError('id', { message: error.message });
     }
-    if (errorCode === 422) {
+    if (error.code === 422) {
       setFocus('password');
-      reset((formValues) => ({ ...formValues, password: '' }));
+      reset((formValues) => ({ ...formValues, password: '' }), {});
+      setError('password', { message: error.message });
     }
-  }, [clearErrors, reset, setFocus, data]);
+  }, [clearErrors, reset, setFocus, setError, error]);
 
-  const onSubmit = (authForm) => {
-    submit(authForm, { method: 'post' });
-  };
+  const onSubmit = (authForm) => submit(authForm, { method: 'post' });
 
   return (
     <StyledSection>
@@ -84,13 +80,9 @@ const SignInForm = () => {
             로그인
           </button>
           <div className='error-container'>
-            <span>
-              <ErrorMessage errors={errors} name='id' />
-              {!errors.id && errors.password && (
-                <ErrorMessage errors={errors} name='password' />
-              )}
-            </span>
-            <span>{data && data.message}</span>
+            <p>
+              <ErrorMessage errors={errors} name={Object.keys(errors)[0]} />
+            </p>
           </div>
         </form>
 
