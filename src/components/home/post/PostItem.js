@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import profileIcon from '@assets/default/profileIcon.png';
 import optionIcon from '@assets/post/optionIcon.png';
@@ -7,9 +7,20 @@ import shareIcon from '@assets/post/shareIcon.png';
 import StyledPost from '@styles/home/post/Post-styled';
 
 const PostItem = ({ post }) => {
-  const { id, commentCount, content, date, like, username } = post;
+  const { pathname } = useLocation();
+  const { id, commentCount, content, date, like, username, isLike } = post;
 
-  const isLike = true;
+  const isHomePage = pathname === '/' || pathname === '/profile';
+  const formattedContent = content.split('\\r\\n').map((line, index) => {
+    if (line === '') return null;
+
+    return (
+      <p key={index}>
+        {line}
+        <br />
+      </p>
+    );
+  });
 
   return (
     <StyledPost>
@@ -23,9 +34,12 @@ const PostItem = ({ post }) => {
           <img src={optionIcon} alt='option icon' />
         </button>
       </div>
-      <Link to={id}>
-        <div className='content'>{content}</div>
-      </Link>
+      {isHomePage && (
+        <Link to={`/${id}`}>
+          <div className='content'>{formattedContent}</div>
+        </Link>
+      )}
+      {!isHomePage && <div className='content'>{formattedContent}</div>}
       <div className='aside'>
         <div className='item'>
           <button>
