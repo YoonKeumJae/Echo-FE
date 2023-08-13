@@ -36,6 +36,7 @@ export async function action({ request }) {
     user_id: localStorage.getItem('user'),
     content: data.get('content'),
     likes: 0,
+    commentCount: 0,
     created_at: currentTime,
     updated_at: currentTime,
   };
@@ -63,7 +64,12 @@ export async function loadPosts() {
   }
 
   const resData = await response.json();
-  return resData;
+  const posts = Object.entries(resData).map((post) => ({
+    id: post[0],
+    ...post[1],
+  }));
+
+  return posts;
 }
 
 export function loader() {
