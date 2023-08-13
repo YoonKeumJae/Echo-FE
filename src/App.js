@@ -10,6 +10,7 @@ import HomePage, {
 } from '@pages/home/Home';
 import PostDetailPage, {
   loader as postDetailLoader,
+  action as addCommentAction,
 } from '@pages/home/PostDetail';
 import ProfilePage, {
   loader as profileLoader,
@@ -61,6 +62,7 @@ const router = createBrowserRouter([
             id: 'post-detail',
             element: <PostDetailPage />,
             loader: postDetailLoader,
+            action: addCommentAction,
           },
           {
             path: 'profile',

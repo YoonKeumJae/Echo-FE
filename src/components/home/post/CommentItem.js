@@ -1,10 +1,17 @@
 import profileIcon from '@assets/default/profileIcon.png';
 import messageIcon from '@assets/post/messageIcon.png';
 import StyledDiv from '@styles/home/post/CommentItem-styled';
+import { formatDate } from '@utils/date';
 
 const CommentItem = ({ comment }) => {
-  const { username, date, content, commentCount, like } = comment;
-  const isLike = false;
+  const {
+    user_id: username,
+    updated_at: updatedAt,
+    content,
+    commentCount,
+    like,
+  } = comment;
+  const date = formatDate(updatedAt);
 
   return (
     <StyledDiv>
@@ -28,7 +35,7 @@ const CommentItem = ({ comment }) => {
             width='24'
             height='24'
             viewBox='0 0 50 50'
-            fill={isLike ? 'red' : 'none'}
+            fill='none'
             xmlns='http://www.w3.org/2000/svg'
           >
             <path

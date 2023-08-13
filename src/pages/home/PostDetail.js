@@ -4,42 +4,11 @@ import { json, defer, useLoaderData, Await } from 'react-router-dom';
 import { getPost } from '@services/post';
 import PostItem from '@components/home/post/PostItem';
 import CommentList from '@components/home/post/CommentList';
-
-const DUMMY_COMMENTS = [
-  {
-    id: 1,
-    profile: '',
-    username: '이동혁',
-    date: '1분전',
-    content: 'dd',
-    commentCount: '0',
-    like: '3',
-    isLike: false,
-  },
-  {
-    id: 2,
-    profile: '',
-    username: '이동혁',
-    date: '3분전',
-    content: 'ㅎㅇㅁㄴㅀㅁㄴㅇㅎㅇㄴㅁㅎㄴㅇㅁ',
-    commentCount: '0',
-    like: '1',
-    isLike: true,
-  },
-  {
-    id: 3,
-    profile: '',
-    username: '이동혁',
-    date: '5분전',
-    content: 'gasgasdgsadgsadgsdangldss',
-    commentCount: '0',
-    like: '1',
-    isLike: false,
-  },
-];
+import { addComment, getComments } from '@services/comment';
+import { getCurrentTime } from '@utils/date';
 
 const PostDetailPage = () => {
-  const { post } = useLoaderData();
+  const { post, comments } = useLoaderData();
 
   return (
     <>
@@ -48,26 +17,38 @@ const PostDetailPage = () => {
           {(loadedPost) => <PostItem post={loadedPost} />}
         </Await>
       </Suspense>
-      <CommentList comments={DUMMY_COMMENTS} />
+      <Suspense fallback={<p style={{ textAlign: 'center' }}>Loading...</p>}>
+        <Await resolve={comments}>
+          <CommentList comments={comments} />
+        </Await>
+      </Suspense>
     </>
   );
 };
 
 export default PostDetailPage;
 
-// async function loadComments(id) {
-//   const response = await getComments(id);
+async function loadComments(id) {
+  const response = await getComments(id);
 
-//   if (!response.ok) {
-//     throw json(
-//       { message: 'Could not found posts.' },
-//       { status: response.status },
-//     );
-//   }
+  if (!response.ok) {
+    throw json(
+      { message: 'Could not found posts.' },
+      { status: response.status },
+    );
+  }
 
-//   const resData = await response.json();
-//   return resData;
-// }
+  const resData = await response.json();
+
+  if (!resData) return [];
+
+  const comments = Object.entries(resData).map((comment) => ({
+    id: comment[0],
+    ...comment[1],
+  }));
+
+  return comments;
+}
 
 async function loadPost(id) {
   const response = await getPost(id);
@@ -85,8 +66,34 @@ async function loadPost(id) {
 
 export async function loader({ params }) {
   const id = params.postId;
+
   return defer({
     post: await loadPost(id),
-    // comments: await loadComments(id).
+    comments: await loadComments(id),
   });
+}
+
+export async function action({ request, params }) {
+  const id = params.postId;
+  const data = await request.formData();
+  const currentTime = getCurrentTime();
+  const commentForm = {
+    post_id: id,
+    user_id: data.get('userId'),
+    likes: 0,
+    content: data.get('content'),
+    created_at: currentTime,
+    updated_at: currentTime,
+  };
+
+  const response = await addComment(id, commentForm);
+
+  if (!response.ok) {
+    throw json(
+      { message: 'Could not found posts.' },
+      { status: response.status },
+    );
+  }
+
+  return null;
 }
