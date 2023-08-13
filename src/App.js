@@ -11,7 +11,10 @@ import HomePage, {
 import PostDetailPage, {
   loader as postDetailLoader,
   action as addCommentAction,
-} from '@pages/home/PostDetail';
+} from '@pages/home/post/PostDetail';
+import EditPostPage, {
+  action as manipulatePostAction,
+} from '@pages/home/post/EditPost';
 import { action as manipulateCommentAction } from '@pages/home/comment/Manipulate';
 import { action as removeCommentAction } from '@pages/home/comment/Remove';
 import ProfilePage, {
@@ -68,6 +71,11 @@ const router = createBrowserRouter([
                 index: true,
                 element: <PostDetailPage />,
                 action: addCommentAction,
+              },
+              {
+                path: 'update',
+                element: <EditPostPage />,
+                action: manipulatePostAction,
               },
               {
                 path: 'edit',

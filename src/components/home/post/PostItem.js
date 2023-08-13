@@ -1,4 +1,4 @@
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import profileIcon from '@assets/default/profileIcon.png';
 import messageIcon from '@assets/post/messageIcon.png';
@@ -9,6 +9,7 @@ import PostOption from './PostOption';
 
 const PostItem = ({ post }) => {
   const { pathname } = useLocation();
+  const navigate = useNavigate();
   const {
     id,
     commentCount,
@@ -21,8 +22,7 @@ const PostItem = ({ post }) => {
   const date = formatDate(updatedAt);
 
   const isLink = pathname === '/' || pathname === '/profile';
-  const isMinePost =
-    pathname === '/profile' && username === localStorage.getItem('user');
+  const isMinePost = username === localStorage.getItem('user');
 
   const formattedContent = content.split('\\r\\n').map((line, index) => {
     if (line === '') return null;
@@ -35,6 +35,8 @@ const PostItem = ({ post }) => {
     );
   });
 
+  const onClickUpdate = () => navigate(`/${id}/update`, { state: post });
+
   return (
     <StyledPost>
       <div className='user'>
@@ -43,7 +45,7 @@ const PostItem = ({ post }) => {
           <p className='user-name'>{username}</p>
           <p className='post-date'>{date}</p>
         </div>
-        {isMinePost && <PostOption postId={id} />}
+        {isMinePost && <PostOption postId={id} onUpdate={onClickUpdate} />}
       </div>
       {isLink && (
         <Link to={`/${id}`}>

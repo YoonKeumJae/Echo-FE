@@ -58,6 +58,18 @@ export async function createPost(data) {
 }
 
 /**
+ * 게시글 수정 API
+ * @param {String} postId 게시글 아이디
+ * @param {Object} data 수정된 게시글
+ * @returns
+ */
+export async function manipulatePost(postId, data) {
+  const response = await postAPI(`posts/${postId}.json`, 'PATCH', data);
+
+  return response;
+}
+
+/**
  * 게시글 삭제 API
  * @param {String} id 게시글 ID
  * @returns 응답

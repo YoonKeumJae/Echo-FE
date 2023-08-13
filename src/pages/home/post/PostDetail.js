@@ -61,7 +61,8 @@ async function loadPost(id) {
   }
 
   const resData = await response.json();
-  return resData;
+  const post = { id, ...resData };
+  return post;
 }
 
 export async function loader({ params }) {
