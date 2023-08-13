@@ -42,3 +42,23 @@ export async function getPost(id) {
 
   return response;
 }
+
+/**
+ * 게시글 작성 함수
+ * @param {Object} data 게시글
+ * @returns 응답
+ */
+export async function createPost(data) {
+  const response = await fetch(
+    'https://echo-694a4-default-rtdb.firebaseio.com/posts.json',
+    {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    },
+  );
+
+  return response;
+}

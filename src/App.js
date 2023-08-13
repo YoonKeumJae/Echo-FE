@@ -4,7 +4,10 @@ import RootLayout from '@pages/RootLayout';
 import ErrorPage from '@pages/Error';
 
 import HomeRootLayout from '@pages/home/HomeRootLayout';
-import HomePage, { loader as postsLoader } from '@pages/home/Home';
+import HomePage, {
+  loader as postsLoader,
+  action as addPostAction,
+} from '@pages/home/Home';
 import PostDetailPage, {
   loader as postDetailLoader,
 } from '@pages/home/PostDetail';
@@ -50,6 +53,7 @@ const router = createBrowserRouter([
             index: true,
             element: <HomePage />,
             loader: postsLoader,
+            action: addPostAction,
           },
           {
             path: ':postId',
