@@ -48,6 +48,23 @@ export async function addComment(postId, data) {
 }
 
 /**
+ * 댓글 수정하기 API
+ * @param {String} postId 게시글 아이디
+ * @param {String} commentId 댓글 아이디
+ * @param {Object} data 수정된 댓글 내용
+ * @returns
+ */
+export async function manipulateComment(postId, commentId, data) {
+  const response = await commentAPI(
+    `comments/${postId}/${commentId}.json`,
+    'PATCH',
+    data,
+  );
+
+  return response;
+}
+
+/**
  * 댓글 삭제하기 API
  * @param {String} postId 게시글 아이디
  * @param {String} commentId 댓글 아이디

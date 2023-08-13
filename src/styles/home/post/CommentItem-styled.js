@@ -36,7 +36,34 @@ const StyledDiv = styled.div`
   }
 
   .content {
+    position: relative;
+    display: flex;
     padding: 16px 40px 8px;
+
+    textarea {
+      flex: 1;
+      height: 64px;
+      padding: 8px 4px;
+      resize: none;
+      border: 1px solid #ccc;
+
+      &:hover {
+        outline: none;
+      }
+    }
+
+    button {
+      position: absolute;
+
+      background-color: #243dc5;
+      color: white;
+
+      padding: 4px 8px;
+      border-radius: 15px;
+
+      right: 48px;
+      bottom: 16px;
+    }
   }
 
   .aside {
