@@ -45,6 +45,11 @@ const StyledDiv = styled.div`
 
       width: 96px;
       height: 24px;
+
+      &:disabled {
+        cursor: not-allowed;
+        background: #e4e6eb;
+      }
     }
   }
 `;
