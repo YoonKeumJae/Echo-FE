@@ -37,6 +37,7 @@ export async function action({ request }) {
   // 로그인 성공
   const { token } = resData;
 
+  localStorage.setItem('user', authData.id);
   localStorage.setItem('token', token);
   const expiration = new Date();
   expiration.setHours(expiration.getHours() + 1);

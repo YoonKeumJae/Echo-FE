@@ -1,6 +1,6 @@
 import { json, redirect } from 'react-router-dom';
 
-import EditProfile from '@components/home/EditProfile';
+import EditProfile from '@components/home/profile/EditProfile';
 import { updateUser } from '@services/user';
 
 const EditProfilePage = () => {

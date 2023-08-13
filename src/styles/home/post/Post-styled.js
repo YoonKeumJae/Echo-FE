@@ -3,8 +3,6 @@ import { styled } from 'styled-components';
 const StyledPost = styled.div`
   padding: 8px;
   background: #fcfcfc;
-  border: 1px solid #dbdbdb;
-  box-shadow: 0px 4px 5px 0px #b4b4b41a;
 
   .back {
     display: flex;

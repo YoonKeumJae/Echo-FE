@@ -1,10 +1,52 @@
+import { useEffect, useRef } from 'react';
+import { useToggle } from 'react-use';
+import { useLocation, useSubmit } from 'react-router-dom';
+
 import profileIcon from '@assets/default/profileIcon.png';
 import messageIcon from '@assets/post/messageIcon.png';
 import StyledDiv from '@styles/home/post/CommentItem-styled';
+import { formatDate } from '@utils/date';
+import CommentOption from './CommentOption';
 
 const CommentItem = ({ comment }) => {
-  const { username, date, content, commentCount, like } = comment;
-  const isLike = false;
+  const [isUpdate, toggle] = useToggle(false);
+  const { pathname } = useLocation();
+  const updatedCommentRef = useRef();
+  const submit = useSubmit();
+  const {
+    id,
+    user_id: username,
+    updated_at: updatedAt,
+    content,
+    commentCount,
+    like,
+  } = comment;
+  const date = formatDate(updatedAt);
+  const user = localStorage.getItem('user');
+  const postId = pathname.split('/')[1];
+  const isMineComment = user === username;
+
+  useEffect(() => {
+    if (isUpdate && updatedCommentRef.current) {
+      updatedCommentRef.current.focus();
+    }
+  }, [isUpdate]);
+
+  const onManipulateComment = (e) => {
+    e.preventDefault();
+    const isConfirm = window.confirm('수정하시겠습니까?');
+
+    if (!isConfirm) return null;
+
+    // eslint-disable-next-line no-console
+    console.log('??');
+
+    submit(
+      { postId, content: updatedCommentRef.current.value, commentId: id },
+      { method: 'patch', action: 'edit' },
+    );
+    toggle();
+  };
 
   return (
     <StyledDiv>
@@ -14,8 +56,17 @@ const CommentItem = ({ comment }) => {
           <p className='user-name'>{username}</p>
           <p className='post-date'>{date}</p>
         </div>
+        {!isUpdate && isMineComment && (
+          <CommentOption postId={postId} commentId={id} toggleUpdate={toggle} />
+        )}
       </div>
-      <div className='content'>{content}</div>
+      {isUpdate && (
+        <form className='content' onSubmit={onManipulateComment}>
+          <textarea ref={updatedCommentRef} defaultValue={content} />
+          <button>수정하기</button>
+        </form>
+      )}
+      {!isUpdate && <div className='content'>{content}</div>}
       <div className='aside'>
         <div className='item'>
           <button>
@@ -28,7 +79,7 @@ const CommentItem = ({ comment }) => {
             width='24'
             height='24'
             viewBox='0 0 50 50'
-            fill={isLike ? 'red' : 'none'}
+            fill='none'
             xmlns='http://www.w3.org/2000/svg'
           >
             <path

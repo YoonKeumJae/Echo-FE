@@ -5,7 +5,10 @@ const PostList = ({ posts }) => {
   return (
     <StyledDiv>
       {posts.map((post) => (
-        <PostItem key={post.id} post={post} />
+        <>
+          <PostItem key={post.id} post={post} />
+          <div style={{ borderBottom: '1px solid #ccc' }} />
+        </>
       ))}
     </StyledDiv>
   );

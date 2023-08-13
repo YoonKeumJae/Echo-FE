@@ -1,15 +1,41 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import profileIcon from '@assets/default/profileIcon.png';
-import optionIcon from '@assets/post/optionIcon.png';
 import messageIcon from '@assets/post/messageIcon.png';
 import shareIcon from '@assets/post/shareIcon.png';
 import StyledPost from '@styles/home/post/Post-styled';
+import { formatDate } from '@utils/date';
+import PostOption from './PostOption';
 
 const PostItem = ({ post }) => {
-  const { id, commentCount, content, date, like, username } = post;
+  const { pathname } = useLocation();
+  const navigate = useNavigate();
+  const {
+    id,
+    commentCount,
+    content,
+    updated_at: updatedAt,
+    likes,
+    user_id: username,
+  } = post;
 
-  const isLike = true;
+  const date = formatDate(updatedAt);
+
+  const isLink = pathname === '/' || pathname === '/profile';
+  const isMinePost = username === localStorage.getItem('user');
+
+  const formattedContent = content.split('\\r\\n').map((line, index) => {
+    if (line === '') return null;
+
+    return (
+      <p key={index}>
+        {line}
+        <br />
+      </p>
+    );
+  });
+
+  const onClickUpdate = () => navigate(`/${id}/update`, { state: post });
 
   return (
     <StyledPost>
@@ -19,13 +45,14 @@ const PostItem = ({ post }) => {
           <p className='user-name'>{username}</p>
           <p className='post-date'>{date}</p>
         </div>
-        <button className='option'>
-          <img src={optionIcon} alt='option icon' />
-        </button>
+        {isMinePost && <PostOption postId={id} onUpdate={onClickUpdate} />}
       </div>
-      <Link to={id}>
-        <div className='content'>{content}</div>
-      </Link>
+      {isLink && (
+        <Link to={`/${id}`}>
+          <div className='content'>{formattedContent}</div>
+        </Link>
+      )}
+      {!isLink && <div className='content'>{formattedContent}</div>}
       <div className='aside'>
         <div className='item'>
           <button>
@@ -38,7 +65,7 @@ const PostItem = ({ post }) => {
             width='28'
             height='28'
             viewBox='0 0 50 50'
-            fill={isLike ? 'red' : 'none'}
+            fill='none'
             xmlns='http://www.w3.org/2000/svg'
           >
             <path
@@ -50,7 +77,7 @@ const PostItem = ({ post }) => {
             />
           </svg>
 
-          <span>{like}</span>
+          <span>{likes}</span>
         </div>
         <div className='item'>
           <button>

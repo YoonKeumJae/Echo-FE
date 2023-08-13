@@ -1,8 +1,9 @@
-import { Form, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-import StyledDiv from '@styles/home/EditProfile-styled';
+import StyledDiv from '@styles/home/note/Note-styled';
+import NoteItem from './NoteItem';
 
-const EditProfile = () => {
+const Note = () => {
   return (
     <StyledDiv>
       <div className='header'>
@@ -25,42 +26,16 @@ const EditProfile = () => {
             />
           </svg>
         </Link>
-        <span className='header__title'>프로필 편집</span>
+        <span className='header__title'>프로필</span>
       </div>
 
-      {/* 정보를 입력받는 폼 */}
-      <Form method='PUT'>
-        <div className='profile'>
-          <div className='profile__background'>
-            <img
-              src='https://www.simplilearn.com/ice9/free_resources_article_thumb/what_is_image_Processing.jpg'
-              alt={`s background image`}
-            />
-          </div>
-          <div className='profile__image'>
-            <img
-              src='https://www.simplilearn.com/ice9/free_resources_article_thumb/what_is_image_Processing.jpg'
-              alt={`s profile image`}
-            />
-          </div>
-        </div>
-
-        <div className='inputFormBox'>
-          <div className='input-container'>
-            <label htmlFor='name'>이름</label>
-            <input id='name' type='text' placeholder='이름' />
-          </div>
-          <div className='input-container'>
-            <label htmlFor='bio'>소개</label>
-            <textarea id='bio' type='text' placeholder='소개 내용' />
-          </div>
-          <button type='submit' className='submitBtn'>
-            프로필 편집
-          </button>
-        </div>
-      </Form>
+      <ul className='noteList'>
+        <NoteItem />
+        <NoteItem />
+        <NoteItem />
+      </ul>
     </StyledDiv>
   );
 };
 
-export default EditProfile;
+export default Note;
