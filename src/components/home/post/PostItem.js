@@ -8,9 +8,16 @@ import StyledPost from '@styles/home/post/Post-styled';
 
 const PostItem = ({ post }) => {
   const { pathname } = useLocation();
-  const { id, commentCount, content, date, like, username, isLike } = post;
-
+  const {
+    id,
+    commentCount,
+    content,
+    updated_at: updatedAt,
+    likes,
+    user_id: username,
+  } = post;
   const isHomePage = pathname === '/' || pathname === '/profile';
+
   const formattedContent = content.split('\\r\\n').map((line, index) => {
     if (line === '') return null;
 
@@ -28,11 +35,13 @@ const PostItem = ({ post }) => {
         <img src={profileIcon} alt={`${username} profile icon`} />
         <div className='post-info'>
           <p className='user-name'>{username}</p>
-          <p className='post-date'>{date}</p>
+          <p className='post-date'>{updatedAt}</p>
         </div>
-        <button className='option'>
-          <img src={optionIcon} alt='option icon' />
-        </button>
+        {!isHomePage && (
+          <button className='option'>
+            <img src={optionIcon} alt='option icon' />
+          </button>
+        )}
       </div>
       {isHomePage && (
         <Link to={`/${id}`}>
@@ -52,7 +61,7 @@ const PostItem = ({ post }) => {
             width='28'
             height='28'
             viewBox='0 0 50 50'
-            fill={isLike ? 'red' : 'none'}
+            fill='none'
             xmlns='http://www.w3.org/2000/svg'
           >
             <path
@@ -64,7 +73,7 @@ const PostItem = ({ post }) => {
             />
           </svg>
 
-          <span>{like}</span>
+          <span>{likes}</span>
         </div>
         <div className='item'>
           <button>

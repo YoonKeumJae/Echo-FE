@@ -56,7 +56,12 @@ export async function loadPosts() {
   }
 
   const resData = await response.json();
-  return resData;
+  const posts = Object.entries(resData).map((post) => ({
+    id: post[0],
+    ...post[1],
+  }));
+
+  return posts;
 }
 
 export function loader() {

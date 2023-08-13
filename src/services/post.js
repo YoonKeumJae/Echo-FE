@@ -1,4 +1,5 @@
 import { json } from 'react-router-dom';
+import { apiServer } from '@config/api';
 
 /**
  * API 요청 Interface
@@ -9,16 +10,13 @@ import { json } from 'react-router-dom';
  */
 export async function postAPI(url, method, data) {
   try {
-    const response = await fetch(
-      `https://blog-miniproject-6fc40-default-rtdb.firebaseio.com/${url}`,
-      {
-        method,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
+    const response = await fetch(apiServer + url, {
+      method,
+      headers: {
+        'Content-Type': 'application/json',
       },
-    );
+      body: JSON.stringify(data),
+    });
 
     return response;
   } catch (error) {
@@ -29,7 +27,7 @@ export async function postAPI(url, method, data) {
 /**
  * 게시글 받아오기 함수
  * @param {*} data 사용자 이름 혹은 null
- * @returns
+ * @returns 응답
  */
 export async function getPosts(data) {
   const response = await postAPI('posts.json', 'get', data);
@@ -37,6 +35,11 @@ export async function getPosts(data) {
   return response;
 }
 
+/**
+ * 특정 게시글 받아오기
+ * @param {String} id 게시글 ID
+ * @returns 응답
+ */
 export async function getPost(id) {
   const response = await postAPI(`posts/${id}.json`, 'get');
 
@@ -49,16 +52,7 @@ export async function getPost(id) {
  * @returns 응답
  */
 export async function createPost(data) {
-  const response = await fetch(
-    'https://echo-694a4-default-rtdb.firebaseio.com/posts.json',
-    {
-      method: 'post',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    },
-  );
+  const response = await postAPI('posts.json', 'post', data);
 
   return response;
 }
