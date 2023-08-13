@@ -1,10 +1,10 @@
 import { Link, useLocation } from 'react-router-dom';
 
 import profileIcon from '@assets/default/profileIcon.png';
-import optionIcon from '@assets/post/optionIcon.png';
 import messageIcon from '@assets/post/messageIcon.png';
 import shareIcon from '@assets/post/shareIcon.png';
 import StyledPost from '@styles/home/post/Post-styled';
+import PostOption from './PostOption';
 
 const PostItem = ({ post }) => {
   const { pathname } = useLocation();
@@ -16,7 +16,10 @@ const PostItem = ({ post }) => {
     likes,
     user_id: username,
   } = post;
-  const isHomePage = pathname === '/' || pathname === '/profile';
+
+  const isLink = pathname === '/' || pathname === '/profile';
+  const isMinePost =
+    pathname === '/profile' && username === localStorage.getItem('user');
 
   const formattedContent = content.split('\\r\\n').map((line, index) => {
     if (line === '') return null;
@@ -37,18 +40,14 @@ const PostItem = ({ post }) => {
           <p className='user-name'>{username}</p>
           <p className='post-date'>{updatedAt}</p>
         </div>
-        {!isHomePage && (
-          <button className='option'>
-            <img src={optionIcon} alt='option icon' />
-          </button>
-        )}
+        {isMinePost && <PostOption postId={id} />}
       </div>
-      {isHomePage && (
+      {isLink && (
         <Link to={`/${id}`}>
           <div className='content'>{formattedContent}</div>
         </Link>
       )}
-      {!isHomePage && <div className='content'>{formattedContent}</div>}
+      {!isLink && <div className='content'>{formattedContent}</div>}
       <div className='aside'>
         <div className='item'>
           <button>

@@ -47,12 +47,23 @@ export async function getPost(id) {
 }
 
 /**
- * 게시글 작성 함수
+ * 게시글 작성 API
  * @param {Object} data 게시글
  * @returns 응답
  */
 export async function createPost(data) {
   const response = await postAPI('posts.json', 'post', data);
+
+  return response;
+}
+
+/**
+ * 게시글 삭제 API
+ * @param {String} id 게시글 ID
+ * @returns 응답
+ */
+export async function removePost(id) {
+  const response = await postAPI(`posts/${id}.json`, 'delete');
 
   return response;
 }

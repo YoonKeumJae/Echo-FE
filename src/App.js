@@ -13,6 +13,7 @@ import PostDetailPage, {
 } from '@pages/home/PostDetail';
 import ProfilePage, {
   loader as profileLoader,
+  action as removePostAction,
 } from '@pages/home/profile/Profile';
 import EditProfilePage, {
   action as editProfileAction,
@@ -69,6 +70,7 @@ const router = createBrowserRouter([
               {
                 index: true,
                 element: <ProfilePage />,
+                action: removePostAction,
               },
               {
                 path: 'edit',
