@@ -1,5 +1,5 @@
 import { Suspense } from 'react';
-import { json, defer, useLoaderData, Await } from 'react-router-dom';
+import { json, defer, Await, useRouteLoaderData } from 'react-router-dom';
 
 import { getPost } from '@services/post';
 import PostItem from '@components/home/post/PostItem';
@@ -8,7 +8,7 @@ import { addComment, getComments } from '@services/comment';
 import { getCurrentTime } from '@utils/date';
 
 const PostDetailPage = () => {
-  const { post, comments } = useLoaderData();
+  const { post, comments } = useRouteLoaderData('post-detail');
 
   return (
     <>

@@ -12,6 +12,7 @@ import PostDetailPage, {
   loader as postDetailLoader,
   action as addCommentAction,
 } from '@pages/home/PostDetail';
+import { action as removeCommentAction } from '@pages/home/comment/Remove';
 import ProfilePage, {
   loader as profileLoader,
   action as removePostAction,
@@ -60,9 +61,22 @@ const router = createBrowserRouter([
           {
             path: ':postId',
             id: 'post-detail',
-            element: <PostDetailPage />,
             loader: postDetailLoader,
-            action: addCommentAction,
+            children: [
+              {
+                index: true,
+                element: <PostDetailPage />,
+                action: addCommentAction,
+              },
+              {
+                path: 'edit',
+                // action: manipulateCommentAction,
+              },
+              {
+                path: 'remove',
+                action: removeCommentAction,
+              },
+            ],
           },
           {
             path: 'profile',

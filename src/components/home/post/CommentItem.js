@@ -2,9 +2,11 @@ import profileIcon from '@assets/default/profileIcon.png';
 import messageIcon from '@assets/post/messageIcon.png';
 import StyledDiv from '@styles/home/post/CommentItem-styled';
 import { formatDate } from '@utils/date';
+import CommentOption from './CommentOption';
 
 const CommentItem = ({ comment }) => {
   const {
+    id,
     user_id: username,
     updated_at: updatedAt,
     content,
@@ -12,6 +14,9 @@ const CommentItem = ({ comment }) => {
     like,
   } = comment;
   const date = formatDate(updatedAt);
+  const user = localStorage.getItem('user');
+
+  const isMineComment = user === username;
 
   return (
     <StyledDiv>
@@ -21,6 +26,7 @@ const CommentItem = ({ comment }) => {
           <p className='user-name'>{username}</p>
           <p className='post-date'>{date}</p>
         </div>
+        {isMineComment && <CommentOption commentId={id} />}
       </div>
       <div className='content'>{content}</div>
       <div className='aside'>

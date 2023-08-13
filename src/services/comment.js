@@ -46,3 +46,18 @@ export async function addComment(postId, data) {
 
   return response;
 }
+
+/**
+ * 댓글 삭제하기 API
+ * @param {String} postId 게시글 아이디
+ * @param {String} commentId 댓글 아이디
+ * @returns 응답 객체
+ */
+export async function removeComment(postId, commentId) {
+  const response = await commentAPI(
+    `comments/${postId}/${commentId}.json`,
+    'delete',
+  );
+
+  return response;
+}
