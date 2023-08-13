@@ -4,7 +4,7 @@ import { Await, defer, json, redirect, useLoaderData } from 'react-router-dom';
 import Home from '@components/home/Home';
 import PostList from '@components/home/post/PostList';
 import { getPosts, createPost } from '@services/post';
-import getCurrentTime from '@utils/date';
+import { getCurrentTime } from '@utils/date';
 
 const HomePage = () => {
   const { posts } = useLoaderData();

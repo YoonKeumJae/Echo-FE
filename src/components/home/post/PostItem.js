@@ -4,6 +4,7 @@ import profileIcon from '@assets/default/profileIcon.png';
 import messageIcon from '@assets/post/messageIcon.png';
 import shareIcon from '@assets/post/shareIcon.png';
 import StyledPost from '@styles/home/post/Post-styled';
+import { formatDate } from '@utils/date';
 import PostOption from './PostOption';
 
 const PostItem = ({ post }) => {
@@ -16,6 +17,8 @@ const PostItem = ({ post }) => {
     likes,
     user_id: username,
   } = post;
+
+  const date = formatDate(updatedAt);
 
   const isLink = pathname === '/' || pathname === '/profile';
   const isMinePost =
@@ -38,7 +41,7 @@ const PostItem = ({ post }) => {
         <img src={profileIcon} alt={`${username} profile icon`} />
         <div className='post-info'>
           <p className='user-name'>{username}</p>
-          <p className='post-date'>{updatedAt}</p>
+          <p className='post-date'>{date}</p>
         </div>
         {isMinePost && <PostOption postId={id} />}
       </div>
