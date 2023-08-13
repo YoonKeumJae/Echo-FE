@@ -1,14 +1,33 @@
-import { Link } from 'react-router-dom';
+import { useRef } from 'react';
+import { Link, useSubmit } from 'react-router-dom';
 
-import StyledDiv from '@styles/home/Profile-styled';
+import profileIcon from '@assets/default/profileIcon.png';
+import usePreventLeave from '@hooks/usePreventLeave';
+import StyledDiv from '@styles/home/post/EditPost-styled';
 
-const UserProfile = ({ user }) => {
-  const {
-    background_img: backgroundImg,
-    profile_img: profileImg,
-    username,
-    bio,
-  } = user;
+const EditPost = ({ post }) => {
+  usePreventLeave(true);
+  const submit = useSubmit();
+  const contentRef = useRef(null);
+  const { id: postId, content, updated_at: date, user_id: username } = post;
+
+  const onEditPost = (e) => {
+    e.preventDefault();
+
+    if (contentRef.current.value.length <= 0) {
+      alert('게시글 내용을 입력해주세요.');
+      return null;
+    }
+
+    const isConfirm = window.confirm('게시글을 수정하시겠습니까?');
+    if (isConfirm) {
+      submit(
+        { postId, content: contentRef.current.value },
+        { method: 'PATCH' },
+      );
+      alert('게시글이 수정되었습니다.');
+    }
+  };
 
   return (
     <StyledDiv>
@@ -32,30 +51,24 @@ const UserProfile = ({ user }) => {
             />
           </svg>
         </Link>
-        <span className='header__title'>프로필</span>
+        <span className='header__title'>게시글 수정</span>
       </div>
 
-      <div className='profile'>
-        <div className='profile__background'>
-          <img src={backgroundImg} alt={`${username}'s background image`} />
-        </div>
-        <div className='profile__image'>
-          <img src={profileImg} alt={`${username}'s profile image`} />
-        </div>
-        <div className='profile__edit'>
-          <Link to='edit'>
-            <button type='button' className='edit_button'>
-              프로필 편집
-            </button>
-          </Link>
-        </div>
-        <div className='profile__user'>
-          <p className='profile__name'>{username}</p>
-          <p className='profile__bio'>{bio}</p>
+      <div className='user'>
+        <img src={profileIcon} alt={`${username} profile icon`} />
+        <div className='post-info'>
+          <p className='user-name'>{username}</p>
+          <p className='post-date'>{date}</p>
         </div>
       </div>
+      <form onSubmit={onEditPost}>
+        <textarea className='content' ref={contentRef} defaultValue={content} />
+        <div className='submit-container'>
+          <button>수정하기</button>
+        </div>
+      </form>
     </StyledDiv>
   );
 };
 
-export default UserProfile;
+export default EditPost;

@@ -1,9 +1,15 @@
 import { Link } from 'react-router-dom';
 
-import StyledDiv from '@styles/home/NoteList-styled';
-import NoteItem from './NoteItem';
+import StyledDiv from '@styles/home/profile/Profile-styled';
 
-const NoteList = () => {
+const Profile = ({ user }) => {
+  const {
+    background_img: backgroundImg,
+    profile_img: profileImg,
+    username,
+    bio,
+  } = user;
+
   return (
     <StyledDiv>
       <div className='header'>
@@ -29,13 +35,27 @@ const NoteList = () => {
         <span className='header__title'>프로필</span>
       </div>
 
-      <ul className='noteList'>
-        <NoteItem />
-        <NoteItem />
-        <NoteItem />
-      </ul>
+      <div className='profile'>
+        <div className='profile__background'>
+          <img src={backgroundImg} alt={`${username}'s background image`} />
+        </div>
+        <div className='profile__image'>
+          <img src={profileImg} alt={`${username}'s profile image`} />
+        </div>
+        <div className='profile__edit'>
+          <Link to='edit'>
+            <button type='button' className='edit_button'>
+              프로필 편집
+            </button>
+          </Link>
+        </div>
+        <div className='profile__user'>
+          <p className='profile__name'>{username}</p>
+          <p className='profile__bio'>{bio}</p>
+        </div>
+      </div>
     </StyledDiv>
   );
 };
 
-export default NoteList;
+export default Profile;

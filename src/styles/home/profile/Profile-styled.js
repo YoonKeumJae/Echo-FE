@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 const StyledDiv = styled.div`
   width: 100%;
-  margin-bottom: 48px;
+  margin-bottom: 24px;
 
   .header {
     width: 100%;
@@ -26,6 +26,8 @@ const StyledDiv = styled.div`
 
   .profile {
     position: relative;
+    padding-bottom: 32px;
+    border-bottom: 1px solid #ccc;
 
     .profile__background {
       height: 256px;

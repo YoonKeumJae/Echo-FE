@@ -1,5 +1,5 @@
 import profileIcon from '@assets/default/profileIcon.png';
-import StyledNotification from '@styles/notification/Notification-styled';
+import StyledNotification from '@styles/home/notification/Notification-styled';
 
 const DUMMY_NOTIFICATIONS = [
   {

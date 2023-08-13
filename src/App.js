@@ -4,14 +4,26 @@ import RootLayout from '@pages/RootLayout';
 import ErrorPage from '@pages/Error';
 
 import HomeRootLayout from '@pages/home/HomeRootLayout';
-import HomePage, { loader as postsLoader } from '@pages/home/Home';
+import HomePage, {
+  loader as postsLoader,
+  action as addPostAction,
+} from '@pages/home/Home';
 import PostDetailPage, {
   loader as postDetailLoader,
-} from '@pages/home/PostDetail';
-import ProfilePage, { loader as profileLoader } from '@pages/home/Profile';
+  action as addCommentAction,
+} from '@pages/home/post/PostDetail';
+import EditPostPage, {
+  action as manipulatePostAction,
+} from '@pages/home/post/EditPost';
+import { action as manipulateCommentAction } from '@pages/home/comment/Manipulate';
+import { action as removeCommentAction } from '@pages/home/comment/Remove';
+import ProfilePage, {
+  loader as profileLoader,
+  action as removePostAction,
+} from '@pages/home/profile/Profile';
 import EditProfilePage, {
   action as editProfileAction,
-} from '@pages/home/EditProfile';
+} from '@pages/home/profile/EditProfile';
 import NotificationPage from '@pages/home/Notification';
 import NotePage from '@pages/home/Note';
 
@@ -48,12 +60,32 @@ const router = createBrowserRouter([
             index: true,
             element: <HomePage />,
             loader: postsLoader,
+            action: addPostAction,
           },
           {
             path: ':postId',
             id: 'post-detail',
-            element: <PostDetailPage />,
             loader: postDetailLoader,
+            children: [
+              {
+                index: true,
+                element: <PostDetailPage />,
+                action: addCommentAction,
+              },
+              {
+                path: 'update',
+                element: <EditPostPage />,
+                action: manipulatePostAction,
+              },
+              {
+                path: 'edit',
+                action: manipulateCommentAction,
+              },
+              {
+                path: 'remove',
+                action: removeCommentAction,
+              },
+            ],
           },
           {
             path: 'profile',
@@ -63,6 +95,7 @@ const router = createBrowserRouter([
               {
                 index: true,
                 element: <ProfilePage />,
+                action: removePostAction,
               },
               {
                 path: 'edit',

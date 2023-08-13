@@ -22,9 +22,26 @@ const StyledHome = styled.div`
         width: 32px;
       }
 
-      button {
-        color: #a9a9a9;
-        font-size: 16px;
+      .wrtie-container {
+        display: flex;
+        align-items: center;
+        flex: 1;
+        height: 100%;
+
+        button {
+          text-align: left;
+          flex: 1;
+          height: 100%;
+          color: #a9a9a9;
+          background-color: #f0f2f5;
+          font-size: 16px;
+          padding-left: 15px;
+          border-radius: 15px;
+
+          &:hover {
+            background-color: #cccccc;
+          }
+        }
       }
     }
   }
