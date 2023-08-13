@@ -7,7 +7,7 @@ const BackdropDiv = styled.div`
   width: 100vw;
   height: 100vh;
   z-index: 101;
-  background-color: rgba(244, 244, 244, 0.25);
+  background-color: rgba(244, 244, 244, 0.75);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -16,8 +16,8 @@ const BackdropDiv = styled.div`
 
 const ModalDiv = styled.div`
   position: fixed;
-  top: 10%;
-  left: 30%;
+  top: 40%;
+  left: 50%;
   transform: translate(-50%, -50%);
 
   background-color: white;
