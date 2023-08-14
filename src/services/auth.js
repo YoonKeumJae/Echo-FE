@@ -55,7 +55,11 @@ export async function signInAPI(authData) {
     body: JSON.stringify(authData),
   });
 
-  return responseToken;
+  return {
+    responseToken,
+    id: Object.keys(resData)[0],
+    nickname: Object.values(resData)[0].nickname,
+  };
 }
 
 /**
