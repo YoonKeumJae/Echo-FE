@@ -22,9 +22,10 @@ const RootLayout = () => {
 
     const setUser = async () => {
       const id = localStorage.getItem('id');
-      const { nickname } = await getUser(id);
+      const response = await getUser(id);
+      const { nickname } = await response.json();
 
-      store.dispatch(loginUser({ accessToken: token, id, nickname }));
+      await store.dispatch(loginUser({ accessToken: token, id, nickname }));
     };
     setUser();
 

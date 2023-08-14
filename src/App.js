@@ -1,3 +1,4 @@
+import { Provider } from 'react-redux';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import RootLayout from '@pages/RootLayout';
@@ -41,6 +42,7 @@ import SearchPWDPage, {
 import { loader as logoutLoader } from '@pages/Logout';
 
 import StyledApp from '@styles/App-styled';
+import store from '@store/configureStore';
 import { tokenLoader, checkTokenLoader, checkIsTokenLoader } from '@utils/auth';
 
 const router = createBrowserRouter([
@@ -158,7 +160,9 @@ const router = createBrowserRouter([
 const App = () => {
   return (
     <StyledApp>
-      <RouterProvider router={router} />
+      <Provider store={store}>
+        <RouterProvider router={router} />
+      </Provider>
     </StyledApp>
   );
 };
