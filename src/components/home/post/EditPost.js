@@ -7,9 +7,10 @@ import StyledDiv from '@styles/home/post/EditPost-styled';
 
 const EditPost = ({ post }) => {
   usePreventLeave(true);
+
   const submit = useSubmit();
   const contentRef = useRef(null);
-  const { id: postId, content, updated_at: date, user_id: username } = post;
+  const { id: postId, content, updated_at: date, nickname } = post;
 
   const onEditPost = (e) => {
     e.preventDefault();
@@ -55,9 +56,9 @@ const EditPost = ({ post }) => {
       </div>
 
       <div className='user'>
-        <img src={profileIcon} alt={`${username} profile icon`} />
+        <img src={profileIcon} alt={`${nickname} profile icon`} />
         <div className='post-info'>
-          <p className='user-name'>{username}</p>
+          <p className='user-name'>{nickname}</p>
           <p className='post-date'>{date}</p>
         </div>
       </div>

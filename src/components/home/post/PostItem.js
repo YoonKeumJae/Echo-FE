@@ -1,3 +1,4 @@
+import { useSelector } from 'react-redux';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import profileIcon from '@assets/default/profileIcon.png';
@@ -12,17 +13,19 @@ const PostItem = ({ post }) => {
   const navigate = useNavigate();
   const {
     id,
+    nickname,
     commentCount,
     content,
     updated_at: updatedAt,
     likes,
-    user_id: username,
+    user_id: userId,
   } = post;
+  const { id: currentId } = useSelector((state) => state.user);
 
   const date = formatDate(updatedAt);
 
   const isLink = pathname === '/' || pathname === '/profile';
-  const isMinePost = username === localStorage.getItem('user');
+  const isMinePost = userId === currentId;
 
   const formattedContent = content.split('\\r\\n').map((line, index) => {
     if (line === '') return null;
@@ -40,9 +43,9 @@ const PostItem = ({ post }) => {
   return (
     <StyledPost>
       <div className='user'>
-        <img src={profileIcon} alt={`${username} profile icon`} />
+        <img src={profileIcon} alt={`${nickname} profile icon`} />
         <div className='post-info'>
-          <p className='user-name'>{username}</p>
+          <p className='user-name'>{nickname}</p>
           <p className='post-date'>{date}</p>
         </div>
         {isMinePost && <PostOption postId={id} onUpdate={onClickUpdate} />}

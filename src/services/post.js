@@ -30,7 +30,10 @@ export async function postAPI(url, method, data) {
  * @returns 응답
  */
 export async function getPosts(data) {
-  const response = await postAPI('posts.json', 'get', data);
+  let url = 'posts.json';
+  if (data) url = `posts.json?orderBy="user_id"&equalTo="${data}"`;
+
+  const response = await postAPI(url, 'GET');
 
   return response;
 }

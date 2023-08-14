@@ -1,14 +1,19 @@
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
+import profileIcon from '@assets/default/profileIcon.png';
 import StyledDiv from '@styles/home/profile/Profile-styled';
 
-const Profile = ({ user }) => {
+const Profile = ({ id, user }) => {
   const {
     background_img: backgroundImg,
     profile_img: profileImg,
-    username,
+    nickname,
     bio,
   } = user;
+  const { id: current } = useSelector((state) => state.user);
+
+  const isMyProfile = current === id;
 
   return (
     <StyledDiv>
@@ -37,20 +42,30 @@ const Profile = ({ user }) => {
 
       <div className='profile'>
         <div className='profile__background'>
-          <img src={backgroundImg} alt={`${username}'s background image`} />
+          {backgroundImg && (
+            <img src={backgroundImg} alt={`${nickname}'s background image`} />
+          )}
         </div>
         <div className='profile__image'>
-          <img src={profileImg} alt={`${username}'s profile image`} />
+          <img
+            src={profileImg || profileIcon}
+            alt={`${nickname}'s profile image`}
+          />
         </div>
-        <div className='profile__edit'>
-          <Link to='edit'>
-            <button type='button' className='edit_button'>
-              프로필 편집
-            </button>
-          </Link>
-        </div>
-        <div className='profile__user'>
-          <p className='profile__name'>{username}</p>
+        {isMyProfile && (
+          <div className='profile__edit'>
+            <Link to='edit'>
+              <button type='button' className='edit_button'>
+                프로필 편집
+              </button>
+            </Link>
+          </div>
+        )}
+        <div
+          className='profile__user'
+          style={{ marginTop: `${isMyProfile ? '16px' : '64px'}` }}
+        >
+          <p className='profile__name'>{nickname}</p>
           <p className='profile__bio'>{bio}</p>
         </div>
       </div>

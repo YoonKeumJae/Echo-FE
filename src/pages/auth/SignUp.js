@@ -2,6 +2,7 @@ import { json, redirect, useActionData, useNavigation } from 'react-router-dom';
 
 import SignUpForm from '@components/auth/signup/SignUpForm';
 import { signUpAPI } from '@services/auth';
+import { getCurrentTime } from '@utils/date';
 
 const SignUpPage = () => {
   const error = useActionData();
@@ -16,12 +17,18 @@ export default SignUpPage;
 export async function action({ request }) {
   const data = await request.formData();
 
+  const currentTime = getCurrentTime();
   const authData = {
     id: data.get('id'),
     nickname: data.get('nickname'),
     password: data.get('password'),
     username: data.get('name'),
     phone: data.get('phone'),
+    bio: '',
+    profile_img: '',
+    background_img: '',
+    created_at: currentTime,
+    updated_at: currentTime,
   };
 
   const response = await signUpAPI(authData);

@@ -22,11 +22,10 @@ export async function action({ request }) {
   };
 
   const response = await signInAPI(authData);
-  const resData = await response.json();
 
   // ID가 존재하지 않는 경우
   if (response.status === 422 || response.status === 401) {
-    return { message: resData.message, code: response.status };
+    return { message: response.message, code: response.status };
   }
 
   // 내부 서버 오류
@@ -35,10 +34,10 @@ export async function action({ request }) {
   }
 
   // 로그인 성공
-  const { token } = resData;
+  const resData = await response.json();
+  const { token: accessToken } = resData;
 
-  localStorage.setItem('user', authData.id);
-  localStorage.setItem('token', token);
+  localStorage.setItem('token', accessToken);
   const expiration = new Date();
   expiration.setHours(expiration.getHours() + 1);
   localStorage.setItem('expiration', expiration.toISOString());

@@ -1,8 +1,16 @@
 import { Form, Link } from 'react-router-dom';
 
+import profileIcon from '@assets/default/profileIcon.png';
 import StyledDiv from '@styles/home/profile/EditProfile-styled';
 
-const EditProfile = () => {
+const EditProfile = ({ id, user }) => {
+  const {
+    background_img: backgroundImg,
+    profile_img: profileImg,
+    nickname,
+    bio,
+  } = user;
+
   return (
     <StyledDiv>
       <div className='header'>
@@ -30,29 +38,43 @@ const EditProfile = () => {
 
       {/* 정보를 입력받는 폼 */}
       <Form method='PUT'>
+        <input type='hidden' name='id' value={id} />
         <div className='profile'>
           <div className='profile__background'>
-            <img
-              src='https://www.simplilearn.com/ice9/free_resources_article_thumb/what_is_image_Processing.jpg'
-              alt={`s background image`}
-            />
+            {backgroundImg && (
+              <img src={backgroundImg} alt={`${nickname}'s background image`} />
+            )}
           </div>
           <div className='profile__image'>
             <img
-              src='https://www.simplilearn.com/ice9/free_resources_article_thumb/what_is_image_Processing.jpg'
-              alt={`s profile image`}
+              src={profileImg || profileIcon}
+              alt={`${nickname}'s profile image`}
             />
           </div>
         </div>
 
         <div className='inputFormBox'>
           <div className='input-container'>
-            <label htmlFor='name'>이름</label>
-            <input id='name' type='text' placeholder='이름' />
+            <label htmlFor='nickname'>닉네임</label>
+            <input
+              id='nickname'
+              type='text'
+              name='nickname'
+              placeholder='닉네임'
+              defaultValue={nickname}
+              required
+            />
           </div>
           <div className='input-container'>
             <label htmlFor='bio'>소개</label>
-            <textarea id='bio' type='text' placeholder='소개 내용' />
+            <textarea
+              id='bio'
+              type='text'
+              name='bio'
+              placeholder='소개 내용'
+              defaultValue={bio}
+              required
+            />
           </div>
           <button type='submit' className='submitBtn'>
             프로필 편집

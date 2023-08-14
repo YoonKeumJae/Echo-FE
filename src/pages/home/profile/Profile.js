@@ -1,31 +1,22 @@
-import {
-  Await,
-  defer,
-  json,
-  redirect,
-  useRouteLoaderData,
-} from 'react-router-dom';
+import { Await, defer, json, useRouteLoaderData } from 'react-router-dom';
 
 import { Suspense } from 'react';
 
 import Profile from '@components/home/profile/Profile';
 import PostList from '@components/home/post/PostList';
-// import { getUser } from '@services/user';
+import { getUser } from '@services/user';
 import { getPosts, removePost } from '@services/post';
 
 const ProfilePage = () => {
-  const { posts } = useRouteLoaderData('profile-detail');
-
-  const DUMMY_USER = {
-    background_img: '',
-    profile_img: '',
-    username: localStorage.getItem('user'),
-    bio: 'Test님의 한줄 요약',
-  };
+  const { id, user, posts } = useRouteLoaderData('profile-detail');
 
   return (
     <>
-      <Profile user={DUMMY_USER} />
+      <Suspense fallback={<p style={{ textAlign: 'center' }}>Loading...</p>}>
+        <Await resolve={user}>
+          {(loadedUser) => <Profile id={id} user={loadedUser} />}
+        </Await>
+      </Suspense>
       <Suspense fallback={<p style={{ textAlign: 'center' }}>Loading...</p>}>
         <Await resolve={posts}>
           {(loadedPosts) => <PostList posts={loadedPosts} />}
@@ -37,22 +28,22 @@ const ProfilePage = () => {
 
 export default ProfilePage;
 
-// export async function loadUser() {
-//   const response = await getUser();
+export async function loadUser(id) {
+  const response = await getUser(id);
 
-//   if (!response.ok) {
-//     return json(
-//       { message: 'Could not found user.' },
-//       { status: response.status },
-//     );
-//   }
+  if (!response.ok) {
+    return json(
+      { message: 'Could not found user.' },
+      { status: response.status },
+    );
+  }
 
-//   const resData = await response.json();
-//   return resData.user;
-// }
+  const resData = await response.json();
+  return resData;
+}
 
-export async function loadPosts() {
-  const response = await getPosts();
+export async function loadPosts(id) {
+  const response = await getPosts(id);
 
   if (!response.ok) {
     return json(
@@ -62,6 +53,8 @@ export async function loadPosts() {
   }
 
   const resData = await response.json();
+  if (!resData) return [];
+
   const posts = Object.entries(resData).map((post) => ({
     id: post[0],
     ...post[1],
@@ -70,10 +63,13 @@ export async function loadPosts() {
   return posts;
 }
 
-export function loader() {
+export function loader({ params }) {
+  const id = params.userId;
+
   return defer({
-    // user: loadUser(),
-    posts: loadPosts(),
+    user: loadUser(id),
+    posts: loadPosts(id),
+    id,
   });
 }
 
@@ -89,5 +85,5 @@ export async function action({ request }) {
     );
   }
 
-  return redirect('/');
+  return null;
 }

@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { useToggle } from 'react-use';
+import { useSelector } from 'react-redux';
 import { useLocation, useSubmit } from 'react-router-dom';
 
 import profileIcon from '@assets/default/profileIcon.png';
@@ -15,16 +16,17 @@ const CommentItem = ({ comment }) => {
   const submit = useSubmit();
   const {
     id,
-    user_id: username,
+    nickname,
+    user_id: userId,
     updated_at: updatedAt,
     content,
     commentCount,
     like,
   } = comment;
   const date = formatDate(updatedAt);
-  const user = localStorage.getItem('user');
+  const { id: current } = useSelector((state) => state.user);
   const postId = pathname.split('/')[1];
-  const isMineComment = user === username;
+  const isMineComment = userId === current;
 
   useEffect(() => {
     if (isUpdate && updatedCommentRef.current) {
@@ -38,9 +40,6 @@ const CommentItem = ({ comment }) => {
 
     if (!isConfirm) return null;
 
-    // eslint-disable-next-line no-console
-    console.log('??');
-
     submit(
       { postId, content: updatedCommentRef.current.value, commentId: id },
       { method: 'patch', action: 'edit' },
@@ -51,9 +50,9 @@ const CommentItem = ({ comment }) => {
   return (
     <StyledDiv>
       <div className='user'>
-        <img src={profileIcon} alt={`${username} profile icon`} />
+        <img src={profileIcon} alt={`${nickname} profile icon`} />
         <div className='post-info'>
-          <p className='user-name'>{username}</p>
+          <p className='user-name'>{nickname}</p>
           <p className='post-date'>{date}</p>
         </div>
         {!isUpdate && isMineComment && (

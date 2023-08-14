@@ -81,6 +81,7 @@ export async function action({ request, params }) {
   const commentForm = {
     post_id: id,
     user_id: data.get('userId'),
+    nickname: data.get('nickname'),
     likes: 0,
     content: data.get('content'),
     created_at: currentTime,

@@ -5,18 +5,21 @@ import homeIcon from '@assets/navigation/homeIcon.png';
 import notificationIcon from '@assets/navigation/notificationIcon.png';
 import noteIcon from '@assets/navigation/noteIcon.png';
 import StyledMainNavigation from '@styles/home/MainNavigation-styled';
+import { useSelector } from 'react-redux';
 
 const MainNavigation = () => {
+  const { id, nickname } = useSelector((state) => state.user);
+
   return (
     <StyledMainNavigation>
       <div className='item logo'>LOGO</div>
       <div className='item'>
         <NavLink
-          to='/profile'
+          to={`/profile/${id}`}
           className={({ isActive }) => (isActive ? 'active' : undefined)}
         >
           <img src={profileIcon} alt='user profile' width='32' />
-          <span>정윤오</span>
+          <span>{nickname}</span>
         </NavLink>
       </div>
       <div className='item'>

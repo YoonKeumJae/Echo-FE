@@ -56,6 +56,12 @@ const useCheckPhone = () => {
     setIsVerify(true);
   };
 
+  const resetVerify = () => {
+    setIsSend(false);
+    setSendCount(3);
+    setIsVerify(false);
+  };
+
   return {
     timer,
     isSend,
@@ -63,6 +69,7 @@ const useCheckPhone = () => {
     isVerify,
     onSendCode,
     onVerifyCode,
+    resetVerify,
   };
 };
 
