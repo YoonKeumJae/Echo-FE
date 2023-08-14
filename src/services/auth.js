@@ -1,21 +1,21 @@
 import { json } from 'react-router-dom';
+import { apiServer } from '@config/api';
 
 /**
  * API 요청 Interface
- * @param {Object} authData 입력 데이터
  * @param {String} url 통신 URI
  * @param {String} method HTTP Method
+ * @param {Object} authData 입력 데이터
  * @returns 응답 객체
  */
-export async function authAPI(authData, url, method) {
+export async function authAPI(url, method, authData) {
   try {
-    const response = await fetch(`http://localhost:8080/${url}`, {
+    const response = await fetch(apiServer + url, {
       method,
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(authData),
-      // eslint-disable-next-line no-console
     });
 
     return response;
@@ -30,7 +30,7 @@ export async function authAPI(authData, url, method) {
  * @returns 응답 객체
  */
 export async function signInAPI(authData) {
-  const response = await authAPI(authData, 'login', 'POST');
+  const response = await authAPI('login', 'POST', authData);
 
   return response;
 }
@@ -41,18 +41,30 @@ export async function signInAPI(authData) {
  * @returns 응답 객체
  */
 export async function signUpAPI(authData) {
-  const response = await authAPI(authData, 'signup', 'POST');
+  await authAPI('users.json', 'POST', authData);
+
+  const response = await fetch('http://localhost:8080/signup', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(authData),
+  });
 
   return response;
 }
 
 /**
  * 아이디 찾기 API
- * @param {Object} authData 이름, 휴대폰번호
+ * @param {String} data 이름, 휴대폰번호
+ * @param {String} type 이름, 휴대폰
  * @returns 응답 객체
  */
-export async function searchIDAPI(authData) {
-  const response = await authAPI(authData, 'searchID', 'POST');
+export async function searchIDAPI(data, type) {
+  const response = await authAPI(
+    `users.json?orderBy="${type}"&equalTo="${data}"`,
+    'GET',
+  );
 
   return response;
 }
@@ -62,8 +74,8 @@ export async function searchIDAPI(authData) {
  * @param {Object} authData 아이디, 비밀번호
  * @returns 응답 객체
  */
-export async function changePasswordAPI(authData) {
-  const response = await authAPI(authData, 'changePassword', 'PUT');
+export async function changePasswordAPI(authData, key) {
+  const response = await authAPI(`users/${key}.json`, 'PATCH', authData);
 
   return response;
 }

@@ -23,6 +23,10 @@ const StyledDiv = styled.div`
   }
 
   .login-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
     margin-top: 64px;
 
     background: #243dc5;
@@ -32,9 +36,7 @@ const StyledDiv = styled.div`
 
     cursor: pointer;
 
-    & a {
-      color: white;
-    }
+    color: white;
   }
 `;
 

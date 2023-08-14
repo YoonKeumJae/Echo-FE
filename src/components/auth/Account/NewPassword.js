@@ -6,7 +6,7 @@ import { regExpPassword } from '@constants/regular-expression';
 import usePreventLeave from '@hooks/usePreventLeave';
 import StyledForm from '@styles/auth/account/NewPassword-styled';
 
-const NewPassword = ({ userID, isSubmitting }) => {
+const NewPassword = ({ data, isSubmitting }) => {
   const {
     register,
     handleSubmit,
@@ -14,10 +14,12 @@ const NewPassword = ({ userID, isSubmitting }) => {
     watch,
   } = useForm({ mode: 'onBlur' });
   const submit = useSubmit();
+  const { key, id } = data;
 
   usePreventLeave(isDirty);
 
-  const onSubmit = (data) => submit(data, { method: 'PUT' });
+  const onSubmit = (updateForm) =>
+    submit({ key, ...updateForm }, { method: 'PUT' });
 
   return (
     <>
@@ -25,7 +27,7 @@ const NewPassword = ({ userID, isSubmitting }) => {
 
       <StyledForm onSubmit={handleSubmit(onSubmit)}>
         <div className='input-container'>
-          <input type='hidden' value={userID} {...register('id')} />
+          <input type='hidden' value={id} {...register('id')} />
           <label htmlFor='newPassword'>새 비밀번호</label>
           <input
             id='newPassword'

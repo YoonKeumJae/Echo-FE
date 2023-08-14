@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useSubmit } from 'react-router-dom';
 
@@ -5,12 +6,13 @@ import { regExpPhone } from '@constants/regular-expression';
 import useCheckPhone from '@hooks/useCheckPhone';
 import { ErrorMessage } from '@hookform/error-message';
 
-const SearchPWDForm = ({ isSubmitting }) => {
+const SearchPWDForm = ({ error, isSubmitting }) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
     getValues,
+    reset,
   } = useForm({
     mode: 'onBlur',
     defaultValues: {
@@ -19,10 +21,25 @@ const SearchPWDForm = ({ isSubmitting }) => {
     },
   });
 
-  const { timer, isSend, sendCount, isVerify, onSendCode, onVerifyCode } =
-    useCheckPhone();
-
+  const {
+    timer,
+    isSend,
+    sendCount,
+    isVerify,
+    onSendCode,
+    onVerifyCode,
+    resetVerify,
+  } = useCheckPhone();
   const submit = useSubmit();
+
+  useEffect(() => {
+    if (error) {
+      alert(error.message);
+      reset();
+      resetVerify();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [error]);
 
   const onSubmit = (data) => submit(data, { method: 'POST' });
 
@@ -42,8 +59,11 @@ const SearchPWDForm = ({ isSubmitting }) => {
           <input
             id='inputID'
             type='text'
+            name='id'
             placeholder='아이디를 입력해주세요.'
-            required
+            {...register('id', {
+              required: true,
+            })}
           />
         </div>
         <div className='input-container'>

@@ -1,8 +1,16 @@
-import { json, redirect, useActionData, useNavigation } from 'react-router-dom';
+import { Suspense } from 'react';
+import {
+  Await,
+  json,
+  redirect,
+  useActionData,
+  useNavigation,
+} from 'react-router-dom';
 
 import NewPassword from '@components/auth/account/NewPassword';
 import SearchPWDForm from '@components/auth/account/SearchPWDForm';
 import { searchIDAPI, changePasswordAPI } from '@services/auth';
+import { getCurrentTime } from '@utils/date';
 
 const SearchPWDPage = () => {
   const data = useActionData();
@@ -10,9 +18,25 @@ const SearchPWDPage = () => {
   const isSubmitting = navigation.state === 'submitting';
 
   if (data && data.id)
-    return <NewPassword userID={data.id} isSubmitting={isSubmitting} />;
+    return (
+      <Suspense>
+        <Await resolve={data}>
+          {(loadedData) => (
+            <NewPassword data={loadedData} isSubmitting={isSubmitting} />
+          )}
+        </Await>
+      </Suspense>
+    );
 
-  return <SearchPWDForm isSubmitting={isSubmitting} />;
+  return (
+    <Suspense>
+      <Await resolve={data}>
+        {(loadedData) => (
+          <SearchPWDForm error={loadedData} isSubmitting={isSubmitting} />
+        )}
+      </Await>
+    </Suspense>
+  );
 };
 
 export default SearchPWDPage;
@@ -23,12 +47,12 @@ async function checkID(data) {
     phone: data.get('phone'),
   };
 
-  const response = await searchIDAPI(authData);
+  const response = await searchIDAPI(authData.id, 'id');
   const resData = await response.json();
 
-  // 이름, 휴대폰이 일치하지 않을 경우
-  if (response.status === 404) {
-    return { message: resData.message, errorCode: response.status };
+  // 아이디가 존재하지 않는 경우
+  if (Object.keys(resData).length === 0) {
+    return { message: '아이디가 존재하지 않습니다.', errorCode: 404 };
   }
 
   // 내부 서버 오류
@@ -37,16 +61,19 @@ async function checkID(data) {
   }
 
   // 계정찾기 성공
-  return { id: resData.id };
+  return { key: Object.keys(resData)[0], id: Object.values(resData)[0].id };
 }
 
 async function changePassword(data) {
+  const currentTime = getCurrentTime();
+  const key = data.get('key');
   const authData = {
     id: data.get('id'),
     password: data.get('newPassword'),
+    updated_at: currentTime,
   };
 
-  const response = await changePasswordAPI(authData);
+  const response = await changePasswordAPI(authData, key);
   const resData = await response.json();
 
   // 기존에 설정한 비밀번호와 동일한 경우

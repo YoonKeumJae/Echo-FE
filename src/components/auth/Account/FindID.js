@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import StyledDiv from '@styles/auth/account/FindID-styled';
 
 const FindID = ({ data }) => {
-  const { id, date } = data;
+  const { id, created_at: createdAt } = data;
 
   return (
     <>
@@ -15,11 +15,11 @@ const FindID = ({ data }) => {
         </div>
         <div className='find-date'>
           <p>가입일</p>
-          <p className='find'>{date}</p>
+          <p className='find'>{createdAt}</p>
         </div>
-        <button className='login-button'>
-          <Link to='/'>로그인</Link>
-        </button>
+        <Link to='/' className='login-button'>
+          로그인
+        </Link>
       </StyledDiv>
     </>
   );
