@@ -31,16 +31,12 @@ export async function userAPI(url, method, authData) {
  */
 export async function getUser(id) {
   const response = await userAPI(`users/${id}.json`, 'GET');
-  const { nickname } = await response.json();
 
-  return { nickname };
+  return response;
 }
 
-export async function updateUser(data) {
-  const response = await fetch('http://localhost:8080/user/update', {
-    method: 'PUT',
-    body: JSON.stringify(data),
-  });
+export async function updateUser(id, data) {
+  const response = await userAPI(`users/${id}.json`, 'PATCH', data);
 
   return response;
 }
