@@ -5,6 +5,7 @@ import Home from '@components/home/Home';
 import PostList from '@components/home/post/PostList';
 import { getPosts, createPost } from '@services/post';
 import { getCurrentTime } from '@utils/date';
+import store from '@store/configureStore';
 
 const HomePage = () => {
   const { posts } = useLoaderData();
@@ -32,8 +33,11 @@ export async function action({ request }) {
 
   const currentTime = getCurrentTime();
 
+  const { user } = store.getState();
+
   const postForm = {
-    user_id: localStorage.getItem('user'),
+    user_id: user.id,
+    nickname: user.nickname,
     content: data.get('content'),
     likes: 0,
     commentCount: 0,
@@ -64,6 +68,9 @@ export async function loadPosts() {
   }
 
   const resData = await response.json();
+
+  if (!resData) return [];
+
   const posts = Object.entries(resData).map((post) => ({
     id: post[0],
     ...post[1],
