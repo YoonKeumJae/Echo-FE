@@ -30,9 +30,32 @@ export async function authAPI(url, method, authData) {
  * @returns 응답 객체
  */
 export async function signInAPI(authData) {
-  const response = await authAPI('login', 'POST', authData);
+  const response = await authAPI(
+    `users.json?orderBy="id"&equalTo="${authData.id}"`,
+    'GET',
+  );
 
-  return response;
+  const resData = await response.json();
+
+  // 아이디가 일치하지 않는 경우
+  if (Object.keys(resData).length === 0) {
+    return { message: '아이디가 존재하지 않습니다.', status: 401 };
+  }
+
+  // 비밀번호가 일치하지 않는 경우
+  if (authData.password !== Object.values(resData)[0].password) {
+    return { message: '비밀번호가 일치하지 않습니다.', status: 422 };
+  }
+
+  const responseToken = await fetch('http://localhost:8080/login', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(authData),
+  });
+
+  return responseToken;
 }
 
 /**
