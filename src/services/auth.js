@@ -1,5 +1,5 @@
 import { json } from 'react-router-dom';
-import { apiServer } from '@config/api';
+import { apiServer, jwtServer } from '@config/api';
 
 /**
  * API 요청 Interface
@@ -47,7 +47,7 @@ export async function signInAPI(authData) {
     return { message: '비밀번호가 일치하지 않습니다.', status: 422 };
   }
 
-  const responseToken = await fetch('http://localhost:8080/login', {
+  const responseToken = await fetch(`${jwtServer}/login`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -65,15 +65,7 @@ export async function signInAPI(authData) {
  * @returns 응답 객체
  */
 export async function signUpAPI(authData) {
-  await authAPI('users.json', 'POST', authData);
-
-  const response = await fetch('http://localhost:8080/signup', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(authData),
-  });
+  const response = await authAPI('users.json', 'POST', authData);
 
   return response;
 }
