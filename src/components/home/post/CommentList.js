@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Form } from 'react-router-dom';
 
 import profileIcon from '@assets/default/profileIcon.png';
@@ -7,7 +8,7 @@ import CommentItem from './CommentItem';
 
 const CommentList = ({ comments }) => {
   const [enteredComment, setEnteredComment] = useState('');
-  const user = localStorage.getItem('user');
+  const { id, nickname } = useSelector((state) => state.user);
 
   const onEnteredComment = (e) => setEnteredComment(e.target.value);
 
@@ -20,7 +21,8 @@ const CommentList = ({ comments }) => {
       </div>
 
       <Form method='post' className='comment-form'>
-        <input type='hidden' value={user} name='userId' />
+        <input type='hidden' value={id} name='userId' />
+        <input type='hidden' value={nickname} name='nickname' />
         <img src={profileIcon} alt='user profile' />
         <input
           type='text'
