@@ -54,12 +54,9 @@ export async function signInAPI(authData) {
     },
     body: JSON.stringify(authData),
   });
+  localStorage.setItem('id', Object.keys(resData)[0]);
 
-  return {
-    responseToken,
-    id: Object.keys(resData)[0],
-    nickname: Object.values(resData)[0].nickname,
-  };
+  return responseToken;
 }
 
 /**

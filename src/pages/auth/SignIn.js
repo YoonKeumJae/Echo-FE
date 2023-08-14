@@ -2,8 +2,6 @@ import { json, redirect, useActionData, useNavigation } from 'react-router-dom';
 
 import SignInForm from '@components/auth/signin/SignInForm';
 import { signInAPI } from '@services/auth';
-import { loginUser } from '@store/user';
-import store from '@store/configureStore';
 
 const SignInPage = () => {
   const error = useActionData();
@@ -23,7 +21,7 @@ export async function action({ request }) {
     password: data.get('password'),
   };
 
-  const { responseToken: response, id, nickname } = await signInAPI(authData);
+  const response = await signInAPI(authData);
 
   // ID가 존재하지 않는 경우
   if (response.status === 422 || response.status === 401) {
@@ -38,8 +36,6 @@ export async function action({ request }) {
   // 로그인 성공
   const resData = await response.json();
   const { token: accessToken } = resData;
-
-  store.dispatch(loginUser({ accessToken, id, nickname }));
 
   localStorage.setItem('token', accessToken);
   const expiration = new Date();

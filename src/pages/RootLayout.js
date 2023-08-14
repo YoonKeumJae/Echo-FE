@@ -2,6 +2,9 @@ import { useEffect } from 'react';
 import { Outlet, useLoaderData, useNavigate } from 'react-router-dom';
 
 import { getTokenDuration } from '@utils/auth';
+import { getUser } from '@services/user';
+import store from '@store/configureStore';
+import { loginUser } from '@store/user';
 
 const RootLayout = () => {
   const token = useLoaderData();
@@ -16,6 +19,14 @@ const RootLayout = () => {
       navigate('/logout');
       return;
     }
+
+    const setUser = async () => {
+      const id = localStorage.getItem('id');
+      const { nickname } = await getUser(id);
+
+      store.dispatch(loginUser({ accessToken: token, id, nickname }));
+    };
+    setUser();
 
     const tokenDuration = getTokenDuration();
 
