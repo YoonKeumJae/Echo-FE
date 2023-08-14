@@ -25,7 +25,7 @@ export async function userAPI(url, method, authData) {
 }
 
 /**
- * user 정보 받아오기
+ * 유저 정보 받아오기
  * @param {String} id 유저 아이디
  * @returns 닉네임
  */
@@ -35,6 +35,12 @@ export async function getUser(id) {
   return response;
 }
 
+/**
+ * 유저 프로필 업데이트
+ * @param {String} id 유저 아이디
+ * @param {Object} data 수정된 정보
+ * @returns 응답
+ */
 export async function updateUser(id, data) {
   const response = await userAPI(`users/${id}.json`, 'PATCH', data);
 
