@@ -8,13 +8,13 @@ import { getUser } from '@services/user';
 import { getPosts, removePost } from '@services/post';
 
 const ProfilePage = () => {
-  const { user, posts } = useRouteLoaderData('profile-detail');
+  const { id, user, posts } = useRouteLoaderData('profile-detail');
 
   return (
     <>
       <Suspense fallback={<p style={{ textAlign: 'center' }}>Loading...</p>}>
         <Await resolve={user}>
-          {(loadedUser) => <Profile user={loadedUser} />}
+          {(loadedUser) => <Profile id={id} user={loadedUser} />}
         </Await>
       </Suspense>
       <Suspense fallback={<p style={{ textAlign: 'center' }}>Loading...</p>}>
@@ -63,13 +63,13 @@ export async function loadPosts(id) {
   return posts;
 }
 
-export function loader({ request }) {
-  const { searchParams } = new URL(request.url);
-  const id = searchParams.get('id');
+export function loader({ params }) {
+  const id = params.userId;
 
   return defer({
     user: loadUser(id),
     posts: loadPosts(id),
+    id,
   });
 }
 

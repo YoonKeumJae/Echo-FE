@@ -90,7 +90,7 @@ const router = createBrowserRouter([
             ],
           },
           {
-            path: 'profile',
+            path: 'profile/:userId',
             id: 'profile-detail',
             loader: profileLoader,
             children: [

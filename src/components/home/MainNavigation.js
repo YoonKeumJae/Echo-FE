@@ -15,7 +15,7 @@ const MainNavigation = () => {
       <div className='item logo'>LOGO</div>
       <div className='item'>
         <NavLink
-          to={`/profile?id=${id}`}
+          to={`/profile/${id}`}
           className={({ isActive }) => (isActive ? 'active' : undefined)}
         >
           <img src={profileIcon} alt='user profile' width='32' />

@@ -1,15 +1,19 @@
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import profileIcon from '@assets/default/profileIcon.png';
 import StyledDiv from '@styles/home/profile/Profile-styled';
 
-const Profile = ({ user }) => {
+const Profile = ({ id, user }) => {
   const {
     background_img: backgroundImg,
     profile_img: profileImg,
     nickname,
     bio,
   } = user;
+  const { id: current } = useSelector((state) => state.user);
+
+  const isMyProfile = current === id;
 
   return (
     <StyledDiv>
@@ -48,14 +52,19 @@ const Profile = ({ user }) => {
             alt={`${nickname}'s profile image`}
           />
         </div>
-        <div className='profile__edit'>
-          <Link to='edit'>
-            <button type='button' className='edit_button'>
-              프로필 편집
-            </button>
-          </Link>
-        </div>
-        <div className='profile__user'>
+        {isMyProfile && (
+          <div className='profile__edit'>
+            <Link to='edit'>
+              <button type='button' className='edit_button'>
+                프로필 편집
+              </button>
+            </Link>
+          </div>
+        )}
+        <div
+          className='profile__user'
+          style={{ marginTop: `${isMyProfile ? '16px' : '64px'}` }}
+        >
           <p className='profile__name'>{nickname}</p>
           <p className='profile__bio'>{bio}</p>
         </div>
