@@ -17,7 +17,7 @@ const StyledMainNavigation = styled.nav`
     padding: 0 8px;
 
     height: 48px;
-    width: 120px;
+    width: 160px;
 
     img {
       vertical-align: bottom;
