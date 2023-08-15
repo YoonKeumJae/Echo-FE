@@ -24,7 +24,7 @@ const PostItem = ({ post }) => {
 
   const date = formatDate(updatedAt);
 
-  const isLink = pathname === '/' || pathname === '/profile';
+  const isLink = pathname === '/' || pathname.includes('profile');
   const isMinePost = userId === currentId;
 
   const formattedContent = content.split('\\r\\n').map((line, index) => {
