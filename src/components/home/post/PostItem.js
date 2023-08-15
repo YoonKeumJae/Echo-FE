@@ -43,7 +43,9 @@ const PostItem = ({ post }) => {
   return (
     <StyledPost>
       <div className='user'>
-        <img src={profileIcon} alt={`${nickname} profile icon`} />
+        <Link to={`/profile/${userId}`}>
+          <img src={profileIcon} alt={`${nickname} profile icon`} />
+        </Link>
         <div className='post-info'>
           <p className='user-name'>{nickname}</p>
           <p className='post-date'>{date}</p>
