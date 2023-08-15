@@ -4,9 +4,6 @@ import OptionBox from '@styles/home/post/PostOption-styled';
 const CommentOption = ({ postId, commentId, toggleUpdate, commentCount }) => {
   const submit = useSubmit();
 
-  // eslint-disable-next-line no-console
-  console.log(commentCount);
-
   const onRemoveComment = () => {
     const isRemove = window.confirm('댓글을 삭제하시겠습니까?');
 
