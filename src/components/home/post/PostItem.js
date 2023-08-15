@@ -14,7 +14,7 @@ const PostItem = ({ post }) => {
   const {
     id,
     nickname,
-    commentCount,
+    comment_count: commentCount,
     content,
     updated_at: updatedAt,
     likes,
@@ -24,7 +24,7 @@ const PostItem = ({ post }) => {
 
   const date = formatDate(updatedAt);
 
-  const isLink = pathname === '/' || pathname === '/profile';
+  const isLink = pathname === '/' || pathname.includes('profile');
   const isMinePost = userId === currentId;
 
   const formattedContent = content.split('\\r\\n').map((line, index) => {
@@ -43,7 +43,9 @@ const PostItem = ({ post }) => {
   return (
     <StyledPost>
       <div className='user'>
-        <img src={profileIcon} alt={`${nickname} profile icon`} />
+        <Link to={`/profile/${userId}`}>
+          <img src={profileIcon} alt={`${nickname} profile icon`} />
+        </Link>
         <div className='post-info'>
           <p className='user-name'>{nickname}</p>
           <p className='post-date'>{date}</p>

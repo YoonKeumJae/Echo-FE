@@ -55,10 +55,12 @@ export async function loadPosts(id) {
   const resData = await response.json();
   if (!resData) return [];
 
-  const posts = Object.entries(resData).map((post) => ({
-    id: post[0],
-    ...post[1],
-  }));
+  const posts = Object.entries(resData)
+    .map((post) => ({
+      id: post[0],
+      ...post[1],
+    }))
+    .reverse();
 
   return posts;
 }

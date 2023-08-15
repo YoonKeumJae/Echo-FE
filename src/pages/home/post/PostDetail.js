@@ -87,8 +87,9 @@ export async function action({ request, params }) {
     created_at: currentTime,
     updated_at: currentTime,
   };
+  const commentCount = data.get('commentCount');
 
-  const response = await addComment(id, commentForm);
+  const response = await addComment(id, commentForm, commentCount);
 
   if (!response.ok) {
     throw json(

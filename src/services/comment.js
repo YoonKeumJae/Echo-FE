@@ -41,8 +41,11 @@ export async function getComments(postId) {
  * @param {Object} data 댓글 내용
  * @returns 응답 객체
  */
-export async function addComment(postId, data) {
+export async function addComment(postId, data, commentCount) {
   const response = await commentAPI(`comments/${postId}.json`, 'post', data);
+  await commentAPI(`posts/${postId}.json`, 'PATCH', {
+    comment_count: Number(commentCount) + 1,
+  });
 
   return response;
 }
@@ -70,11 +73,14 @@ export async function manipulateComment(postId, commentId, data) {
  * @param {String} commentId 댓글 아이디
  * @returns 응답 객체
  */
-export async function removeComment(postId, commentId) {
+export async function removeComment(postId, commentId, commentCount) {
   const response = await commentAPI(
     `comments/${postId}/${commentId}.json`,
     'delete',
   );
+  await commentAPI(`posts/${postId}.json`, 'PATCH', {
+    comment_count: Number(commentCount) - 1,
+  });
 
   return response;
 }

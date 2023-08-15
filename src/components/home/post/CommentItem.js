@@ -9,7 +9,7 @@ import StyledDiv from '@styles/home/post/CommentItem-styled';
 import { formatDate } from '@utils/date';
 import CommentOption from './CommentOption';
 
-const CommentItem = ({ comment }) => {
+const CommentItem = ({ comment, totCount }) => {
   const [isUpdate, toggle] = useToggle(false);
   const { pathname } = useLocation();
   const updatedCommentRef = useRef();
@@ -56,7 +56,12 @@ const CommentItem = ({ comment }) => {
           <p className='post-date'>{date}</p>
         </div>
         {!isUpdate && isMineComment && (
-          <CommentOption postId={postId} commentId={id} toggleUpdate={toggle} />
+          <CommentOption
+            commentCount={totCount}
+            postId={postId}
+            commentId={id}
+            toggleUpdate={toggle}
+          />
         )}
       </div>
       {isUpdate && (

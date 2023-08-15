@@ -3,6 +3,7 @@ import { Await, defer, json, redirect, useLoaderData } from 'react-router-dom';
 
 import Home from '@components/home/Home';
 import PostList from '@components/home/post/PostList';
+import { regLineBreak } from '@constants/regular-expression';
 import { getPosts, createPost } from '@services/post';
 import { getCurrentTime } from '@utils/date';
 import store from '@store/configureStore';
@@ -34,13 +35,14 @@ export async function action({ request }) {
   const currentTime = getCurrentTime();
 
   const { user } = store.getState();
+  const formattedContent = data.get('content').replace(regLineBreak, '\\r\\n');
 
   const postForm = {
     user_id: user.id,
     nickname: user.nickname,
-    content: data.get('content'),
+    content: formattedContent,
     likes: 0,
-    commentCount: 0,
+    comment_count: 0,
     created_at: currentTime,
     updated_at: currentTime,
   };
@@ -71,10 +73,12 @@ export async function loadPosts() {
 
   if (!resData) return [];
 
-  const posts = Object.entries(resData).map((post) => ({
-    id: post[0],
-    ...post[1],
-  }));
+  const posts = Object.entries(resData)
+    .map((post) => ({
+      id: post[0],
+      ...post[1],
+    }))
+    .reverse();
 
   return posts;
 }
