@@ -1,10 +1,13 @@
-import { Outlet } from 'react-router-dom';
+import { Suspense } from 'react';
+import { Outlet, useLoaderData } from 'react-router-dom';
 
 import MainNavigation from '@components/home/MainNavigation';
 import AsideFriend from '@components/home/AsideFriend';
 import StyledHomeLayout from '@styles/home/HomeLayout-styled';
 
 const HomeRootLayout = () => {
+  const users = useLoaderData();
+
   return (
     <StyledHomeLayout>
       <MainNavigation />
@@ -14,7 +17,9 @@ const HomeRootLayout = () => {
       </section>
 
       {/* Aside */}
-      <AsideFriend />
+      <Suspense fallback={<p>Loding...</p>}>
+        <AsideFriend users={users} />
+      </Suspense>
     </StyledHomeLayout>
   );
 };

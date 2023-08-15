@@ -1,4 +1,5 @@
 import { json, redirect } from 'react-router-dom';
+import { getUsers } from '@services/user';
 
 /**
  * 토큰의 잔여 시간을 받아오기 위한 함수
@@ -47,14 +48,28 @@ export function tokenLoader() {
  * 토큰이 없는 경우 로그인 페이지로 이동시키기 위한 Loader
  * @returns 로그인페이지로 이동
  */
-export function checkTokenLoader() {
+export async function checkTokenLoader() {
   const token = getAuthToken();
 
   if (!token) {
     return redirect('/auth/signin');
   }
 
-  return null;
+  const response = await getUsers();
+  const resData = await response.json();
+
+  if (!resData) return [];
+
+  const users = Object.entries(resData)
+    .map((user, idx) => ({
+      ...user[1],
+      id: Object.keys(resData)[idx],
+    }))
+    .reverse()
+    .slice(0, 8)
+    .sort(() => Math.random() - 0.5); // 무작위 셔플
+
+  return users;
 }
 
 /**
