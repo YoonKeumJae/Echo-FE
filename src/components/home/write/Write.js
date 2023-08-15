@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { useSelector } from 'react-redux';
 import { Form, useNavigation } from 'react-router-dom';
 
 import profileIcon from '@assets/default/profileIcon.png';
@@ -8,6 +9,7 @@ const Write = ({ onClose }) => {
   const [enteredContent, setEnteredContent] = useState('');
   const contentRef = useRef(null);
   const navigation = useNavigation();
+  const { nickname } = useSelector((state) => state.user);
   const isSubmitting = navigation.state === 'submitting';
 
   useEffect(() => {
@@ -30,7 +32,7 @@ const Write = ({ onClose }) => {
       <div className='header'>
         <div className='user'>
           <img src={profileIcon} alt='user profile icon' />
-          <p className='user-name'>유저</p>
+          <p className='user-name'>{nickname}</p>
         </div>
 
         <button className='close' onClick={onClose}>
