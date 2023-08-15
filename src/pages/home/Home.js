@@ -42,7 +42,7 @@ export async function action({ request }) {
     nickname: user.nickname,
     content: formattedContent,
     likes: 0,
-    commentCount: 0,
+    comment_count: 0,
     created_at: currentTime,
     updated_at: currentTime,
   };
