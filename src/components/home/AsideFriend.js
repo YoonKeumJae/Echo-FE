@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 
 import profileIcon from '@assets/default/profileIcon.png';
 import searchIcon from '@assets/navigation/searchIcon.png';
@@ -6,22 +6,30 @@ import StyledAsideFriend from '@styles/home/AsideFriend';
 import { useRef } from 'react';
 
 const AsideFriend = ({ users }) => {
+  const [searchParams] = useSearchParams();
   const searchRef = useRef(null);
   const navigate = useNavigate();
+  const isQuery = searchParams.get('query');
 
   const onSearchQuery = (e) => {
     e.preventDefault();
 
     if (searchRef.current.value.length <= 0) navigate('/');
-    else navigate(`search?query=${searchRef.current.value}`);
+    else navigate(`search?query=${searchRef.current.value}&mode=all`);
   };
 
   return (
     <StyledAsideFriend>
-      <form onSubmit={onSearchQuery} className='search-query'>
-        <img src={searchIcon} alt='search icon' />
-        <input ref={searchRef} type='text' placeholder='검색어를 입력하세요.' />
-      </form>
+      {!isQuery && (
+        <form onSubmit={onSearchQuery} className='search-query'>
+          <img onClick={onSearchQuery} src={searchIcon} alt='search icon' />
+          <input
+            ref={searchRef}
+            type='text'
+            placeholder='검색어를 입력하세요.'
+          />
+        </form>
+      )}
       <div className='recommend'>
         <h3 className='title'>친구추천</h3>
         {users.map((user) => (
