@@ -5,8 +5,9 @@ export async function action({ request }) {
   const data = await request.formData();
   const postId = data.get('postId');
   const commentId = data.get('commentId');
+  const commentCount = data.get('commentCount');
 
-  const response = await removeComment(postId, commentId);
+  const response = await removeComment(postId, commentId, commentCount);
 
   if (!response.ok) {
     throw json(

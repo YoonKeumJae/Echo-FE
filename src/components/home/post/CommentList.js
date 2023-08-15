@@ -16,13 +16,18 @@ const CommentList = ({ comments }) => {
     <StyledDiv>
       <div className='comment-list'>
         {comments.map((comment) => (
-          <CommentItem key={comment.id} comment={comment} />
+          <CommentItem
+            key={comment.id}
+            comment={comment}
+            totCount={comments.length}
+          />
         ))}
       </div>
 
       <Form method='post' className='comment-form'>
         <input type='hidden' value={id} name='userId' />
         <input type='hidden' value={nickname} name='nickname' />
+        <input type='hidden' value={comments.length} name='commentCount' />
         <img src={profileIcon} alt='user profile' />
         <input
           type='text'

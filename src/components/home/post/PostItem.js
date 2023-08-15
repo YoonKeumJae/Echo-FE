@@ -14,7 +14,7 @@ const PostItem = ({ post }) => {
   const {
     id,
     nickname,
-    commentCount,
+    comment_count: commentCount,
     content,
     updated_at: updatedAt,
     likes,
