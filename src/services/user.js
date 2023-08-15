@@ -44,5 +44,15 @@ export async function getUser(id) {
 export async function updateUser(id, data) {
   const response = await userAPI(`users/${id}.json`, 'PATCH', data);
 
+  const responsePosts = await userAPI(
+    `posts.json?orderBy="user_id"&equalTo="${id}"`,
+    'GET',
+  );
+  const resData = await responsePosts.json();
+
+  Object.keys(resData).forEach(async (postId) => {
+    await userAPI(`posts/${postId}.json`, 'PATCH', { nickname: data.nickname });
+  });
+
   return response;
 }
