@@ -25,6 +25,7 @@ import ProfilePage, {
 import EditProfilePage, {
   action as editProfileAction,
 } from '@pages/home/profile/EditProfile';
+import SearchPage, { loader as SearchDataLoader } from '@pages/home/Search';
 import NotificationPage from '@pages/home/Notification';
 import NotePage from '@pages/home/Note';
 
@@ -105,6 +106,11 @@ const router = createBrowserRouter([
                 action: editProfileAction,
               },
             ],
+          },
+          {
+            path: 'search',
+            element: <SearchPage />,
+            loader: SearchDataLoader,
           },
           {
             path: 'notification',

@@ -25,9 +25,19 @@ export async function userAPI(url, method, authData) {
 }
 
 /**
+ * 유저들의 정보 받아오기
+ * @returns 유저들의 정보
+ */
+export async function getUsers() {
+  const response = await userAPI('users.json', 'GET');
+
+  return response;
+}
+
+/**
  * 유저 정보 받아오기
  * @param {String} id 유저 아이디
- * @returns 닉네임
+ * @returns 유저 정보
  */
 export async function getUser(id) {
   const response = await userAPI(`users/${id}.json`, 'GET');
