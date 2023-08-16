@@ -66,8 +66,7 @@ export async function checkTokenLoader() {
       id: Object.keys(resData)[idx],
     }))
     .reverse()
-    .slice(0, 8)
-    .sort(() => Math.random() - 0.5); // 무작위 셔플
+    .slice(0, 3);
 
   return users;
 }
