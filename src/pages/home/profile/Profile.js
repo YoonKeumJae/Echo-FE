@@ -1,4 +1,10 @@
-import { Await, defer, json, useRouteLoaderData } from 'react-router-dom';
+import {
+  Await,
+  defer,
+  json,
+  redirectDocument,
+  useRouteLoaderData,
+} from 'react-router-dom';
 
 import { Suspense } from 'react';
 
@@ -78,6 +84,7 @@ export function loader({ params }) {
 export async function action({ request }) {
   const data = await request.formData();
   const id = data.get('postId');
+  const userId = data.get('userId');
   const response = await removePost(id);
 
   if (!response.ok) {
@@ -87,5 +94,5 @@ export async function action({ request }) {
     );
   }
 
-  return null;
+  return redirectDocument(`/profile/${userId}`);
 }
