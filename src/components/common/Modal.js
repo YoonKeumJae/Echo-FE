@@ -1,6 +1,7 @@
 import ReactDOM from 'react-dom';
 
 import { BackdropDiv, ModalDiv } from '@styles/common/Modal-styled';
+import ChatbotContainer from '@styles/home/Chatbot-styled';
 
 const Backdrop = ({ onClose }) => <BackdropDiv onClick={onClose} />;
 
@@ -10,14 +11,19 @@ const ModalOverlay = ({ className, children }) => (
 
 const portalElement = document.getElementById('modal');
 
-const Modal = ({ onClose, children }) => (
-  <>
-    {ReactDOM.createPortal(<Backdrop onClose={onClose} />, portalElement)}
-    {ReactDOM.createPortal(
-      <ModalOverlay>{children}</ModalOverlay>,
-      portalElement,
-    )}
-  </>
-);
+const Modal = ({ isChatbot, onClose, children }) => {
+  const view = isChatbot ? (
+    <ChatbotContainer>{children}</ChatbotContainer>
+  ) : (
+    <ModalOverlay>{children}</ModalOverlay>
+  );
+  return (
+    <>
+      {!isChatbot &&
+        ReactDOM.createPortal(<Backdrop onClose={onClose} />, portalElement)}
+      {ReactDOM.createPortal(view, portalElement)}
+    </>
+  );
+};
 
 export default Modal;

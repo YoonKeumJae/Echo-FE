@@ -26,7 +26,7 @@ const Home = () => {
         </div>
       </div>
       {on && (
-        <Modal onClose={toggle}>
+        <Modal onClose={toggle} isChatbot={false}>
           <Write onClose={toggle} />
         </Modal>
       )}
