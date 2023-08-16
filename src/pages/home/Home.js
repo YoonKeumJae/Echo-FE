@@ -1,5 +1,11 @@
 import { Suspense } from 'react';
-import { Await, defer, json, redirect, useLoaderData } from 'react-router-dom';
+import {
+  Await,
+  defer,
+  json,
+  redirectDocument,
+  useLoaderData,
+} from 'react-router-dom';
 
 import Home from '@components/home/Home';
 import PostList from '@components/home/post/PostList';
@@ -56,7 +62,7 @@ export async function action({ request }) {
     );
   }
 
-  return redirect('/');
+  return redirectDocument('/');
 }
 
 export async function loadPosts() {
@@ -78,7 +84,7 @@ export async function loadPosts() {
       id: post[0],
       ...post[1],
     }))
-    .reverse();
+    .sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
 
   return posts;
 }

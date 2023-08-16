@@ -51,7 +51,7 @@ export async function loadUsers(query, size) {
   return users;
 }
 
-export async function loadPosts(query, size) {
+export async function loadPosts(query) {
   const response = await getPosts();
   const resData = await response.json();
 
@@ -65,8 +65,7 @@ export async function loadPosts(query, size) {
     .filter(
       (post) => post.nickname.includes(query) || post.content.includes(query),
     )
-    .reverse()
-    .slice(0, size);
+    .reverse();
 
   return posts;
 }
@@ -80,7 +79,7 @@ export async function loader({ request }) {
 
   return defer({
     users: loadUsers(query, size),
-    posts: loadPosts(query, size),
+    posts: loadPosts(query),
     mode,
   });
 }
