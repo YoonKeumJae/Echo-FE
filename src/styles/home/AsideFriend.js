@@ -42,7 +42,7 @@ const StyledAsideFriend = styled.aside`
 
     background: #f1f3f6;
     margin-top: 16px;
-    padding: 4px 12px;
+    padding: 4px 12px 16px;
 
     border-radius: 15px;
 
@@ -79,7 +79,7 @@ const StyledAsideFriend = styled.aside`
 
   .more {
     text-align: center;
-    margin: 8px 0 16px;
+    margin: 8px 0 0;
 
     .more-friend-button {
       color: #243dc5;
