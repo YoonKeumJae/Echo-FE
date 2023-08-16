@@ -60,7 +60,7 @@ export async function loadPosts(id) {
       id: post[0],
       ...post[1],
     }))
-    .reverse();
+    .sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
 
   return posts;
 }
