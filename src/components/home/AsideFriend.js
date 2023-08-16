@@ -1,11 +1,14 @@
+import { useRef, useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 
 import profileIcon from '@assets/default/profileIcon.png';
 import searchIcon from '@assets/navigation/searchIcon.png';
+import { getUsers } from '@services/user';
 import StyledAsideFriend from '@styles/home/AsideFriend';
-import { useRef } from 'react';
 
 const AsideFriend = ({ users }) => {
+  const [renderedUsers, setRenderedUsers] = useState(users);
+  const [isMore, setIsMore] = useState(false);
   const [searchParams] = useSearchParams();
   const searchRef = useRef(null);
   const navigate = useNavigate();
@@ -16,6 +19,24 @@ const AsideFriend = ({ users }) => {
 
     if (searchRef.current.value.length <= 0) navigate('/');
     else navigate(`search?query=${searchRef.current.value}&mode=all`);
+  };
+
+  const getMoreUsers = async () => {
+    const response = await getUsers();
+    const resData = await response.json();
+
+    if (!resData) return [];
+
+    const resUsers = Object.entries(resData)
+      .map((user, idx) => ({
+        ...user[1],
+        id: Object.keys(resData)[idx],
+      }))
+      .reverse()
+      .slice(0, Number(renderedUsers.length + 5));
+
+    setIsMore(true);
+    setRenderedUsers(resUsers);
   };
 
   return (
@@ -32,7 +53,7 @@ const AsideFriend = ({ users }) => {
       )}
       <div className='recommend'>
         <h3 className='title'>친구추천</h3>
-        {users.map((user) => (
+        {renderedUsers.map((user) => (
           <div key={user.id} className='user'>
             <Link to={`profile/${user.id}`}>
               <div className='friend'>
@@ -46,9 +67,13 @@ const AsideFriend = ({ users }) => {
             <button className='add-button'>추가</button>
           </div>
         ))}
-        <div className='more'>
-          <button className='more-friend-button'>+ 더보기</button>
-        </div>
+        {!isMore && (
+          <div className='more'>
+            <button className='more-friend-button' onClick={getMoreUsers}>
+              + 더보기
+            </button>
+          </div>
+        )}
       </div>
     </StyledAsideFriend>
   );
