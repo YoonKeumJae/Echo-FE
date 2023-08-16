@@ -26,7 +26,7 @@ const PostItem = ({ post }) => {
   const date = formatDate(updatedAt);
 
   const isLink = pathname === '/' || pathname.includes('profile');
-  const isMinePost = userId === currentId;
+  const isMinePost = userId === currentId && pathname.includes('profile');
 
   const formattedContent = content.split('\\r\\n').map((line, index) => {
     if (line === '') return null;
@@ -51,7 +51,9 @@ const PostItem = ({ post }) => {
           <p className='user-name'>{nickname}</p>
           <p className='post-date'>{date}</p>
         </div>
-        {isMinePost && <PostOption postId={id} onUpdate={onClickUpdate} />}
+        {isMinePost && (
+          <PostOption postId={id} onUpdate={onClickUpdate} userId={userId} />
+        )}
       </div>
       {isLink && (
         <Link to={`/${id}`}>
