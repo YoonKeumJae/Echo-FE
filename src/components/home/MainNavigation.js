@@ -59,6 +59,11 @@ const MainNavigation = () => {
           <span>쪽지</span>
         </NavLink>
       </div>
+      <div className='item'>
+        <NavLink to='/logout'>
+          <span>로그아웃</span>
+        </NavLink>
+      </div>
     </StyledMainNavigation>
   );
 };
