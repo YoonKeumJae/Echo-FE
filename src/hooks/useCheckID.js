@@ -17,7 +17,7 @@ const useCheckID = () => {
   // 중복 체크 함수
   const checkDuplicate = async () => {
     // 중복체크 로직
-    const response = await checkUser(enteredID);
+    const response = await checkUser(enteredID, 'id');
     const resData = await response.json();
 
     if (Object.keys(resData).length === 0) {
