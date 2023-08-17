@@ -30,7 +30,10 @@ const useCheckPhone = () => {
     .padStart(2, '0')}:${(time % 60).toString().padStart(2, '0')}`;
 
   const onSendCode = (phoneNumber) => {
-    if (sendCount <= 0) return;
+    if (sendCount <= 0) {
+      alert('인증번호를 모두 전송하였습니다.');
+      return;
+    }
 
     // 인증번호 전송 로직
     const koreaPhoneNumber = `+1${phoneNumber}`;
