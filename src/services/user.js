@@ -66,3 +66,17 @@ export async function updateUser(id, data) {
 
   return response;
 }
+
+/**
+ * 동일한 유저가 있는지 확인
+ * @param {String} id 유저 아이디
+ * @returns 응답
+ */
+export async function checkUser(id) {
+  const response = await userAPI(
+    `users.json?orderBy="id"&equalTo="${id}"`,
+    'GET',
+  );
+
+  return response;
+}

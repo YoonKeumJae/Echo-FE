@@ -1,8 +1,8 @@
 import { useState } from 'react';
+import { checkUser } from '@services/user';
 
 const useCheckID = () => {
   const [enteredID, setEnteredID] = useState('');
-  const [checkedID, setCheckedID] = useState('');
   const [isUniqueID, setIsUniqueID] = useState(false);
   const [message, setMessage] = useState('');
 
@@ -17,19 +17,19 @@ const useCheckID = () => {
   // 중복 체크 함수
   const checkDuplicate = async () => {
     // 중복체크 로직
-    // const response = await getOne(data, type);
-    // eslint-disable-next-line no-console
-    console.log(checkedID);
+    const response = await checkUser(enteredID);
+    const resData = await response.json();
+
+    if (Object.keys(resData).length === 0) {
+      // 성공 시
+      setIsUniqueID(true);
+      setMessage('사용하실 수 있는 아이디입니다.');
+      return;
+    }
 
     // 실패 시
-    // setIsUniqueID(false);
-    // setCheckedID('');
-    // setMessage('이미 존재하는 아이디입니다.');
-
-    // 성공 시
-    setIsUniqueID(true);
-    setCheckedID(enteredID);
-    setMessage('사용하실 수 있는 아이디입니다.');
+    setIsUniqueID(false);
+    setMessage('이미 존재하는 아이디입니다.');
   };
 
   return { enteredID, isUniqueID, onChangeID, checkDuplicate, message };
