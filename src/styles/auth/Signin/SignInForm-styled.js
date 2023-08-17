@@ -24,7 +24,7 @@ const StyledSection = styled.section`
         font-size: 24px;
         text-align: center;
         font-weight: 600;
-        margin: 16px 0 32px;
+        margin: 4px 0 32px;
       }
 
       .input-container {

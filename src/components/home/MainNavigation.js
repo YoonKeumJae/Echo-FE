@@ -1,5 +1,6 @@
 import { NavLink } from 'react-router-dom';
 
+import echoLogo from '@assets/util/echoLogo.png';
 import profileIcon from '@assets/default/profileIcon.png';
 import homeIcon from '@assets/navigation/homeIcon.png';
 import notificationIcon from '@assets/navigation/notificationIcon.png';
@@ -12,7 +13,11 @@ const MainNavigation = () => {
 
   return (
     <StyledMainNavigation>
-      <div className='item logo'>LOGO</div>
+      <div className='item'>
+        <div className='logo'>
+          <img src={echoLogo} alt='echo logo' />
+        </div>
+      </div>
       <div className='item'>
         <NavLink
           to={`/profile/${id}`}

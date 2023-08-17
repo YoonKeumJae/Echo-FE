@@ -3,6 +3,7 @@ import { Link, useSubmit } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
 
+import echoLogo from '@assets/util/echoLogo.png';
 import {
   regExpID,
   regExpPassword,
@@ -80,7 +81,9 @@ const SignUpForm = ({ error, isSubmitting }) => {
     <StyledSection>
       <form className='signup-form' onSubmit={handleSubmit(onSubmit)}>
         <Link to='/'>
-          <h2 className='logo'>Logo</h2>
+          <div className='logo'>
+            <img src={echoLogo} alt='echo logo' />
+          </div>
         </Link>
         <p className='description'>Echo 회원가입</p>
         <div className='input-container'>

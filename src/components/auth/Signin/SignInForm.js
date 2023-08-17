@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { useSubmit } from 'react-router-dom';
 import { ErrorMessage } from '@hookform/error-message';
 
+import echoLogo from '@assets/util/echoLogo.png';
 import StyledSection from '@styles/auth/signin/SignInForm-styled';
 import SignInNavigation from './SignInNavigation';
 
@@ -44,7 +45,9 @@ const SignInForm = ({ error, isSubmitting }) => {
           className='signin-form'
           onSubmit={handleSubmit(onSubmit)}
         >
-          <h2 className='logo'>Logo</h2>
+          <div className='logo'>
+            <img src={echoLogo} alt='echo logo' />
+          </div>
           <p className='description'>Echo 로그인</p>
           <div className='input-container'>
             <label htmlFor='inputId' className='input-type'>
