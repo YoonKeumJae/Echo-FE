@@ -9,6 +9,7 @@ const ChatbotContainer = styled.div`
 
   .chatbot {
     max-width: 368px;
+
     .chatbot-img {
       position: absolute;
       right: 0;
@@ -24,6 +25,19 @@ const ChatbotContainer = styled.div`
     }
 
     .speech-bubble {
+      animation: 0.5s slide-down ease-in-out;
+
+      @keyframes slide-down {
+        from {
+          opacity: 0;
+          transform: translateY(1rem);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
       z-index: 10001;
       position: relative;
       right: -16px;
