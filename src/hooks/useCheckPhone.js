@@ -3,15 +3,8 @@ import { useTimer } from 'use-timer';
 import { initializeApp } from 'firebase/app';
 import { getAuth, signInWithPhoneNumber } from 'firebase/auth';
 
-const firebaseConfig = {
-  apiKey: 'AIzaSyDg2R00GnG36DhJvRqoqQ4RLbBBjJllhsY',
-  authDomain: 'echo-694a4.firebaseapp.com',
-  databaseURL: 'https://echo-694a4-default-rtdb.firebaseio.com',
-  projectId: 'echo-694a4',
-  storageBucket: 'echo-694a4.appspot.com',
-  messagingSenderId: '233663060014',
-  appId: '1:233663060014:web:4ccd5b2883599aac97a7bf',
-};
+import firebaseConfig from '@config/firebaseConfig';
+
 initializeApp(firebaseConfig);
 export const auth = getAuth();
 
