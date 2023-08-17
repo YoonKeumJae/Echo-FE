@@ -6,12 +6,14 @@ const ChatbotContainer = styled.div`
   right: 25px;
 
   background: transparent;
-  z-index: 999;
 
   .chatbot {
-    color: red;
+    max-width: 368px;
+    .chatbot-img {
+      position: absolute;
+      right: 0;
+      bottom: 0;
 
-    button {
       background: none;
       border: none;
       cursor: pointer;
@@ -19,6 +21,49 @@ const ChatbotContainer = styled.div`
       img {
         width: 64px;
       }
+    }
+
+    .speech-bubble {
+      z-index: 10001;
+      position: relative;
+      right: -16px;
+      bottom: 82px;
+
+      padding: 4px 8px;
+      border: 1px solid #000000;
+      border-radius: 0.4em;
+
+      text-align: right;
+
+      p {
+        text-align: left;
+        margin: 0;
+      }
+
+      .button-container {
+        display: flex;
+        justify-content: end;
+        margin-top: 8px;
+        gap: 8px;
+
+        button {
+          cursor: pointer;
+        }
+      }
+    }
+
+    .speech-bubble:after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      right: 42px;
+      width: 0;
+      height: 0;
+      border: 12px solid transparent;
+      border-top-color: #000000;
+      border-bottom: 0;
+      margin-left: -12px;
+      margin-bottom: -12px;
     }
   }
 `;
