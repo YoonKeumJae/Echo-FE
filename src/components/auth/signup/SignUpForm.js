@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { Link, useSubmit } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
+import { RecaptchaVerifier } from 'firebase/auth';
 
 import echoLogo from '@assets/util/echoLogo.png';
 import {
@@ -12,7 +13,7 @@ import {
   regExpPhone,
 } from '@constants/regular-expression';
 import useCheckID from '@hooks/useCheckID';
-import useCheckPhone from '@hooks/useCheckPhone';
+import useCheckPhone, { auth } from '@hooks/useCheckPhone';
 import usePreventLeave from '@hooks/usePreventLeave';
 import StyledSection from '@styles/auth/signup/SignUpForm-styled';
 
@@ -60,6 +61,18 @@ const SignUpForm = ({ error, isSubmitting }) => {
 
     setError('nickname', { message: error.message }, { shouldFocus: true });
   }, [setError, error]);
+
+  // 캡챠 인증
+  useEffect(() => {
+    window.recaptchaVerifier = new RecaptchaVerifier(
+      auth,
+      'recaptcha-container',
+      {
+        size: 'invisible',
+        callback: () => {},
+      },
+    );
+  }, []);
 
   const onSubmit = (authForm) => {
     if (!isUniqueID) {
@@ -219,7 +232,7 @@ const SignUpForm = ({ error, isSubmitting }) => {
             />
             <button
               type='button'
-              onClick={onSendCode}
+              onClick={() => onSendCode(getValues('phone'))}
               className={isVerify ? 'disabled' : undefined}
               disabled={
                 errors.phone || getValues('phone').length === 0 || isVerify
@@ -250,7 +263,7 @@ const SignUpForm = ({ error, isSubmitting }) => {
               <button
                 className={`identify-button ${isVerify && 'disabled'}`}
                 type='button'
-                onClick={onVerifyCode}
+                onClick={() => onVerifyCode(getValues('certificationNumber'))}
                 disabled={isVerify}
               >
                 확인
@@ -273,6 +286,7 @@ const SignUpForm = ({ error, isSubmitting }) => {
           </Link>
         </p>
       </form>
+      <div id='recaptcha-container'></div>
     </StyledSection>
   );
 };

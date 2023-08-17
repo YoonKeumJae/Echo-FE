@@ -1,5 +1,19 @@
 import { useState } from 'react';
 import { useTimer } from 'use-timer';
+import { initializeApp } from 'firebase/app';
+import { getAuth, signInWithPhoneNumber } from 'firebase/auth';
+
+const firebaseConfig = {
+  apiKey: 'AIzaSyDg2R00GnG36DhJvRqoqQ4RLbBBjJllhsY',
+  authDomain: 'echo-694a4.firebaseapp.com',
+  databaseURL: 'https://echo-694a4-default-rtdb.firebaseio.com',
+  projectId: 'echo-694a4',
+  storageBucket: 'echo-694a4.appspot.com',
+  messagingSenderId: '233663060014',
+  appId: '1:233663060014:web:4ccd5b2883599aac97a7bf',
+};
+initializeApp(firebaseConfig);
+export const auth = getAuth();
 
 const useCheckPhone = () => {
   const {
@@ -22,20 +36,35 @@ const useCheckPhone = () => {
     .toString()
     .padStart(2, '0')}:${(time % 60).toString().padStart(2, '0')}`;
 
-  const onSendCode = () => {
+  const onSendCode = (phoneNumber) => {
     if (sendCount <= 0) return;
 
-    alert('인증번호를 전송하였습니다.');
-
     // 인증번호 전송 로직
+    const koreaPhoneNumber = `+1${phoneNumber}`;
+    auth.languageCode = 'ko';
 
-    setIsSend(true);
-    resetTime();
-    start();
-    setSendCount((prevCount) => prevCount - 1);
+    const appVerifier = window.recaptchaVerifier;
+
+    // 휴대폰번호에 +82 추가
+    signInWithPhoneNumber(auth, koreaPhoneNumber, appVerifier)
+      .then((confirmationResult) => {
+        // success
+        if (sendCount === 3) alert('인증번호를 전송하였습니다.');
+        else alert('인증번호를 재전송하였습니다.');
+        window.confirmationResult = confirmationResult;
+
+        setIsSend(true);
+        resetTime();
+        start();
+        setSendCount((prevCount) => prevCount - 1);
+      })
+      .catch((err) => {
+        // eslint-disable-next-line no-console
+        console.log(err);
+      });
   };
 
-  const onVerifyCode = async () => {
+  const onVerifyCode = async (code) => {
     if (status === 'STOPPED') {
       alert('인증번호 입력 시간이 만료되었습니다.');
       return;
@@ -44,16 +73,19 @@ const useCheckPhone = () => {
     // 일시 정지
     pause();
 
-    // 휴대폰 인증 로직
-    // const response = await api...default.
-
-    // 휴대폰 인증 실패시
-    // alert('인증번호가 일치하지 않습니다.');
-    // start();
-
-    // 휴대폰 인증 완료시
-    alert('인증번호가 확인되었습니다.');
-    setIsVerify(true);
+    await window.confirmationResult
+      .confirm(code)
+      .then(() => {
+        // success
+        // 휴대폰 인증 완료시
+        alert('인증번호가 확인되었습니다.');
+        setIsVerify(true);
+      })
+      .catch(() => {
+        // fail
+        alert('인증번호가 일치하지 않습니다');
+        start();
+      });
   };
 
   const resetVerify = () => {
