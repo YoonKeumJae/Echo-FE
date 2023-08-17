@@ -1,5 +1,5 @@
 import { useCallback, useEffect } from 'react';
-import { useLocation, useToggle } from 'react-use';
+import { useIdle, useLocation, useToggle } from 'react-use';
 import { useSelector } from 'react-redux';
 
 import chatbotIcon from '@assets/util/chatbot.png';
@@ -20,6 +20,7 @@ import {
 } from '@utils/chatbot';
 
 const Chatbot = () => {
+  const isIdle = useIdle(5e3);
   const { pathname } = useLocation();
   const { message, isOverlay, isSelect, isEnd, isMore } = useSelector(
     (state) => state.chatbot,
@@ -28,6 +29,12 @@ const Chatbot = () => {
 
   const onStartChatbot = () => store.dispatch(onChatbot());
   const onCloseChatbot = () => store.dispatch(endChatbot());
+
+  useEffect(() => {
+    if (isIdle) {
+      setIsShowMessage(true);
+    }
+  }, [setIsShowMessage, isIdle]);
 
   useEffect(() => {
     if (message === END_MESSAGE) {
