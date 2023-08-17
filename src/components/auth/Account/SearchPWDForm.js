@@ -1,9 +1,10 @@
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useSubmit } from 'react-router-dom';
+import { RecaptchaVerifier } from 'firebase/auth';
 
 import { regExpPhone } from '@constants/regular-expression';
-import useCheckPhone from '@hooks/useCheckPhone';
+import useCheckPhone, { auth } from '@hooks/useCheckPhone';
 import { ErrorMessage } from '@hookform/error-message';
 
 const SearchPWDForm = ({ error, isSubmitting }) => {
@@ -13,6 +14,7 @@ const SearchPWDForm = ({ error, isSubmitting }) => {
     formState: { errors },
     getValues,
     reset,
+    setFocus,
   } = useForm({
     mode: 'onBlur',
     defaultValues: {
@@ -41,7 +43,27 @@ const SearchPWDForm = ({ error, isSubmitting }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [error]);
 
-  const onSubmit = (data) => submit(data, { method: 'POST' });
+  // 캡챠 인증
+  useEffect(() => {
+    window.recaptchaVerifier = new RecaptchaVerifier(
+      auth,
+      'recaptcha-container',
+      {
+        size: 'invisible',
+        callback: () => {},
+      },
+    );
+  }, []);
+
+  const onSubmit = (data) => {
+    if (!isVerify) {
+      alert('휴대폰 인증을 해주세요.');
+      setFocus('certificationNumber');
+      return;
+    }
+
+    submit(data, { method: 'POST' });
+  };
 
   return (
     <>
@@ -62,9 +84,12 @@ const SearchPWDForm = ({ error, isSubmitting }) => {
             name='id'
             placeholder='아이디를 입력해주세요.'
             {...register('id', {
-              required: true,
+              required: '아이디를 입력해주세요.',
             })}
           />
+          <span className='input-validation'>
+            <ErrorMessage errors={errors} name='id' />
+          </span>
         </div>
         <div className='input-container'>
           <label htmlFor='inputPhone' className='input-type'>
@@ -87,7 +112,7 @@ const SearchPWDForm = ({ error, isSubmitting }) => {
             />
             <button
               type='button'
-              onClick={onSendCode}
+              onClick={() => onSendCode(getValues('phone'))}
               className={isVerify ? 'disabled' : undefined}
               disabled={
                 errors.phone || getValues('phone').length === 0 || isVerify
@@ -118,7 +143,7 @@ const SearchPWDForm = ({ error, isSubmitting }) => {
               <button
                 className={`identify-button ${isVerify && 'disabled'}`}
                 type='button'
-                onClick={onVerifyCode}
+                onClick={() => onVerifyCode(getValues('certificationNumber'))}
                 disabled={isVerify}
               >
                 확인
@@ -136,6 +161,8 @@ const SearchPWDForm = ({ error, isSubmitting }) => {
           계정이 없으신가요?
         </Link>
       </p>
+
+      <div id='recaptcha-container' />
     </>
   );
 };

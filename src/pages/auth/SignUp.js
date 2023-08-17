@@ -1,15 +1,14 @@
-import { json, redirect, useActionData, useNavigation } from 'react-router-dom';
+import { json, redirect, useNavigation } from 'react-router-dom';
 
 import SignUpForm from '@components/auth/signup/SignUpForm';
 import { signUpAPI } from '@services/auth';
 import { getCurrentTime } from '@utils/date';
 
 const SignUpPage = () => {
-  const error = useActionData();
   const navigation = useNavigation();
   const isSubmitting = navigation.state === 'submitting';
 
-  return <SignUpForm error={error} isSubmitting={isSubmitting} />;
+  return <SignUpForm isSubmitting={isSubmitting} />;
 };
 
 export default SignUpPage;
@@ -32,12 +31,6 @@ export async function action({ request }) {
   };
 
   const response = await signUpAPI(authData);
-  const resData = await response.json();
-
-  // 닉네임이 중복인 경우
-  if (response.status === 409) {
-    return { message: resData.message };
-  }
 
   // 내부 서버 오류
   if (!response.ok) {

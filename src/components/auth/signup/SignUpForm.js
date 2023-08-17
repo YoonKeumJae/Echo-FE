@@ -1,8 +1,10 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useSubmit } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
+import { RecaptchaVerifier } from 'firebase/auth';
 
+import echoLogo from '@assets/util/echoLogo.png';
 import {
   regExpID,
   regExpPassword,
@@ -11,18 +13,19 @@ import {
   regExpPhone,
 } from '@constants/regular-expression';
 import useCheckID from '@hooks/useCheckID';
-import useCheckPhone from '@hooks/useCheckPhone';
+import useCheckPhone, { auth } from '@hooks/useCheckPhone';
 import usePreventLeave from '@hooks/usePreventLeave';
+import { checkUser } from '@services/user';
 import StyledSection from '@styles/auth/signup/SignUpForm-styled';
 
-const SignUpForm = ({ error, isSubmitting }) => {
+const SignUpForm = ({ isSubmitting }) => {
   const {
     register,
     handleSubmit,
     formState: { errors, isDirty },
-    setError,
     setFocus,
     getValues,
+    setError,
   } = useForm({
     mode: 'onBlur',
     defaultValues: {
@@ -35,6 +38,8 @@ const SignUpForm = ({ error, isSubmitting }) => {
       certificationNumber: '',
     },
   });
+
+  const [successNickname, setSuccessNickname] = useState('');
 
   // 아이디 중복체크 훅
   const {
@@ -53,14 +58,39 @@ const SignUpForm = ({ error, isSubmitting }) => {
   // 페이지를 벗어날 시 Prompt 창 띄우기
   usePreventLeave(isDirty);
 
-  // 닉네임 중복 에러
+  // 캡챠 인증
   useEffect(() => {
-    if (!error) return;
+    window.recaptchaVerifier = new RecaptchaVerifier(
+      auth,
+      'recaptcha-container',
+      {
+        size: 'invisible',
+        callback: () => {},
+      },
+    );
+  }, []);
 
-    setError('nickname', { message: error.message }, { shouldFocus: true });
-  }, [setError, error]);
+  const checkDuplicateNickname = async () => {
+    const response = await checkUser(getValues('nickname'), 'nickname');
+    const resData = await response.json();
+
+    if (Object.keys(resData).length === 0) {
+      setSuccessNickname('사용 가능한 닉네임입니다.');
+      return;
+    }
+
+    // 실패 시
+    setSuccessNickname('');
+    setError('nickname', { message: '이미 존재하는 닉네임입니다.' });
+  };
 
   const onSubmit = (authForm) => {
+    if (!successNickname) {
+      alert('닉네임을 변경해주세요.');
+      setFocus('nickname');
+      return;
+    }
+
     if (!isUniqueID) {
       alert('아이디 중복 확인을 해주세요.');
       setFocus('id');
@@ -80,7 +110,9 @@ const SignUpForm = ({ error, isSubmitting }) => {
     <StyledSection>
       <form className='signup-form' onSubmit={handleSubmit(onSubmit)}>
         <Link to='/'>
-          <h2 className='logo'>Logo</h2>
+          <div className='logo'>
+            <img src={echoLogo} alt='echo logo' />
+          </div>
         </Link>
         <p className='description'>Echo 회원가입</p>
         <div className='input-container'>
@@ -189,10 +221,16 @@ const SignUpForm = ({ error, isSubmitting }) => {
                 value: regExpNickname,
                 message: '※ 2~8자 이내의 닉네임을 입력해주세요.',
               },
+              onBlur: checkDuplicateNickname,
             })}
           />
-          <span className='input-validation'>
+          <span
+            className={`input-validation ${
+              successNickname ? 'success' : undefined
+            }`}
+          >
             <ErrorMessage errors={errors} name='nickname' />
+            {successNickname}
           </span>
         </div>
         <div className='input-container'>
@@ -216,7 +254,7 @@ const SignUpForm = ({ error, isSubmitting }) => {
             />
             <button
               type='button'
-              onClick={onSendCode}
+              onClick={() => onSendCode(getValues('phone'))}
               className={isVerify ? 'disabled' : undefined}
               disabled={
                 errors.phone || getValues('phone').length === 0 || isVerify
@@ -247,7 +285,7 @@ const SignUpForm = ({ error, isSubmitting }) => {
               <button
                 className={`identify-button ${isVerify && 'disabled'}`}
                 type='button'
-                onClick={onVerifyCode}
+                onClick={() => onVerifyCode(getValues('certificationNumber'))}
                 disabled={isVerify}
               >
                 확인
@@ -270,6 +308,7 @@ const SignUpForm = ({ error, isSubmitting }) => {
           </Link>
         </p>
       </form>
+      <div id='recaptcha-container'></div>
     </StyledSection>
   );
 };

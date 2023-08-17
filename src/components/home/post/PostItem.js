@@ -40,6 +40,14 @@ const PostItem = ({ post }) => {
   });
 
   const onClickUpdate = () => navigate(`/${id}/update`, { state: post });
+  const onCopyToClipBoard = async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href + id);
+      alert('클립보드에 링크가 복사되었습니다.');
+    } catch (e) {
+      alert('복사에 실패하였습니다');
+    }
+  };
 
   return (
     <StyledPost>
@@ -57,29 +65,29 @@ const PostItem = ({ post }) => {
       </div>
       {isLink && (
         <Link to={`/${id}`}>
-          <div className='content'>{formattedContent}</div>
+          <div className='content'>
+            {content.replace(/\\r\\n/g, ' ').slice(0, 360)}
+
+            <p style={{ margin: '16px 0 0' }}>
+              {content.length >= 360 && '더보기.....'}
+            </p>
+          </div>
         </Link>
       )}
       {!isLink && <div className='content'>{formattedContent}</div>}
       <div className='aside'>
-        <div className='item'>
-          <button>
-            <img src={messageIcon} alt='message icon' />
-          </button>
+        <button className='item'>
+          <img src={messageIcon} alt='message icon' />
           <span>{commentCount}</span>
-        </div>
-        <div className='item'>
-          <button>
-            <img src={likeIcon} alt='like icon' />
-          </button>
+        </button>
+        <button className='item'>
+          <img src={likeIcon} alt='like icon' />
           <span>{likes}</span>
-        </div>
-        <div className='item'>
-          <button>
-            <img src={shareIcon} alt='share icon' />
-          </button>
+        </button>
+        <button className='item' onClick={onCopyToClipBoard}>
+          <img src={shareIcon} alt='share icon' />
           <span>공유</span>
-        </div>
+        </button>
       </div>
     </StyledPost>
   );

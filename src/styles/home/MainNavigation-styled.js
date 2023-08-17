@@ -10,6 +10,7 @@ const StyledMainNavigation = styled.nav`
   display: flex;
   flex-direction: column;
   align-items: end;
+  margin-top: 16px;
 
   .item {
     display: flex;
@@ -18,6 +19,10 @@ const StyledMainNavigation = styled.nav`
 
     height: 48px;
     width: 160px;
+
+    &:first-child {
+      margin-bottom: 16px;
+    }
 
     img {
       vertical-align: bottom;
@@ -31,12 +36,6 @@ const StyledMainNavigation = styled.nav`
     .active {
       font-weight: 700;
     }
-  }
-
-  .logo {
-    font-size: 36px;
-    color: #243dc5;
-    font-weight: 700;
   }
 `;
 
