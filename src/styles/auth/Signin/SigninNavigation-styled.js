@@ -46,14 +46,6 @@ const StyledDiv = styled.div`
       margin: 0 8px;
     }
   }
-
-  .social-login {
-    display: flex;
-
-    button {
-      flex: 1;
-    }
-  }
 `;
 
 export default StyledDiv;

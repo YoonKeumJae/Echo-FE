@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
 
-import kakao from '@assets/social/kakao.png';
 import StyledDiv from '@styles/auth/signin/SignInNavigation-styled';
 
 const SignInNavigation = () => {
@@ -14,13 +13,7 @@ const SignInNavigation = () => {
       <div className='divider'>
         <p>또는</p>
       </div>
-      <div className='social-login'>
-        <Link to='/auth/social?type=kakao'>
-          <button type='button'>
-            <img src={kakao} width={320} alt='kakao login' />
-          </button>
-        </Link>
-      </div>
+
       <p className='navigation'>
         계정이 없으신가요?
         <Link to='/auth/signup' relative='path' className='link-text'>
