@@ -38,9 +38,11 @@ export const getMessageForSectionOne = (clickedY) => {
   return '아무것도 존재하지 않는 여백의 미 입니다. 저희 Echo SNS를 이용해 주셔서 감사합니다!';
 };
 
-export const getMessageForSectionTwo = (clickedY) => {
-  // eslint-disable-next-line no-console
-  console.log(clickedY);
+export const getMessageForSectionTwo = (clickedY, location) => {
+  if (location !== '/') {
+    return '죄송합니다. 아직까지 홈페이지 외에 정보가 부족합니다. 더 도움이 될 수 있는 Echo Bot이 되도록 노력하겠습니다.';
+  }
+
   if (clickedY >= 63 && clickedY <= 118) {
     return '게시물을 작성할 수 있는 곳으로, 클릭한 후에 간편하게 게시물을 작성할 수 있습니다.';
   }
@@ -48,6 +50,8 @@ export const getMessageForSectionTwo = (clickedY) => {
   if (clickedY >= 129) {
     return '사용자가 올린 게시물입니다. 게시물의 내용부분을 클릭하면 사용자의 게시물을 자세하게 볼 수 있으며, 다른 사람들이 작성한 댓글 또한 볼 수 있습니다.';
   }
+
+  return '아무것도 존재하지 않는 여백의 미 입니다. 저희 Echo SNS를 이용해 주셔서 감사합니다!';
 };
 
 export const getMessageForSectionThree = (clickedY) => {

@@ -1,5 +1,5 @@
 import { useCallback, useEffect } from 'react';
-import { useToggle } from 'react-use';
+import { useLocation, useToggle } from 'react-use';
 import { useSelector } from 'react-redux';
 
 import chatbotIcon from '@assets/util/chatbot.png';
@@ -20,6 +20,7 @@ import {
 } from '@utils/chatbot';
 
 const Chatbot = () => {
+  const { pathname } = useLocation();
   const { message, isOverlay, isSelect, isEnd, isMore } = useSelector(
     (state) => state.chatbot,
   );
@@ -37,27 +38,31 @@ const Chatbot = () => {
     }
   }, [setIsShowMessage, message]);
 
-  const detectMousePosition = useCallback((e) => {
-    // 전체 크기 구하기
-    const maxWidth = document.body.offsetWidth;
+  const detectMousePosition = useCallback(
+    (e) => {
+      // 전체 크기 구하기
+      const maxWidth = document.body.offsetWidth;
 
-    // 클릭한 요소의 상대 위치 구하기
-    const rect = e.target.getBoundingClientRect();
-    const relativeX = e.clientX - rect.left;
-    const relativeY = e.clientY - rect.top;
+      // 클릭한 요소의 상대 위치 구하기
+      const rect = e.target.getBoundingClientRect();
+      const relativeX = e.clientX - rect.left;
+      const relativeY = e.clientY - rect.top;
 
-    // 클릭한 요소의 섹션 구하기
-    const section = getSection(relativeX, maxWidth);
+      // 클릭한 요소의 섹션 구하기
+      const section = getSection(relativeX, maxWidth);
 
-    // 클릭한 요소의 요소 구하기
-    let explanation = '';
-    if (section === 1) explanation = getMessageForSectionOne(relativeY);
-    if (section === 2) explanation = getMessageForSectionTwo(relativeY);
-    if (section === 3) explanation = getMessageForSectionThree(relativeY);
+      // 클릭한 요소의 요소 구하기
+      let explanation = '';
+      if (section === 1) explanation = getMessageForSectionOne(relativeY);
+      if (section === 2)
+        explanation = getMessageForSectionTwo(relativeY, pathname);
+      if (section === 3) explanation = getMessageForSectionThree(relativeY);
 
-    // 요소에 대한 설명 출력하기
-    store.dispatch(setChatbot({ message: explanation }));
-  }, []);
+      // 요소에 대한 설명 출력하기
+      store.dispatch(setChatbot({ message: explanation }));
+    },
+    [pathname],
+  );
 
   return (
     <>

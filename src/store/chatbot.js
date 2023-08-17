@@ -2,7 +2,8 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const START_MESSAGE = '화면 안내가 필요하신가요?';
 export const SELECT_MESSAGE = '화면에서 설명이 필요한 부분을 선택해주세요.';
-export const END_MESSAGE = '이용해주셔서 감사합니다.';
+export const END_MESSAGE =
+  'Echo Bot을 이용해주셔서 감사합니다. 궁금한 점이 있으면 언제든 이용해주세요.';
 
 const chatbotSlice = createSlice({
   name: 'chatbot',
