@@ -9,7 +9,6 @@
     "Atomics": "readonly",
     "SharedArrayBuffer": "readonly"
   },
-  "parser": "@babel/eslint-parser",
   "parserOptions": {
     "sourceType": "module",
     "ecmaVersion": "latest"
@@ -41,7 +40,10 @@
     "import/no-extraneous-dependencies": "off",
     "arrow-body-style": "off",
     "prefer-arrow-callback": "off",
-    "prettier/prettier": "off"
+    "prettier/prettier": "off",
+    "import/prefer-default-export": "off",
+    "consistent-return": "off",
+    "no-param-reassign": "off"
   },
   "ignorePatterns": ["build", "node_modules"],
   "settings": {
