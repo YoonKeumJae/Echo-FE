@@ -65,15 +65,6 @@ const StyledAsideFriend = styled.aside`
           width: 32px;
         }
       }
-
-      .add-button {
-        background: #000000;
-        color: #ffffff;
-
-        width: 64px;
-        height: 24px;
-        border-radius: 12px;
-      }
     }
   }
 

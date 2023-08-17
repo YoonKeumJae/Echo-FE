@@ -64,7 +64,6 @@ const AsideFriend = ({ users }) => {
                 <span>{user.nickname}</span>
               </div>
             </Link>
-            <button className='add-button'>추가</button>
           </div>
         ))}
         {!isMore && (
