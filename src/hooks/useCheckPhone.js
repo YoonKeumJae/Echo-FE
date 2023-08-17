@@ -36,7 +36,7 @@ const useCheckPhone = () => {
     }
 
     // 인증번호 전송 로직
-    const koreaPhoneNumber = `+1${phoneNumber}`;
+    const koreaPhoneNumber = `+82${phoneNumber}`;
     auth.languageCode = 'ko';
 
     const appVerifier = window.recaptchaVerifier;
