@@ -20,7 +20,7 @@ import {
 } from '@utils/chatbot';
 
 const Chatbot = () => {
-  const isIdle = useIdle(5e3);
+  const isIdle = useIdle(5e3, true);
   const { pathname } = useLocation();
   const { message, isOverlay, isSelect, isEnd, isMore } = useSelector(
     (state) => state.chatbot,
