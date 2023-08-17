@@ -5,9 +5,6 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import RootLayout from '@pages/RootLayout';
 import ErrorPage from '@pages/Error';
 
-import NotificationPage from '@pages/home/Notification';
-import NotePage from '@pages/home/Note';
-
 import AuthenticationPage from '@pages/auth/Authentication';
 import { loader as logoutLoader } from '@pages/Logout';
 
@@ -165,14 +162,6 @@ const router = createBrowserRouter([
                 loader: SearchDataLoader,
               };
             },
-          },
-          {
-            path: 'notification',
-            element: <NotificationPage />,
-          },
-          {
-            path: 'note',
-            element: <NotePage />,
           },
         ],
       },
