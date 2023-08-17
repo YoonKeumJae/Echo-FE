@@ -65,7 +65,13 @@ const PostItem = ({ post }) => {
       </div>
       {isLink && (
         <Link to={`/${id}`}>
-          <div className='content'>{formattedContent}</div>
+          <div className='content'>
+            {content.replace(/\\r\\n/g, ' ').slice(0, 360)}
+
+            <p style={{ margin: '16px 0 0' }}>
+              {content.length >= 360 && '더보기.....'}
+            </p>
+          </div>
         </Link>
       )}
       {!isLink && <div className='content'>{formattedContent}</div>}
