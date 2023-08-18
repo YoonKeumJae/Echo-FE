@@ -94,6 +94,7 @@ const SearchPWDForm = ({ error, isSubmitting }) => {
         <div className='input-container'>
           <label htmlFor='inputPhone' className='input-type'>
             휴대폰
+            <span>(인증번호 전송 후 오른쪽 하단에 박스를 클릭해주세요.)</span>
           </label>
           <div className='certification-box'>
             <input

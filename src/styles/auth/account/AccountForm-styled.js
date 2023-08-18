@@ -57,6 +57,10 @@ const StyledSection = styled.section`
 
         label {
           font-weight: 600;
+
+          span {
+            font-size: 8px;
+          }
         }
 
         .input-validation {
