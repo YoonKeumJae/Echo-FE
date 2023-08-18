@@ -70,6 +70,18 @@ const SignUpForm = ({ isSubmitting }) => {
     );
   }, []);
 
+  const onSend = async () => {
+    const response = await checkUser(getValues('phone'), 'phone');
+    const resData = await response.json();
+
+    if (Object.keys(resData).length !== 0) {
+      alert('이미 회원가입된 휴대폰입니다.');
+      return;
+    }
+
+    onSendCode(getValues('phone'));
+  };
+
   const checkDuplicateNickname = async () => {
     const response = await checkUser(getValues('nickname'), 'nickname');
     const resData = await response.json();
@@ -254,7 +266,7 @@ const SignUpForm = ({ isSubmitting }) => {
             />
             <button
               type='button'
-              onClick={() => onSendCode(getValues('phone'))}
+              onClick={onSend}
               className={isVerify ? 'disabled' : undefined}
               disabled={
                 errors.phone || getValues('phone').length === 0 || isVerify
@@ -300,7 +312,6 @@ const SignUpForm = ({ isSubmitting }) => {
             value={isSubmitting ? '가입중...' : '가입하기'}
             disabled={isSubmitting}
           />
-          <input className='reset-button' type='reset' value='취소하기' />
         </div>
         <p className='navigation'>
           <Link to='/auth/signin' className='navigation-account'>
