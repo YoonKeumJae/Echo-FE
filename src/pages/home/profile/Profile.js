@@ -25,7 +25,16 @@ const ProfilePage = () => {
       </Suspense>
       <Suspense fallback={<p style={{ textAlign: 'center' }}>Loading...</p>}>
         <Await resolve={posts}>
-          {(loadedPosts) => <PostList posts={loadedPosts} />}
+          {(loadedPosts) => {
+            // eslint-disable-next-line no-console
+            if (loadedPosts.length === 0)
+              return (
+                <h3 style={{ textAlign: 'center', marginTop: '64px' }}>
+                  현재 게시물이 존재하지 않습니다.
+                </h3>
+              );
+            return <PostList posts={loadedPosts} />;
+          }}
         </Await>
       </Suspense>
     </>
