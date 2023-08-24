@@ -8,6 +8,10 @@ const PostList = ({ posts }) => {
   const [currentSize, setCurrentSize] = useState(60);
   const [isLoading, setIsLoading] = useState(false);
 
+  useEffect(() => {
+    setItems(posts.slice(0, 30));
+  }, [posts]);
+
   const fetchData = useCallback(async () => {
     setIsLoading(true);
 

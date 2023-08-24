@@ -50,6 +50,22 @@ export async function getPost(id) {
 }
 
 /**
+ * 게시글 좋아요 클릭
+ * @param {*} postId
+ * @param {*} data
+ * @returns
+ */
+export async function likePost(postId, data) {
+  const response = await postAPI(
+    `posts/${postId}/liked_users.json`,
+    'PUT',
+    data,
+  );
+
+  return response;
+}
+
+/**
  * 게시글 작성 API
  * @param {Object} data 게시글
  * @returns 응답

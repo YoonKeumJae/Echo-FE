@@ -34,8 +34,11 @@ const StyledSection = styled.section`
       margin: 4px 0;
 
       label {
-        width: 90px;
         font-weight: 600;
+
+        span {
+          font-size: 8px;
+        }
       }
 
       .input-validation {
